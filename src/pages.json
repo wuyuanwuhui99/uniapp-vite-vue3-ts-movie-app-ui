@@ -4,12 +4,12 @@
 			"path": "movie/pages/IndexPage",
 			"style": {
 				"navigationBarTitleText": "电影"
-			},
+			}
 		}
 	],
 	"globalStyle": {
-		"navigationStyle": "custom"
-		"navigationBarTextStyle": "black",
+		"navigationStyle": "custom",
+		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"

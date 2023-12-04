@@ -36,10 +36,11 @@ import HomeComponent from '../component/HomeComponent.vue';
 import MovieComponent from '../component/MovieComponent.vue';
 import TVComponent from '../component/TVComponent.vue';
 import MyComponent from '../component/MyComponent.vue';
-
+import { useMovieStore } from '../../stores/useMovieStore'
 import { ref,onMounted,reactive } from 'vue'
 import {getUserDataService} from '../service';
 import {httpRequest} from '../../utils/HttpUtils';
+
 const activeIndex = ref<number>(0)
 const isInitPage = ref<boolean>(false)
 const isInitComponent = reactive<Array<boolean>>([true,false,false,false])
@@ -50,6 +51,9 @@ const useTab = (index:number) =>{
 onMounted(()=>{
 	const token:string = uni.getStorageSync('token');
 	getUserDataService(token).then((res)=>{
+		const store = useMovieStore()
+		store.setUserData(res.data)
+		store.setToken(res.token)
 		uni.setStorage({key:'token',data:res.token});
 		httpRequest.setToken(res.token);
 		isInitPage.value = true;
@@ -69,7 +73,7 @@ onMounted(()=>{
     .page-container{
         flex:1;
         overflow: auto;
-        @page-padding: 20rpx;
+        padding:0 @page-padding @page-padding;
     }
     .tab-bar{
         display: flex;
