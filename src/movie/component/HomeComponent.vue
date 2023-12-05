@@ -6,6 +6,29 @@
 				<text class="search-input-placehold">{{keyword}}</text>
 			</view>
 		</view>	
+		
+		<SwiperComponent classify='电影'/>
+		
+		<view class="classify-wrapper module-block">
+			<view class="classify-item">
+				<image class="classify-img" src="../../../static/icon_hot.png"/>
+				<text class="classify-text">热门</text>
+			</view>
+			<view class="classify-item">
+				<image class="classify-img" src="../../../static/icon_play.png"/>
+				<text class="classify-text">预告</text>
+			</view>
+			<view class="classify-item">
+				<image class="classify-img" src="../../../static/icon_top.png"/>
+				<text class="classify-text">最新</text>
+			</view>
+			<view class="classify-item">
+				<image class="classify-img" src="../../../static/icon_classify.png"/>
+				<text class="classify-text">分类</text>
+			</view>
+		</view>
+		
+		<CategoryComponent :key="item.category" v-for="item in classifyList" :classifyItem="item"/>
 	</view>
 </template>
 
@@ -13,8 +36,20 @@
 	import { ref,onMounted,reactive } from 'vue';
 	import { useMovieStore } from '../../stores/useMovieStore';
 	import {HOST} from '../../config/constant';
-	const keyword = ref<string>('我是女特警');
-	const store = useMovieStore()
+	import {getKeyWordService,getAllCategoryListByPageNameService} from '../service';
+	import SwiperComponent from './SwiperComponent';
+	import CategoryComponent from './CategoryComponent';
+	import type { ClassifyType } from '../type';
+	const keyword = ref<string>('');
+	const classifyList = reactive<Array<ClassifyType>>([])
+	const store = useMovieStore();
+	onMounted(()=>{
+		// 获取搜素框推荐电影
+		getKeyWordService('电影').then(res => keyword.value = res.data.movieName)
+		
+		// 获取分类
+		getAllCategoryListByPageNameService('首页').then(res => classifyList.push(...res.data))
+	})
 </script>
 
 <style lang="less">
@@ -22,7 +57,6 @@
 @import '../../theme/size.less';
 @import '../../theme/style.less';
 .home-wrapper{
-    padding:0 @page-padding 0;
     .search-wrapper{
         display: flex;
         .search-input-wrapper{

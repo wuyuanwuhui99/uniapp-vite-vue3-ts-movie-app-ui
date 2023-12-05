@@ -61,7 +61,7 @@ onMounted(()=>{
 })
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import '../../theme/color.less';
 @import '../../theme/size.less';
 @import '../../theme/style.less';
