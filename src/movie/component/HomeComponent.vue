@@ -1,11 +1,6 @@
 <template>
 	<view class="home-wrapper">
-		<view class="search-wrapper module-block">
-			<image class="user-avater user-avater-middle" :src="HOST + store.userData.avater"/>
-			<view class="search-input-wrapper">
-				<text class="search-input-placehold">{{keyword}}</text>
-			</view>
-		</view>	
+		<SearchComponent classify='电影'/>
 		
 		<SwiperComponent classify='电影'/>
 		
@@ -40,6 +35,7 @@
 	import SwiperComponent from './SwiperComponent';
 	import CategoryComponent from './CategoryComponent';
 	import type { ClassifyType } from '../type';
+	import SearchComponent from './SearchComponent';
 	const keyword = ref<string>('');
 	const classifyList = reactive<Array<ClassifyType>>([])
 	const store = useMovieStore();
@@ -57,22 +53,7 @@
 @import '../../theme/size.less';
 @import '../../theme/style.less';
 .home-wrapper{
-    .search-wrapper{
-        display: flex;
-        .search-input-wrapper{
-            flex: 1;
-            margin-left: @page-padding;
-            height: @middle-avater;
-            background-color: @search-input-color;
-            border-radius: @btn-border-radius;
-            display: flex;
-            align-items: center;
-            padding-left: @page-padding;
-            .search-input-placehold{
-                color: @search-input-placehold;
-            }
-        }
-    }
+    
     .classify-wrapper{
         margin-top: @page-padding;
         display: flex;
