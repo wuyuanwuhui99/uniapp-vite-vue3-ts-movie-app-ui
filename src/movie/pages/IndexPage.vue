@@ -87,8 +87,8 @@ onMounted(()=>{
             display: flex;
             flex-direction: column;
             .tab-icon{
-                width: @tab-icon-size;
-                height: @tab-icon-size;
+                width: @middle-icon-size;
+                height: @middle-icon-size;
                 margin-bottom: @small-margin;
             }
             .tab-text{

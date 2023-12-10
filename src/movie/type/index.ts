@@ -38,3 +38,10 @@ export type ClassifyType = {
     classify: string,
     category: string
 }
+
+export type UserMsgType = {
+	userAge: number,// 使用天数
+	favoriteCount: number,// 收藏数
+	playRecordCount: number,// 观看记录
+	viewRecordCount: number// 浏览记录
+}

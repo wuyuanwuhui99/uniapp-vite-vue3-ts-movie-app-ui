@@ -1,1 +1,1 @@
-export const HOST:string = 'http://gyr8vy.natappfree.cc';
+export const HOST:string = 'http://y5cke5.natappfree.cc';

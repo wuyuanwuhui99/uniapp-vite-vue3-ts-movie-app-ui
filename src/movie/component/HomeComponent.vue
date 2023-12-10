@@ -28,21 +28,14 @@
 </template>
 
 <script setup lang="ts">
-	import { ref,onMounted,reactive } from 'vue';
-	import { useMovieStore } from '../../stores/useMovieStore';
-	import {HOST} from '../../config/constant';
-	import {getKeyWordService,getAllCategoryListByPageNameService} from '../service';
+	import { onMounted,reactive } from 'vue';
+	import {getAllCategoryListByPageNameService} from '../service';
 	import SwiperComponent from './SwiperComponent';
 	import CategoryComponent from './CategoryComponent';
 	import type { ClassifyType } from '../type';
 	import SearchComponent from './SearchComponent';
-	const keyword = ref<string>('');
 	const classifyList = reactive<Array<ClassifyType>>([])
-	const store = useMovieStore();
 	onMounted(()=>{
-		// 获取搜素框推荐电影
-		getKeyWordService('电影').then(res => keyword.value = res.data.movieName)
-		
 		// 获取分类
 		getAllCategoryListByPageNameService('首页').then(res => classifyList.push(...res.data))
 	})
@@ -64,8 +57,8 @@
             flex-direction: column;
             display: flex;
             .classify-img{
-                width: @classify-icon-size;
-                height: @classify-icon-size;
+                width: @big-icon-size;
+                height: @big-icon-size;
                 margin-bottom: @small-margin;
             }
         }

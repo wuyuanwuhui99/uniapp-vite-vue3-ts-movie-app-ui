@@ -1,7 +1,7 @@
 import {httpRequest} from '../../utils/HttpUtils';
 import type {MyAwesomeData} from '../../utils/HttpUtils';
 import api from '../api/index';
-import type {MovieType,UserDataType,ClassifyType} from '../type/index'
+import type {MovieType,UserDataType,ClassifyType,UserMsgType} from '../type/index'
 /**
  * @description: 获取搜索词
  * @date: 2023-12-2 23:57
@@ -17,9 +17,9 @@ export const getKeyWordService = (classify:string):Promise<MyAwesomeData<MovieTy
  * @author wuwenqiang
  */
 export const getUserDataService = (token:string):Promise<MyAwesomeData<UserDataType>>=> {
-    httpRequest.setToken(token);
-    return httpRequest.get<UserDataType>(api.getUserData);
-  }
+	httpRequest.setToken(token);
+	return httpRequest.get<UserDataType>(api.getUserData);
+}
 
   /**
  * @description: 根据分类获取电影
@@ -33,15 +33,24 @@ export const getUserDataService = (token:string):Promise<MyAwesomeData<UserDataT
  * @author wuwenqiang
  */
 export const getCategoryListService = (classifyItem:ClassifyType):Promise<MyAwesomeData<Array<MovieType>>>=> {
-    return httpRequest.get<Array<MovieType>>(api.getCategoryList,classifyItem)
-  }
+	return httpRequest.get<Array<MovieType>>(api.getCategoryList,classifyItem)
+}
 
   /**
  * @description: 根据页面获取所有分类
  * @date: 2023-123 11:07
  * @author wuwenqiang
  */
-  export const getAllCategoryListByPageNameService = (pageName:string):Promise<MyAwesomeData<Array<ClassifyType>>>=> {
-    return httpRequest.get<Array<ClassifyType>>(api.getAllCategoryListByPageName,{pageName})
-  }
+export const getAllCategoryListByPageNameService = (pageName:string):Promise<MyAwesomeData<Array<ClassifyType>>>=> {
+	return httpRequest.get<Array<ClassifyType>>(api.getAllCategoryListByPageName,{pageName})
+}
+  
+/**
+* @description: 获取用户使用天数和访问记录数量等
+* @date: 2023-12-10 22:40
+* @author wuwenqiang
+*/
+export const getUserMsgService = ():Promise<MyAwesomeData<UserMsgType>>=> {
+	return httpRequest.get<UserMsgType>(api.getUserMsg)
+}
   

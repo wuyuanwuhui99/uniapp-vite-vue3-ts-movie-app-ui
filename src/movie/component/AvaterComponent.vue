@@ -8,7 +8,8 @@
 	import {HOST} from '../../config/constant';
 	const store = useMovieStore();
 	const sizeMap = {
-		middle:'user-avater-middle'
+		middle:'user-avater-middle',
+		big:'user-avater-big'
 	}
 	const {size} = defineProps({
 		size:{
@@ -30,5 +31,9 @@
 	        width: @middle-avater;
 	        height: @middle-avater;
 	    }
+		&.user-avater-big{
+		    width: @big-avater;
+		    height: @big-avater;
+		}
 	}
 </style>
