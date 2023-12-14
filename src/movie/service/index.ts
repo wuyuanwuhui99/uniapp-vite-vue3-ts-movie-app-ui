@@ -53,4 +53,12 @@ export const getAllCategoryListByPageNameService = (pageName:string):Promise<MyA
 export const getUserMsgService = ():Promise<MyAwesomeData<UserMsgType>>=> {
 	return httpRequest.get<UserMsgType>(api.getUserMsg)
 }
-  
+
+/**
+ * @description: 获取用户观看记录
+ * @date: 2023-12-14 22:49
+ * @author wuwenqiang
+ */
+export const getPlayRecordService = ():Promise<MyAwesomeData<Array<MovieType>>>=> {
+  return httpRequest.get<Array<MovieType>>(api.getPlayRecord)
+}

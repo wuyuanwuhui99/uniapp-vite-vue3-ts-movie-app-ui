@@ -1,31 +1,29 @@
 <template>
-	<view class="module-block">
-	    <TitleComponent :title="classifyItem.category"/>
-	    <MovieListComponent :list='movieList'/>
-	</view>
+	<scroll-view scroll-x show-scrollbar="false" class="scroll-view">
+	    <view class="scroll-view-item" :key="item.id" v-for="item in movieList">
+	        <view class="movie-item-wrapper">
+	            <image class="movie-img" :src="HOST + item.localImg"/>
+	            <text class="movie-name">{{item.movieName}}</text>
+	        </view>
+	    </view>
+	</scroll-view>
 </template>
 
 <script setup lang="ts">
-	import { onMounted,reactive,defineProps, ref } from 'vue';
-	import {getCategoryListService} from '../service/index';
+	import { defineProps } from 'vue';
 	import {HOST} from '../../config/constant';
 	import type { MovieType,ClassifyType } from '../type';
-	import TitleComponent from './TitleComponent';
-	import MovieListComponent from './MovieListComponent';
-	const props = defineProps({
-		classifyItem:{
-			type:Object,
+	const { list } = defineProps({
+		list:{
+			type:Array,
 			reqiure:true,
-			default:{}
+			default:[]
 		}
 	})
-	const movieList = reactive<Array<MovieType>>([]);
-	getCategoryListService(props.classifyItem as ClassifyType).then((res)=>{
-		movieList.push(...res.data);
-	})
+	const movieList = list as Array<MovieType>
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 	@import '../../theme/style.less';
 	@import '../../theme/size.less';
 	.scroll-view{
@@ -55,4 +53,5 @@
 			}
 		}
 	}
+	
 </style>
