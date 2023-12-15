@@ -36,6 +36,44 @@
 			</view>
 			<MovieListComponent :list="playMovieList" v-if="playMovieList.length > 0 && showPlayMovieList" :class="{'scroll-view-margin':playMovieList.length > 0}"/>
 		</view>
+		
+		<view class="module-block">
+			<view class="title-wrapper" @click="useToggleMyFavorite">
+				<image class="icon-play" src="../../../static/icon_collection.png"/>
+				<text class="title-text">我的收藏</text>
+				<image class="icon-arrow" :class="{'icon-arrow-rotate':showMyFavoriteMovieList}" src="../../../static/icon_arrow.png"/>
+			</view>
+			<MovieListComponent :list="myFavoriteMovieList" v-if="myFavoriteMovieList.length > 0 && showMyFavoriteMovieList" :class="{'scroll-view-margin':myFavoriteMovieList.length > 0}"/>
+		</view>	
+		
+		<view class="module-block">
+			<view class="title-wrapper" @click="useToggleMyViews">
+				<image class="icon-play" src="../../../static/icon_record.png"/>
+				<text class="title-text">我浏览过的电影</text>
+				<image class="icon-arrow" :class="{'icon-arrow-rotate':showMyViewsMovieList}" src="../../../static/icon_arrow.png"/>
+			</view>
+			<MovieListComponent :list="myViewsMovieList" v-if="myViewsMovieList.length > 0 && showMyViewsMovieList" :class="{'scroll-view-margin':myFavoriteMovieList.length > 0}"/>
+		</view>
+				
+		<view class="module-block">
+			<view class="title-wrapper title-wrapper-pading">
+				<image class="icon-play" src="../../../static/icon_music.png"/>
+				<text class="title-text">音乐</text>
+				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
+			</view>
+		
+			<view class="title-wrapper title-wrapper-pading">
+				<image class="icon-play" src="../../../static/icon_music_circle.png"/>
+				<text class="title-text">电影圈</text>
+				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
+			</view>	
+		
+			<view class="title-wrapper title-wrapper-pading">
+				<image class="icon-play" src="../../../static/icon_app.png"/>
+				<text class="title-text">小程序</text>
+				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
+			</view>	
+		</view>
 	</view>
 </template>
 
@@ -44,35 +82,76 @@
 	import MovieListComponent from './MovieListComponent';
 	import { reactive, onMounted ,ref } from 'vue';
 	import { useMovieStore } from '../../stores/useMovieStore';
-	import { getUserMsgService, getPlayRecordService } from '../service';
-	import type { UserMsgType,UserDataType, MovieType } from '../type'; 
-	import {HOST} from '../../config/constant';
+	import { 
+		getUserMsgService, 
+		getPlayRecordMovieListService,
+		getMyFavoriteMovieListService,
+		getMyViewsMovieListService
+	} from '../service';
+	import type { UserMsgType, MovieType } from '../type'; 
+	
 	const showPlayMovieList = ref<boolean>(true)
+	const showMyFavoriteMovieList = ref<boolean>(false)
+	const showMyViewsMovieList = ref<boolean>(false)
 	const loading = ref<boolean>(false)
+	
+	const playMovieList = reactive<Array<MovieType>>([])
+	const myFavoriteMovieList = reactive<Array<MovieType>>([])
+	const myViewsMovieList = reactive<Array<MovieType>>([])
+	
 	const store = useMovieStore();
+	
 	const userMsg = reactive<UserMsgType>({
 		userAge: 0,// 使用天数
 		favoriteCount: 0,// 收藏数
 		playRecordCount: 0,// 观看记录
 		viewRecordCount: 0// 浏览记录
 	})
-	const playMovieList = reactive<Array<MovieType>>([])
+	
+	
+	// 展开或折叠观看记录
 	const useTogglePlayList = () => {// 展开和收起播放记录
 		if(loading.value)return
 		showPlayMovieList.value = !showPlayMovieList.value;
-		console.log(showPlayMovieList.value)
 		if(showPlayMovieList.value){// 如果是展开状态，重新获取一次播放记录
 			loading.value = true
 			playMovieList.splice(0,playMovieList.length)
-			getPlayRecordService()
+			getPlayRecordMovieListService()
 				.then(res => playMovieList.push(...res.data))
 				.finally(()=>loading.value = false)
 		}
 	}
+	
+	// 展开或折叠我的收藏
+	const useToggleMyFavorite = () => {
+		if(loading.value)return
+		showMyFavoriteMovieList.value = !showMyFavoriteMovieList.value;
+		if(showMyFavoriteMovieList.value){// 如果是展开状态，重新获取一次播放记录
+			loading.value = true
+			myFavoriteMovieList.splice(0,myFavoriteMovieList.length)
+			getMyFavoriteMovieListService(1,20)
+				.then(res => myFavoriteMovieList.push(...res.data))
+				.finally(()=>loading.value = false)
+		}
+	}
+	
+	// 展开和收起我浏览过的额电影
+	const useToggleMyViews = () => {
+		if(loading.value)return
+		showMyViewsMovieList.value = !showMyViewsMovieList.value;
+		if(showMyViewsMovieList.value){// 如果是展开状态，重新获取一次播放记录
+			loading.value = true
+			myViewsMovieList.splice(0,myViewsMovieList.length)
+			getMyViewsMovieListService(1,20)
+				.then(res => myViewsMovieList.push(...res.data))
+				.finally(()=>loading.value = false)
+		}
+	}
+	
 	onMounted(()=>{
 		// 获取分类
 		getUserMsgService().then(res => Object.assign(userMsg,res.data))
-		getPlayRecordService().then(res => playMovieList.push(...res.data))
+		getPlayRecordMovieListService().then(res => playMovieList.push(...res.data))
 	})
 </script>
 
@@ -124,20 +203,33 @@
 			}
 		}
 		.play-record-view{
-			.title-wrapper{
-				display: flex;
-				align-items: center;
-				.icon-play{
-					width: @middle-icon-size;
-					height: @middle-icon-size;
-					margin-right: @page-padding;
+			.scroll-view-margin{
+				margin-top: @page-padding;
+			}
+		}
+
+		.title-wrapper{
+			display: flex;
+			align-items: center;
+			&.title-wrapper-pading{
+				padding-top: @page-padding;
+				padding-bottom: @page-padding;
+				border-bottom: 1px solid @page-background-color;
+				&:first-child{
+					padding-top:0
 				}
-				.title-text{
-					flex: 1;
+				&:last-child{
+					padding-bottom:0;
+					border-bottom:none
 				}
 			}
-			.scroll-view-margin{
-				margin-top: @page-padding;;
+			.icon-play{
+				width: @middle-icon-size;
+				height: @middle-icon-size;
+				margin-right: @page-padding;
+			}
+			.title-text{
+				flex: 1;
 			}
 		}
 		.icon-arrow{
@@ -148,5 +240,6 @@
 				transform: rotate(90deg);
 			}
 		}
+		
 	}
 </style>

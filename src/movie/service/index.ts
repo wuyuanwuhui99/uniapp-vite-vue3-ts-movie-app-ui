@@ -59,6 +59,24 @@ export const getUserMsgService = ():Promise<MyAwesomeData<UserMsgType>>=> {
  * @date: 2023-12-14 22:49
  * @author wuwenqiang
  */
-export const getPlayRecordService = ():Promise<MyAwesomeData<Array<MovieType>>>=> {
+export const getPlayRecordMovieListService = ():Promise<MyAwesomeData<Array<MovieType>>>=> {
   return httpRequest.get<Array<MovieType>>(api.getPlayRecord)
+}
+
+/**
+ * @description: 获取用户收藏的电影
+ * @date: 2023-12-15 22:26
+ * @author wuwenqiang
+ */
+export const getMyFavoriteMovieListService = (pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<MovieType>>>=> {
+  return httpRequest.get<Array<MovieType>>(`${api.getFavorite}?pageNum=${pageNum}&pageSize=${pageSize}`)
+}
+
+/**
+ * @description: 获取用户浏览过的电影
+ * @date: 2023-12-15 23:28
+ * @author wuwenqiang
+ */
+export const getMyViewsMovieListService = (pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<MovieType>>>=> {
+  return httpRequest.get<Array<MovieType>>(`${api.getViewRecord}?pageNum=${pageNum}&pageSize=${pageSize}`)
 }
