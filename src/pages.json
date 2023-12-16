@@ -5,6 +5,12 @@
 			"style": {
 				"navigationBarTitleText": "电影"
 			}
+		},
+		{
+			"path": "movie/pages/MovieDetailPage",
+			"style": {
+				"navigationBarTitleText": "电影详情"
+			}
 		}
 	],
 	"globalStyle": {

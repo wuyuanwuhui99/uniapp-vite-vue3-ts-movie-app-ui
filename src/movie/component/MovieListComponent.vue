@@ -1,7 +1,7 @@
 <template>
 	<scroll-view scroll-x show-scrollbar="false" class="scroll-view">
 	    <view class="scroll-view-item" :key="item.id" v-for="item in movieList">
-	        <view class="movie-item-wrapper">
+	        <view class="movie-item-wrapper" @click="useNavigateTo(item)">
 	            <image class="movie-img" :src="HOST + item.localImg"/>
 	            <text class="movie-name">{{item.movieName}}</text>
 	        </view>
@@ -21,6 +21,13 @@
 		}
 	})
 	const movieList = list as Array<MovieType>
+	
+	const useNavigateTo = (movieItem:MovieType) => {
+		uni.navigateTo({
+			url: `../pages/MovieDetailPage?data=${encodeURIComponent(JSON.stringify(movieItem))}`
+		})
+	}
+	
 </script>
 
 <style lang="less">
@@ -48,7 +55,11 @@
 					margin-bottom: @small-margin;
 				}
 				.movie-name{
-					display: inline;
+					overflow: hidden;
+					  display: -webkit-box;
+					  -webkit-line-clamp: 2; /* 设置最大显示行数 */
+					  -webkit-box-orient: vertical;
+					  text-overflow: ellipsis;
 				}
 			}
 		}

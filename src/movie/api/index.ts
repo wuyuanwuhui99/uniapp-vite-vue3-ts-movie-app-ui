@@ -7,7 +7,7 @@ export default {
     getUserMsg: '/service/movie-getway/getUserMsg', //获取用户四个指标信息，使用天数，关注，观看记录，浏览记录
     getSearchResult: '/service/movie/search', //搜索
     login: '/service/movie/login', //登录
-    getStar: '/service/movie/getStar/', //获取演员
+    getStar: '/service/movie/getStar', //获取演员
     getMovieUrl: '/service/movie/getMovieUrl', //获取演员
     getViewRecord: '/service/movie-getway/getViewRecord', //获取浏览记录
     saveViewRecord: '/service/movie-getway/saveViewRecord', //浏览历史

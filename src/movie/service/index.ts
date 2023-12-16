@@ -1,7 +1,7 @@
 import {httpRequest} from '../../utils/HttpUtils';
 import type {MyAwesomeData} from '../../utils/HttpUtils';
 import api from '../api/index';
-import type {MovieType,UserDataType,ClassifyType,UserMsgType} from '../type/index'
+import type {MovieType,UserDataType,ClassifyType,UserMsgType,StarType} from '../type/index'
 /**
  * @description: 获取搜索词
  * @date: 2023-12-2 23:57
@@ -79,4 +79,22 @@ export const getMyFavoriteMovieListService = (pageNum:number,pageSize:number):Pr
  */
 export const getMyViewsMovieListService = (pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<MovieType>>>=> {
   return httpRequest.get<Array<MovieType>>(`${api.getViewRecord}?pageNum=${pageNum}&pageSize=${pageSize}`)
+}
+
+/**
+ * @description: 获取演员信息
+ * @date: 2023-12-16 18:26
+ * @author wuwenqiang
+ */
+export const getMovieStartListService = (movieId:number):Promise<MyAwesomeData<Array<StarType>>>=> {
+  return httpRequest.get<Array<StarType>>(`${api.getStar}/${movieId}`)
+}
+
+/**
+ * @description: 获取推荐的电影
+ * @date: 2023-12-16 18:28
+ * @author wuwenqiang
+ */
+export const getRecommentListService = (classify:string):Promise<MyAwesomeData<Array<MovieType>>>=> {
+  return httpRequest.get<Array<MovieType>>(`${api.getRecommend}?classify=${classify}`)
 }
