@@ -2,7 +2,7 @@
 	<view class="movie-detail-wrapper" v-if="movieItem.id">
 		<scroll-view scroll-y>
 			<view class="module-block module-block-row">
-				<view class="movie-img-wrapper" :style="{backgroundImage:'url('+HOST + movieItem.localImg+')'}">
+				<view class="movie-img-wrapper" @click="usePlayRouter" :style="{backgroundImage:'url('+HOST + movieItem.localImg+')'}">
 					<image class="icon-play" src="../../../static/icon_detail_play.png"/>
 				</view>
 				
@@ -11,10 +11,7 @@
 					<text class="movie-description">{{movieItem.description.replace(/\n\s/g,'')}}</text>
 					<text class="movie-description">{{movieItem.star}}</text>
 					<text class="movie-description">{{movieItem.type}}</text>
-					<view v-if="movieItem.score" class="score-wrapper">
-						<uni-rate :touchable="false" :value="movieItem.score/2" />
-						<text class="score-text">{{movieItem.score}}</text>
-					</view>
+					<ScoreComponent :score="movieItem.score"/>
 				</view>
 			</view>
 			
@@ -35,7 +32,7 @@
 				</scroll-view>
 			</view>
 			
-			<view class="module-block">
+			<view class="module-block module-block-last">
 				<TitleComponent title="推荐"/>
 				<MovieListComponent :list="recommentList"/>
 			</view>
@@ -44,18 +41,25 @@
 </template>
 
 <script setup lang="ts">
-	import uniRate from '@dcloudio/uni-ui/lib/uni-rate/uni-rate.vue'
 	import { reactive,onMounted } from 'vue';
 	import { useRoute } from "vue-router";
 	import type { MovieType,StarType } from '../type';
 	import {HOST} from '../../config/constant';
 	import TitleComponent from '../component/TitleComponent.vue';
 	import MovieListComponent from '../component/MovieListComponent.vue';
-	import {getMovieStartListService,getRecommentListService} from '../service';
+	import ScoreComponent from '../component/ScoreComponent.vue';
+	import {getMovieStartListService,getRecommentListService,saveViewRecordService} from '../service';
 	
 	const movieItem = reactive<MovieType>({} as MovieType);
 	const starList = reactive<Array<StarType>>([]);
 	const recommentList = reactive<Array<MovieType>>([]);
+	
+	const usePlayRouter = ()=>{
+		uni.navigateTo({
+			url: `../pages/MoviePlayPage?data=${encodeURIComponent(JSON.stringify(movieItem))}`
+		})
+	}
+	
 	
 	onMounted(()=>{
 		const route = useRoute();
@@ -66,6 +70,8 @@
 		getMovieStartListService(movieItem.id).then(res=>starList.push(...res.data))
 	
 		getRecommentListService(movieItem.classify).then(res=>recommentList.push(...res.data))
+		
+		saveViewRecordService(movieItem);// 插入浏览记录
 	})
 </script>
 
@@ -106,17 +112,6 @@
 			}
 			.movie-description{
 				margin-top: @small-margin;
-			}
-			.score-wrapper{
-				margin-top: @small-margin;
-				display: flex;
-				align-items: center;
-				.score-text{
-					padding-left: @small-margin;
-					font-size: @font-size-normal;
-					font-weight: bolder;
-					color: red;
-				}
 			}
 		}
 	}

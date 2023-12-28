@@ -11,6 +11,12 @@
 			"style": {
 				"navigationBarTitleText": "电影详情"
 			}
+		},
+		{
+			"path": "movie/pages/MoviePlayPage",
+			"style": {
+				"navigationBarTitleText": "电影播放"
+			}
 		}
 	],
 	"globalStyle": {

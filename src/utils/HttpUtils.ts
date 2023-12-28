@@ -166,7 +166,7 @@ class HttpRequest {
 	 * @param {RequestConfig} OtherConfig request其他配置
 	 * @return {*}
 	 */
-	public delete<T>(url: string, data: Object, OtherConfig?: RequestConfig):Promise<MyAwesomeData<T>> {
+	public delete<T>(url: string, data?: Object, OtherConfig?: RequestConfig):Promise<MyAwesomeData<T>> {
 		return this.request<T>({ method: HttpMethod.DELETE, url, data, ...OtherConfig })
 	}
 
