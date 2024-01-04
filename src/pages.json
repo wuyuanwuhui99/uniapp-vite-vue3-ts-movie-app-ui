@@ -17,6 +17,13 @@
 			"style": {
 				"navigationBarTitleText": "电影播放"
 			}
+		},
+		{
+			"path" : "movie/pages/MovieUserPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
 		}
 	],
 	"globalStyle": {

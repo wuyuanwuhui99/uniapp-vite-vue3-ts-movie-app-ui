@@ -1,5 +1,5 @@
 <template>
-	<view class="movie-detail-wrapper" v-if="movieItem.id">
+	<view class="page-wrapper" v-if="movieItem.id">
 		<scroll-view scroll-y>
 			<view class="module-block module-block-row">
 				<view class="movie-img-wrapper" @click="usePlayRouter" :style="{backgroundImage:'url('+HOST + movieItem.localImg+')'}">
@@ -79,7 +79,7 @@
 @import '../../theme/color.less';
 @import '../../theme/size.less';
 @import '../../theme/style.less';
-.movie-detail-wrapper{
+.page-wrapper{
     height: 100vh;
     display: flex;
     flex-direction: column;

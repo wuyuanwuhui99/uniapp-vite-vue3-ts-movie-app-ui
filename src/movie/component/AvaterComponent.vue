@@ -1,5 +1,5 @@
 <template>
-	<image class="user-avater" :class="sizeMap[size]" :src="HOST + store.userData.avater"/>
+	<image @click="useNavigateTo" class="user-avater" :class="sizeMap[size]" :src="HOST + store.userData.avater"/>
 </template>
 
 <script setup lang="ts">
@@ -19,6 +19,11 @@
 		}
 	})
 	
+	const useNavigateTo = () => {
+		uni.navigateTo({
+			url: `../pages/MovieUserPage`
+		})
+	}
 	
 	
 </script>

@@ -1,5 +1,5 @@
 <template>
-	<view scroll-y class="play-wrapper">
+	<view class="page-wrapper">
 		<scroll-view scroll-y>
 			<web-view class="play-webview" src="" v-if="currentUrl"></web-view>
 			<view class="play-webview" v-else></view>
@@ -60,7 +60,7 @@
 	const currentUrlGroup = ref<number>(0);// 播放的分组
 	const recommentList = reactive<Array<MovieType>>([]);// 推荐电影
 	
-	const useTabPlayGroup = (index) => {
+	const useTabPlayGroup = (index:number) => {
 		currentUrlGroup.value = index;
 	}
 	
@@ -140,7 +140,7 @@
 	@import '../../theme/color.less';
 	@import '../../theme/size.less';
 	@import '../../theme/style.less';
-	.play-wrapper{
+	.page-wrapper{
 		background-color: @page-background-color;
 		.play-webview{
 			width: 100%;
@@ -190,7 +190,7 @@
 		.grid-wrapper{
 			display: grid;
 			margin-top: @middle-margin;
-			grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+			grid-template-columns: 1fr 1fr 1fr 1fr;
 			grid-column-gap: @middle-margin;
 			grid-row-gap: @middle-margin;
 			.grid-item{

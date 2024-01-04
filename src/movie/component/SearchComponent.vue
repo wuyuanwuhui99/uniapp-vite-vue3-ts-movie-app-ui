@@ -36,7 +36,7 @@
 	        margin-left: @page-padding;
 	        height: @middle-avater;
 	        background-color: @search-input-color;
-	        border-radius: @btn-border-radius;
+	        border-radius: @middle-avater;
 	        display: flex;
 	        align-items: center;
 	        padding-left: @page-padding;

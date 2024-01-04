@@ -1,5 +1,5 @@
 <template>
-  <view class="index-wrapper" v-if="isInitPage">
+  <view class="page-wrapper" v-if="isInitPage">
       <view class="page-container">
           <HomeComponent :style="{display:activeIndex === 0 ? 'block': 'none'}"/>
 		  <MovieComponent v-if="isInitComponent[1]" :style="{display:activeIndex === 1 ? 'block': 'none'}"/>
@@ -65,7 +65,7 @@ onMounted(()=>{
 @import '../../theme/color.less';
 @import '../../theme/size.less';
 @import '../../theme/style.less';
-.index-wrapper{
+.page-wrapper{
     height: 100vh;
     display: flex;
     flex-direction: column;
