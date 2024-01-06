@@ -162,3 +162,13 @@ export const savePlayRecordService = (movieItem:types.MovieType):Promise<MyAweso
 export const getCommentCountService = (id:number):Promise<MyAwesomeData<number>>=>{
     return httpRequest.get<number>(`${api.getCommentCount}?relationId=${id}&type=movie&pageSize=20&pageNum=1`)
 };
+
+/**
+ * @author: wuwenqiang
+ * @description: 更新用户信息
+ * @date: 2023-12-28 23:18
+ */
+export const updateUserDataService = (userData:types.UserDataType):Promise<MyAwesomeData<number>>=>{
+    return httpRequest.put<number>(api.updateUser,userData)
+};
+

@@ -62,7 +62,7 @@ export type StarType = {
 	works: string ;//代表作
 }
 
-export type MovieUrlType {
+export type MovieUrlType = {
   id:number;//主键
   movieName:string;//电影名称
   movieId:number;//对应的电影的id
