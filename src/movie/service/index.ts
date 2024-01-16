@@ -1,7 +1,9 @@
 import {httpRequest} from '../../utils/HttpUtils';
 import type {MyAwesomeData} from '../../utils/HttpUtils';
 import api from '../api/index';
-import type * as types from '../type/index'
+import type * as types from '../type/index';
+import md5 from 'md5';
+
 /**
  * @description: 获取搜索词
  * @date: 2023-12-2 23:57
@@ -172,3 +174,13 @@ export const updateUserDataService = (userData:types.UserDataType):Promise<MyAwe
     return httpRequest.put<number>(api.updateUser,userData)
 };
 
+
+/**
+ * @description: 登录
+ * @date: 2024-01-15 21:32
+ * @author wuwenqiang
+ */
+export const loginService = (userId:string,password:string):Promise<MyAwesomeData<number>>=>{
+	password = md5(password);
+  return httpRequest.post<number>(api.login,{userId,password})
+};

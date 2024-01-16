@@ -53,6 +53,7 @@
     "@dcloudio/uni-mp-weixin": "3.0.0-3081220230817001",
     "@dcloudio/uni-quickapp-webview": "3.0.0-3081220230817001",
     "@dcloudio/uni-ui": "^1.4.28",
+    "md5": "^2.3.0",
     "pinia": "2.0.33",
     "uni-mini-router": "^0.1.5",
     "uni-parse-pages": "^0.0.1",

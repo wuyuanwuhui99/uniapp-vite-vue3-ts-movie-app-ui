@@ -1,5 +1,5 @@
 <template>
-	<view class="home-wrapper">
+	<view class="page-wrapper">
 		<SearchComponent classify='电影'/>
 		
 		<SwiperComponent classify='电影'/>
@@ -45,24 +45,25 @@
 @import '../../theme/color.less';
 @import '../../theme/size.less';
 @import '../../theme/style.less';
-.home-wrapper{
-    
-    .classify-wrapper{
-        margin-top: @page-padding;
-        display: flex;
-        .classify-item{
-            flex: 1;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            display: flex;
-            .classify-img{
-                width: @big-icon-size;
-                height: @big-icon-size;
-                margin-bottom: @small-margin;
-            }
-        }
-    }
-    
+
+.page-wrapper{
+	width: 100%;
+	height: 100%;
+	.classify-wrapper{
+		margin-top: @page-padding;
+		display: flex;
+		.classify-item{
+			flex: 1;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			display: flex;
+			.classify-img{
+				width: @big-icon-size;
+				height: @big-icon-size;
+				margin-bottom: @small-margin;
+			}
+		}
+	}
 }
 </style>

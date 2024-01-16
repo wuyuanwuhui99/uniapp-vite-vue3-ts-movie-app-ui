@@ -1,5 +1,5 @@
 <template>
-  <view class="page-wrapper" v-if="isInitPage">
+  <view class="index-wrapper" v-if="isInitPage">
       <view class="page-container">
           <HomeComponent :style="{display:activeIndex === 0 ? 'block': 'none'}"/>
 		  <MovieComponent v-if="isInitComponent[1]" :style="{display:activeIndex === 1 ? 'block': 'none'}"/>
@@ -41,6 +41,7 @@ import { ref,onMounted,reactive } from 'vue'
 import {getUserDataService} from '../service';
 import {httpRequest} from '../../utils/HttpUtils';
 
+
 const activeIndex = ref<number>(0)
 const isInitPage = ref<boolean>(false)
 const isInitComponent = reactive<Array<boolean>>([true,false,false,false])
@@ -58,6 +59,7 @@ onMounted(()=>{
 		httpRequest.setToken(res.token);
 		isInitPage.value = true;
 	})
+	
 })
 </script>
 
@@ -65,17 +67,25 @@ onMounted(()=>{
 @import '../../theme/color.less';
 @import '../../theme/size.less';
 @import '../../theme/style.less';
-.page-wrapper{
-    height: 100vh;
+.index-wrapper{
+    height: 100%;
     display: flex;
     flex-direction: column;
     background-color: @page-background-color;
+	position: relative;
     .page-container{
         flex:1;
-        overflow: auto;
-        padding:0 @page-padding @page-padding;
+		height: 0;
+		padding: 0 @page-padding @page-padding;
+		box-sizing: border-box;
+		overflow: auto;
+		&::-webkit-scrollbar{
+			display: none;
+		}
     }
     .tab-bar{
+		z-index: 1;
+		position: relative;
         display: flex;
         background-color: @module-background-color;
         border-top: @tab-border-buttom;

@@ -11,7 +11,7 @@ onHide(() => {
 });
 </script>
 <style>
-	page{
-		padding-top: 0;
+	uni-page-body{
+		height: 100%;
 	}
 </style>
