@@ -60,7 +60,7 @@ harmony鸿蒙版本参见:
 通用地址：https://github.com/wuyuanwuhui99/Harmony_movie_app_ui   
 国内镜像地址：https://hub.nuaa.cf/wuyuanwuhui99/Harmony_movie_app_ui
 
-vue在线音乐项目： 
+vue在线音乐项目：  
 通用地址：https://github.com/wuyuanwuhui99/vue-music-app-ui   
 国内镜像地址：https://hub.nuaa.cf/wuyuanwuhui99/vue-music-app-ui
 
