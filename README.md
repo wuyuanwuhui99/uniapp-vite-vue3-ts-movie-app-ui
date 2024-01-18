@@ -38,11 +38,11 @@
 
 后端接口项目和sql语句：
 通用地址：https://github.com/wuyuanwuhui99/springboot-app-service
-国内地址：https://hub.nuaa.cf/wuyuanwuhui99/springboot-app-service
+国内镜像地址：https://hub.nuaa.cf/wuyuanwuhui99/springboot-app-service
 
 flutter版本参见:
 通用地址：https://github.com/wuyuanwuhui99/flutter-movie-app-ui
-国内地址：https://hub.nuaa.cf/wuyuanwuhui99/flutter-movie-app-ui
+国内镜像地址：https://hub.nuaa.cf/wuyuanwuhui99/flutter-movie-app-ui
 
 react native版本参见: 
 通用地址：https://github.com/wuyuanwuhui99/react-native-app-ui
