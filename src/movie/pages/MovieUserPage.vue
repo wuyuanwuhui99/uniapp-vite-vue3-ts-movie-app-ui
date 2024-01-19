@@ -3,7 +3,7 @@
 		<view class="module-block">
 			<view class="row">
 				<text class="text">头像</text>
-				<image class="big-avater" :src="HOST + store.userData.avater"/>
+				<image class="big-avater" :src="store.userData.avater ? HOST + store.userData.avater:defaulAvater"/>
 				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
 			</view>
 			<view class="row" @click="useEditUserData('昵称','username')">
@@ -58,30 +58,24 @@
 				</view>
 			</view>
 		</uni-popup>
-		<uni-popup ref="popup2" class="popup-wrapper"  type="dialog">
-			<view class="dialog-wrapper sex-dialog-wrapper">
-				<view class="option-wrapper">
-					<text class="option-item" @click="useCheckSex('男')">男</text>
-					<text class="option-item" @click="useCheckSex('女')">女</text>
-				</view>
-				<view class="option-btn" @click="useCloseSexDialog">取消</view>
-			</view>
-		</uni-popup>
+		<OptionsDialog ref="sexOptionsDialog" @onCheck= "useCheckSex" :options="['男','女']"/>
 	</view>
 </template>
 
 <script setup lang="ts">
 	import uniPopup from '@dcloudio/uni-ui/lib/uni-popup/uni-popup.vue';
 	import { useMovieStore } from '../../stores/useMovieStore';
+	import OptionsDialog from '../component/OptionsDialog';
 	import {HOST} from '../../config/constant';
 	import { ref } from 'vue';
 	import type { UserDataType } from '../type';
 	import {updateUserDataService} from '../service';
+	import defaulAvater from '../../../static/default_avater.png';
 	
 	const title = ref<string>('');
 	const field = ref<string>('');
 	const popup1= ref<null | InstanceType<typeof uniPopup>>(null);
-	const popup2= ref<null | InstanceType<typeof uniPopup>>(null);
+	const sexOptionsDialog = ref<null | InstanceType<typeof OptionsDialog>>(null);
 	const inputValue = ref<string>('');
 	const store = useMovieStore();	
 	
@@ -106,14 +100,6 @@
 		popup1.value?.close()
 	}
 	
-	/**
-	 * @author: wuwenqiang
-	 * @description: 关闭性别选择对话框
-	 * @date: 2024-01-16 22:49
-	 */
-	const useCloseSexDialog = () =>{
-		popup2.value?.close()
-	}
 	
 	/**
 	 * @author: wuwenqiang
@@ -142,7 +128,7 @@
 				success:  res => {
 				if (res.confirm) {
 					uni.setStorageSync('token','');
-					uni.navigateTo({
+					uni.redirectTo({
 						url: `../pages/MovieLoginPage`
 					})
 				} else if (res.cancel) {
@@ -168,7 +154,7 @@
 	}
 	
 	const useEditSex = () => {
-		popup2.value?.open('top')
+		sexOptionsDialog.value?.$refs.popup.open('top')
 	}
 </script>
 

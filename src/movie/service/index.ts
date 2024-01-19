@@ -182,5 +182,24 @@ export const updateUserDataService = (userData:types.UserDataType):Promise<MyAwe
  */
 export const loginService = (userId:string,password:string):Promise<MyAwesomeData<number>>=>{
 	password = md5(password);
-  return httpRequest.post<number>(api.login,{userId,password})
+	return httpRequest.post<number>(api.login,{userId,password})
+};
+
+/**
+ * @description: 注册
+ * @date: 2024-01-19 23:51
+ * @author wuwenqiang
+ */
+export const registerService = (userData:types.UserDataType):Promise<MyAwesomeData<number>>=>{
+	userData.password = md5(userData.password);
+	return httpRequest.put<number>(api.register,userData)
+};
+
+/**
+ * @description: 校验账号和密码是否存在
+ * @date: 2024-01-19 23:51
+ * @author wuwenqiang
+ */
+export const getUserByIdService = (userId:string):Promise<MyAwesomeData<number>>=>{
+	return httpRequest.get<number>(`${api.getUserById}?userId=${userId}`)
 };

@@ -26,4 +26,6 @@ export default {
     getReplyCommentList:'/service/social/getReplyCommentList',//获取一级评论
     insertCommentService:'/service/social-getway/insertComment',//新增评论
     updateAvaterService:'/service/movie-getway/updateAvater',//更新头像
+	register: '/service/user/register',//注册
+	getUserById: '/service/user/getUserById',//注册
 }

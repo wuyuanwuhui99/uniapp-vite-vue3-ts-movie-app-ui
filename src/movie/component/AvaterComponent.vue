@@ -1,11 +1,12 @@
 <template>
-	<image @click="useNavigateTo" class="user-avater" :class="sizeMap[size]" :src="HOST + store.userData.avater"/>
+	<image @click="useNavigateTo" class="user-avater" :class="sizeMap[size]" :src="store.userData.avater ? HOST + store.userData.avater : defaulAvater"/>
 </template>
 
 <script setup lang="ts">
 	import { defineProps } from 'vue';
 	import { useMovieStore } from '../../stores/useMovieStore';
 	import {HOST} from '../../config/constant';
+	import defaulAvater from '../../../static/default_avater.png';
 	const store = useMovieStore();
 	const sizeMap = {
 		middle:'user-avater-middle',

@@ -1,19 +1,19 @@
 export type UserDataType = {
     userId:     string;
-    createDate: string;
-    updateDate: string;
+    createDate?: string;
+    updateDate?: string;
     username:   string;
     telephone:  string;
     email:      string;
-    avater:     string;
+    avater?:     string;
     birthday:   string;
     sex:        string;
-    role:       string;
+    role?:       string;
     password:   string;
     sign:       string;
     region:     string;
-    disabled:   number;
-    permission: number;
+    disabled?:   number;
+    permission?: number;
 }
 
 export type MovieType = {
@@ -72,4 +72,8 @@ export type MovieUrlType = {
   updateTime:string;//更新时间
   url:string;//播放地址
   playGroup:string;//播放分组，1, 2
+}
+
+export type EmitsType = {
+	(e: 'onCheck', item: string | number): void
 }

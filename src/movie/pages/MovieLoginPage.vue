@@ -14,7 +14,7 @@
 			
 			<view class="login-btn" @click="useLogin">登录</view>
 			
-			<view class="register-btn">注册</view>
+			<view class="register-btn" @click="useRegister">注册</view>
 		</view>
 	</view>
 </template>
@@ -67,6 +67,12 @@
 				})
 			})
 		}
+	}
+	
+	const useRegister = () => {
+		uni.navigateTo({
+			url: `../pages/MovieRegisterPage`
+		})
 	}
 </script>
 
