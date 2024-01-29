@@ -1,7 +1,7 @@
 <template>
 	<view class="search-wrapper module-block">
 		<AvaterComponent size="middle"/>
-		<view class="search-input-wrapper">
+		<view class="search-input-wrapper" @click="useNavigateTo">
 			<text class="search-input-placehold">{{keyword}}</text>
 		</view>
 	</view>	
@@ -19,6 +19,18 @@
 			default:''
 		}
 	})
+	
+	/**
+	 * @author: wuwenqiang
+	 * @description: 跳转到搜索页面
+	 * @date: 2024-01-29 22:46
+	 */
+	const useNavigateTo = () => {
+		uni.navigateTo({
+			url: `../pages/MovieSearchPage?keyword=${keyword.value}`
+		})
+	}
+	
 	onMounted(()=>{
 		// 获取搜素框推荐电影
 		getKeyWordService(classify).then(res => keyword.value = res.data.movieName)
