@@ -4,7 +4,7 @@
 		<view class="search-input-wrapper" @click="useNavigateTo">
 			<text class="search-input-placehold">{{keyword}}</text>
 		</view>
-	</view>	
+	</view>
 </template>
 
 <script setup lang="ts">
@@ -19,7 +19,7 @@
 			default:''
 		}
 	})
-	
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 跳转到搜索页面
@@ -27,10 +27,10 @@
 	 */
 	const useNavigateTo = () => {
 		uni.navigateTo({
-			url: `../pages/MovieSearchPage?keyword=${keyword.value}`
+			url: `../pages/MovieSearchPage?classify=${encodeURIComponent(classify)}&keyword=${keyword.value}`
 		})
 	}
-	
+
 	onMounted(()=>{
 		// 获取搜素框推荐电影
 		getKeyWordService(classify).then(res => keyword.value = res.data.movieName)

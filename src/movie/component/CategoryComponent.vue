@@ -1,7 +1,7 @@
 <template>
 	<view class="module-block">
 	    <TitleComponent :title="classifyItem.category"/>
-	    <MovieListComponent :list='movieList'/>
+	    <MovieListComponent direction="horizontal" :list='movieList'/>
 	</view>
 </template>
 
@@ -42,7 +42,7 @@
 				align-items: center;
 				width: @movie-img-width;
 				flex-direction: column;
-				
+
 				.movie-img{
 					width: @movie-img-width;
 					height: @movie-img-height;

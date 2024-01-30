@@ -11,31 +11,31 @@
 					<image class="icon-middle" v-else @click="useSaveFavorite" src="../../../static/icon_collection.png"/>
 					<image class="icon-middle small-margin" src="../../../static/icon_share.png"/>
 				</view>
-				
+
 				<view class="module-block column">
 					<text class="movieName">{{movieItem.movieName}}</text>
 					<text class="sub-title">{{movieItem.star}}</text>
 					<text class="sub-title" v-if="movieItem.description">{{movieItem.description.replace(/\n|\s/g,'')}}</text>
 					<ScoreComponent :score="movieItem.score"/>
 				</view>
-				
+
 				<view class="module-block">
 					<scroll-view scroll-x>
 						<view class="play-group-wrapper">
 							<text @click="useTabPlayGroup(index)" class="group-text" :class="{'group-text-active': currentUrlGroup === index}" v-for="item,index in movieUrlGroup" :key="'playGround' + index">{{item[0].playGroup}}</text>
 						</view>
 					</scroll-view>
-					
+
 					<view class="grid-wrapper">
 						<text class="grid-item" :key="item.id" :class="{'grid-item-active': currentUrl === item.url}" v-for="item,index in movieUrlGroup[currentUrlGroup]">
 							{{item.label}}
 						</text>
 					</view>
 				</view>
-				
+
 				<view class="module-block">
 					<TitleComponent title="推荐"/>
-					<MovieListComponent :list='recommentList'/>
+					<MovieListComponent direction="horizontal" :list='recommentList'/>
 				</view>
 			</view>
 		</scroll-view>
@@ -51,7 +51,7 @@
 	import MovieListComponent from '../component/MovieListComponent.vue';
 	import ScoreComponent from '../component/ScoreComponent.vue';
 	import {getCommentCountService,savePlayRecordService,getMovieUrlService,getRecommentListService,isFavoriteService,saveFavoriteService,deleteFavoriteService} from '../service';
-	
+
 	const movieItem = reactive<MovieType>({} as MovieType);
 	const currentUrl = ref<string>('');// 当前播放地址
 	const commonCount = ref<number>(0);// 评论数量
@@ -59,11 +59,11 @@
 	const movieUrlGroup = reactive<Array<Array<MovieUrlType>>>([]);//电影分组
 	const currentUrlGroup = ref<number>(0);// 播放的分组
 	const recommentList = reactive<Array<MovieType>>([]);// 推荐电影
-	
+
 	const useTabPlayGroup = (index:number) => {
 		currentUrlGroup.value = index;
 	}
-	
+
 	const route = useRoute();
 	const queryData:string = decodeURIComponent(route.query.data as string); // 获取URL上的查询参数并反序列化
 	Object.assign(movieItem,JSON.parse(queryData))
@@ -100,7 +100,7 @@
 	getRecommentListService(movieItem.classify).then((res)=>{
 		recommentList.push(...res.data);
 	})
-	
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 查询是否已经收藏
@@ -109,7 +109,7 @@
 	isFavoriteService(movieItem.id).then((res)=>{
 		isFavorite.value = res.data > 0;
 	})
-	
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 添加收藏
@@ -120,7 +120,7 @@
 			isFavorite.value = res.data > 0
 		})
 	}
-	
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 取消收藏
@@ -131,8 +131,8 @@
 			isFavorite.value = !(res.data > 0)
 		})
 	}
-	
-	
+
+
 	savePlayRecordService(movieItem)
 </script>
 
@@ -185,7 +185,7 @@
 					color: @selected-color;
 				}
 			}
-			
+
 		}
 		.grid-wrapper{
 			display: grid;

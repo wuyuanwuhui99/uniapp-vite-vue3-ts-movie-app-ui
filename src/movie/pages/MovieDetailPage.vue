@@ -5,7 +5,7 @@
 				<view class="movie-img-wrapper" @click="usePlayRouter" :style="{backgroundImage:'url('+HOST + movieItem.localImg+')'}">
 					<image class="icon-play" src="../../../static/icon_detail_play.png"/>
 				</view>
-				
+
 				<view class="movie-name-wrapper">
 					<text class="movie-name">{{movieItem.movieName}}</text>
 					<text class="movie-description">{{movieItem.description.replace(/\n\s/g,'')}}</text>
@@ -14,12 +14,12 @@
 					<ScoreComponent :score="movieItem.score"/>
 				</view>
 			</view>
-			
+
 			<view class="module-block">
 				<TitleComponent title="剧情"/>
 				<text class="plot">{{movieItem.plot}}</text>
 			</view>
-			
+
 			<view class="module-block">
 				<TitleComponent title="演员"/>
 				<scroll-view scroll-x show-scrollbar="false" class="scroll-view" v-if="starList.length > 0">
@@ -31,10 +31,10 @@
 				    </view>
 				</scroll-view>
 			</view>
-			
+
 			<view class="module-block module-block-last">
 				<TitleComponent title="推荐"/>
-				<MovieListComponent :list="recommentList"/>
+				<MovieListComponent direction="horizontal" :list="recommentList"/>
 			</view>
 		</scroll-view>
 	</view>
@@ -49,28 +49,28 @@
 	import MovieListComponent from '../component/MovieListComponent.vue';
 	import ScoreComponent from '../component/ScoreComponent.vue';
 	import {getMovieStartListService,getRecommentListService,saveViewRecordService} from '../service';
-	
+
 	const movieItem = reactive<MovieType>({} as MovieType);
 	const starList = reactive<Array<StarType>>([]);
 	const recommentList = reactive<Array<MovieType>>([]);
-	
+
 	const usePlayRouter = ()=>{
 		uni.navigateTo({
 			url: `../pages/MoviePlayPage?data=${encodeURIComponent(JSON.stringify(movieItem))}`
 		})
 	}
-	
-	
+
+
 	onMounted(()=>{
 		const route = useRoute();
 		const queryData:string = decodeURIComponent(route.query.data as string); // 获取URL上的查询参数并反序列化
 		Object.assign(movieItem,JSON.parse(queryData))
-		
+
 		movieItem.id = 16575 //有数据的电影id
 		getMovieStartListService(movieItem.id).then(res=>starList.push(...res.data))
-	
+
 		getRecommentListService(movieItem.classify).then(res=>recommentList.push(...res.data))
-		
+
 		saveViewRecordService(movieItem);// 插入浏览记录
 	})
 </script>
@@ -134,7 +134,7 @@
 				align-items: center;
 				width: @movie-img-width;
 				flex-direction: column;
-				
+
 				.movie-img{
 					width: @movie-img-width;
 					height: @movie-img-height;

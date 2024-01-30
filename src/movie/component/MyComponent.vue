@@ -8,7 +8,7 @@
 			</view>
 			<image class="icon-edit" src="../../../static/icon_edit.png"/>
 		</view>
-		
+
 		<view class="user-msg-wrapper module-block">
 			<view class="user-msg-item">
 				<text class="user-msg-count">{{userMsg.userAge}}</text>
@@ -27,52 +27,52 @@
 				<text class="user-msg-title">浏览记录</text>
 			</view>
 		</view>
-		
+
 		<view class="play-record-view module-block">
 			<view class="title-wrapper" @click="useTogglePlayList">
 				<image class="icon-play" src="../../../static/icon_play_record.png"/>
 				<text class="title-text">观看记录</text>
 				<image class="icon-arrow" :class="{'icon-arrow-rotate':showPlayMovieList}" src="../../../static/icon_arrow.png"/>
 			</view>
-			<MovieListComponent :list="playMovieList" v-if="playMovieList.length > 0 && showPlayMovieList" :class="{'scroll-view-margin':playMovieList.length > 0}"/>
+			<MovieListComponent direction="horizontal" :list="playMovieList" v-if="playMovieList.length > 0 && showPlayMovieList" :class="{'scroll-view-margin':playMovieList.length > 0}"/>
 		</view>
-		
+
 		<view class="module-block">
 			<view class="title-wrapper" @click="useToggleMyFavorite">
 				<image class="icon-play" src="../../../static/icon_collection.png"/>
 				<text class="title-text">我的收藏</text>
 				<image class="icon-arrow" :class="{'icon-arrow-rotate':showMyFavoriteMovieList}" src="../../../static/icon_arrow.png"/>
 			</view>
-			<MovieListComponent :list="myFavoriteMovieList" v-if="myFavoriteMovieList.length > 0 && showMyFavoriteMovieList" :class="{'scroll-view-margin':myFavoriteMovieList.length > 0}"/>
-		</view>	
-		
+			<MovieListComponent direction="horizontal" :list="myFavoriteMovieList" v-if="myFavoriteMovieList.length > 0 && showMyFavoriteMovieList" :class="{'scroll-view-margin':myFavoriteMovieList.length > 0}"/>
+		</view>
+
 		<view class="module-block">
 			<view class="title-wrapper" @click="useToggleMyViews">
 				<image class="icon-play" src="../../../static/icon_record.png"/>
 				<text class="title-text">我浏览过的电影</text>
 				<image class="icon-arrow" :class="{'icon-arrow-rotate':showMyViewsMovieList}" src="../../../static/icon_arrow.png"/>
 			</view>
-			<MovieListComponent :list="myViewsMovieList" v-if="myViewsMovieList.length > 0 && showMyViewsMovieList" :class="{'scroll-view-margin':myFavoriteMovieList.length > 0}"/>
+			<MovieListComponent direction="horizontal" :list="myViewsMovieList" v-if="myViewsMovieList.length > 0 && showMyViewsMovieList" :class="{'scroll-view-margin':myFavoriteMovieList.length > 0}"/>
 		</view>
-				
+
 		<view class="module-block">
 			<view class="title-wrapper title-wrapper-pading">
 				<image class="icon-play" src="../../../static/icon_music.png"/>
 				<text class="title-text">音乐</text>
 				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
 			</view>
-		
+
 			<view class="title-wrapper title-wrapper-pading">
 				<image class="icon-play" src="../../../static/icon_music_circle.png"/>
 				<text class="title-text">电影圈</text>
 				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
-			</view>	
-		
+			</view>
+
 			<view class="title-wrapper title-wrapper-pading">
 				<image class="icon-play" src="../../../static/icon_app.png"/>
 				<text class="title-text">小程序</text>
 				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
-			</view>	
+			</view>
 		</view>
 	</view>
 </template>
@@ -82,33 +82,33 @@
 	import MovieListComponent from './MovieListComponent';
 	import { reactive, onMounted ,ref } from 'vue';
 	import { useMovieStore } from '../../stores/useMovieStore';
-	import { 
-		getUserMsgService, 
+	import {
+		getUserMsgService,
 		getPlayRecordMovieListService,
 		getMyFavoriteMovieListService,
 		getMyViewsMovieListService
 	} from '../service';
-	import type { UserMsgType, MovieType } from '../type'; 
-	
+	import type { UserMsgType, MovieType } from '../type';
+
 	const showPlayMovieList = ref<boolean>(true)
 	const showMyFavoriteMovieList = ref<boolean>(false)
 	const showMyViewsMovieList = ref<boolean>(false)
 	const loading = ref<boolean>(false)
-	
+
 	const playMovieList = reactive<Array<MovieType>>([])
 	const myFavoriteMovieList = reactive<Array<MovieType>>([])
 	const myViewsMovieList = reactive<Array<MovieType>>([])
-	
+
 	const store = useMovieStore();
-	
+
 	const userMsg = reactive<UserMsgType>({
 		userAge: 0,// 使用天数
 		favoriteCount: 0,// 收藏数
 		playRecordCount: 0,// 观看记录
 		viewRecordCount: 0// 浏览记录
 	})
-	
-	
+
+
 	// 展开或折叠观看记录
 	const useTogglePlayList = () => {// 展开和收起播放记录
 		if(loading.value)return
@@ -121,7 +121,7 @@
 				.finally(()=>loading.value = false)
 		}
 	}
-	
+
 	// 展开或折叠我的收藏
 	const useToggleMyFavorite = () => {
 		if(loading.value)return
@@ -134,7 +134,7 @@
 				.finally(()=>loading.value = false)
 		}
 	}
-	
+
 	// 展开和收起我浏览过的额电影
 	const useToggleMyViews = () => {
 		if(loading.value)return
@@ -147,7 +147,7 @@
 				.finally(()=>loading.value = false)
 		}
 	}
-	
+
 	onMounted(()=>{
 		// 获取分类
 		getUserMsgService().then(res => Object.assign(userMsg,res.data))
@@ -240,6 +240,6 @@
 				transform: rotate(90deg);
 			}
 		}
-		
+
 	}
 </style>

@@ -46,7 +46,7 @@ export const getCategoryListService = (classifyItem:types.ClassifyType):Promise<
 export const getAllCategoryListByPageNameService = (pageName:string):Promise<MyAwesomeData<Array<types.ClassifyType>>>=> {
 	return httpRequest.get<Array<types.ClassifyType>>(api.getAllCategoryListByPageName,{pageName})
 }
-  
+
 /**
 * @description: 获取用户使用天数和访问记录数量等
 * @date: 2023-12-10 22:40
@@ -203,3 +203,23 @@ export const registerService = (userData:types.UserDataType):Promise<MyAwesomeDa
 export const getUserByIdService = (userId:string):Promise<MyAwesomeData<number>>=>{
 	return httpRequest.get<number>(`${api.getUserById}?userId=${userId}`)
 };
+
+/**
+ * @description: 获取推荐的电影
+ * @date: 2024-01-30 22:24
+ * @author wuwenqiang
+ */
+export const getRecommendService = (classify:string):Promise<MyAwesomeData<Array<types.MovieType>>>=>{
+    return httpRequest.get<Array<types.MovieType>>(`${api.getRecommend}?classify=${classify}`)
+};
+
+
+/**
+ * @description: 获取推荐的电影
+ * @date: 2024-01-30 22:24
+ * @author wuwenqiang
+ */
+export const getSearchService = (keyword:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MovieType>>>=>{
+    return httpRequest.get<Array<types.MovieType>>(`${api.getSearch}?keyword=${keyword}&pageNum=${pageNum}&pageSize=${pageSize}`)
+};
+

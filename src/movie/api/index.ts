@@ -5,7 +5,7 @@ export default {
     getAllCategoryByClassify: '/service/movie/getAllCategoryByClassify', //按classify大类查询所有catory小类
     getAllCategoryListByPageName: '/service/movie/getAllCategoryListByPageName', //按页面获取要展示的category小类
     getUserMsg: '/service/movie-getway/getUserMsg', //获取用户四个指标信息，使用天数，关注，观看记录，浏览记录
-    getSearchResult: '/service/movie/search', //搜索
+    getSearch: '/service/movie/search', //搜索
     login: '/service/movie/login', //登录
     getStar: '/service/movie/getStar', //获取演员
     getMovieUrl: '/service/movie/getMovieUrl', //获取演员
