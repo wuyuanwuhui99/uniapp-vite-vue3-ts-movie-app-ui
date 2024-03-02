@@ -65,10 +65,10 @@
 <script setup lang="ts">
 	import uniPopup from '@dcloudio/uni-ui/lib/uni-popup/uni-popup.vue';
 	import { useMovieStore } from '../../stores/useMovieStore';
-	import OptionsDialog from '../component/OptionsDialog';
+	import OptionsDialog from '../components/OptionsDialog';
 	import {HOST} from '../../config/constant';
 	import { ref } from 'vue';
-	import type { UserDataType } from '../type';
+	import type { UserDataType } from '../types';
 	import {updateUserDataService} from '../service';
 	import defaulAvater from '../../../static/default_avater.png';
 	
@@ -128,7 +128,7 @@
 				success:  res => {
 				if (res.confirm) {
 					uni.setStorageSync('token','');
-					uni.redirectTo({
+					uni.reLaunch({
 						url: `../pages/MovieLoginPage`
 					})
 				} else if (res.cancel) {

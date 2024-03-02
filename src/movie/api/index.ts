@@ -1,5 +1,5 @@
 export default {
-    getUserData: '/service/movie/getUserData', // 获取用户信息
+    getUserData: '/service/user/getUserData', // 获取用户信息
     getCategoryList: '/service/movie/getCategoryList', //获取分类影片
     getKeyWord: '/service/movie/getKeyWord', //按照classify查询搜索栏的关键词
     getAllCategoryByClassify: '/service/movie/getAllCategoryByClassify', //按classify大类查询所有catory小类
@@ -19,13 +19,13 @@ export default {
     getYourLikes: '/service/movie/getYourLikes',//猜你想看
     getRecommend: '/service/movie/getRecommend',//获取推荐
     isFavorite: '/service/movie-getway/isFavorite',//查询是否已经收藏
-    updateUser: '/service/movie-getway/updateUser',//更新用户信息
-    updatePassword: '/service/movie-getway/updatePassword',//更新密码wq
+    updateUser: '/service/user-getway/updateUser',//更新用户信息
+    updatePassword: '/service/user-getway/updatePassword',//更新密码wq
     getCommentCount:'/service/social/getCommentCount',//获取评论总数
     getTopCommentList:'/service/social/getTopCommentList',//获取一级评论
     getReplyCommentList:'/service/social/getReplyCommentList',//获取一级评论
     insertCommentService:'/service/social-getway/insertComment',//新增评论
-    updateAvaterService:'/service/movie-getway/updateAvater',//更新头像
+    updateAvaterService:'/service/user-getway/updateAvater',//更新头像
 	register: '/service/user/register',//注册
-	getUserById: '/service/user/getUserById',//注册
+	getUserById: '/service/user/getUserById',// 校验账号是否存在
 }

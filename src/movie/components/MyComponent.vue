@@ -56,7 +56,7 @@
 		</view>
 
 		<view class="module-block">
-			<view class="title-wrapper title-wrapper-pading">
+			<view class="title-wrapper title-wrapper-pading" @click="useNavigateToMusicIndex">
 				<image class="icon-play" src="../../../static/icon_music.png"/>
 				<text class="title-text">音乐</text>
 				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
@@ -146,6 +146,18 @@
 				.then(res => myViewsMovieList.push(...res.data))
 				.finally(()=>loading.value = false)
 		}
+	}
+
+	
+	/**
+	 * @description: 跳转到音乐首页
+	 * @date: 2024-03-02 22:22
+	 * @author wuwenqiang
+	 */
+	const useNavigateToMusicIndex = () => {
+		uni.navigateTo({
+			url: `../../music/pages/MusicIndexPage`
+		})
 	}
 
 	onMounted(()=>{

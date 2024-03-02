@@ -165,7 +165,7 @@
 			});
 		}else if(!confirmPassowrd.value){
 			uni.showToast({
-				title: '请输入确认',
+				title: '请输入确认密码',
 				icon: "none"
 			});
 		}else if(!userData.username){

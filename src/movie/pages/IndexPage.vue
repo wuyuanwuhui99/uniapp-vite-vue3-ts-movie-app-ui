@@ -32,10 +32,10 @@
 </template>
 
 <script setup lang="ts">
-import HomeComponent from '../component/HomeComponent.vue';
-import MovieComponent from '../component/MovieComponent.vue';
-import TVComponent from '../component/TVComponent.vue';
-import MyComponent from '../component/MyComponent.vue';
+import HomeComponent from '../components/HomeComponent.vue';
+import MovieComponent from '../components/MovieComponent.vue';
+import TVComponent from '../components/TVComponent.vue';
+import MyComponent from '../components/MyComponent.vue';
 import { useMovieStore } from '../../stores/useMovieStore'
 import { ref,onMounted,reactive } from 'vue'
 import {getUserDataService} from '../service';

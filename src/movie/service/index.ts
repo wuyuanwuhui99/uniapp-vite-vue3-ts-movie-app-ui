@@ -215,7 +215,7 @@ export const getRecommendService = (classify:string):Promise<MyAwesomeData<Array
 
 
 /**
- * @description: 获取推荐的电影
+ * @description: 电影搜索
  * @date: 2024-01-30 22:24
  * @author wuwenqiang
  */

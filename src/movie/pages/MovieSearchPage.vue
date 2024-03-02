@@ -35,11 +35,11 @@
 	import { useRoute } from "vue-router";
 	import type { MovieType} from '../type';
 	import {HOST} from '../../config/constant';
-	import TitleComponent from '../component/TitleComponent.vue';
-	import MovieListComponent from '../component/MovieListComponent.vue';
+	import TitleComponent from '../components/TitleComponent.vue';
+	import MovieListComponent from '../components/MovieListComponent.vue';
 	import {getRecommendService,getSearchService} from '../service';
 
-	const searchRecordList:Array<string> = [];
+	const searchRecordList = reactive<Array<string>>([]);
 	const route = useRoute();
 	const placeholder:string = decodeURIComponent(route.query.keyword as string);
 	const recommentList = reactive<Array<MovieType>>([]);
@@ -50,7 +50,7 @@
 	const pageNum = ref<number>(1);
 	const pageSize = ref<number>(20);
 	
-	uni.getStorage('historyMovieLabels').then(res=>{
+	uni.getStorage({key:"historyMovieLabels"}).then(res=>{
 		if(res){
 			searchRecordList.push(...res.data.split(","))
 		}
@@ -81,7 +81,7 @@
 			searchRecordList.splice(index,1);
 		}
 		searchRecordList.unshift(keyword.value);
-		uni.setStorage('historyMovieLabels',searchRecordList.join(","))
+		uni.setStorage({key:"historyMovieLabels",data:searchRecordList.join(",")})
 		getSearchService(keyword.value,pageNum.value,pageSize.value).then(res=>{
 			searchList.splice(0,searchList.length,...res.data);
 		}).finally(()=>{

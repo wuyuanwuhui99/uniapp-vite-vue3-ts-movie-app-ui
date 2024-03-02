@@ -47,9 +47,9 @@
 	import { useRoute } from "vue-router";
 	import type { MovieType,MovieUrlType } from '../type';
 	import {HOST} from '../../config/constant';
-	import TitleComponent from '../component/TitleComponent.vue';
-	import MovieListComponent from '../component/MovieListComponent.vue';
-	import ScoreComponent from '../component/ScoreComponent.vue';
+	import TitleComponent from '../components/TitleComponent.vue';
+	import MovieListComponent from '../components/MovieListComponent.vue';
+	import ScoreComponent from '../components/ScoreComponent.vue';
 	import {getCommentCountService,savePlayRecordService,getMovieUrlService,getRecommentListService,isFavoriteService,saveFavoriteService,deleteFavoriteService} from '../service';
 
 	const movieItem = reactive<MovieType>({} as MovieType);

@@ -51,7 +51,7 @@
 			loginService(userId.value,password.value).then((res)=>{
 				uni.setStorageSync('token',res.token);
 				uni.setStorage({key:userId.value,data:password.value});
-				uni.navigateTo({
+				uni.reLaunch({
 					url: `../pages/IndexPage`
 				})
 				uni.showToast({
