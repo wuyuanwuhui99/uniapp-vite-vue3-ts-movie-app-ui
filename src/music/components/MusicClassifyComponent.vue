@@ -1,9 +1,6 @@
 <template>
 	<view class="module-block">
-		<view class="classify-title-wrapper">
-			<image class="icon-classify-arrow" src="../../../static/icon_down.png"/>
-			<text class="classify-name">{{classifyItem.classifyName}}</text>
-		</view>
+		<MusicTitleComponent :classifyItem="classifyItem"/>
 		<view class="classify-music-list">
 			<view class="classify-music-item" :key="classifyItem.id + '_' + item.id" v-for="item in classifyMusicList">
 				<image class="song-cover" :src="HOST + item.cover"/>
@@ -24,6 +21,8 @@
 	import type {MusicType} from "../types";
 	import {getMusicListByClassifyIdService} from '../service';
 	import {HOST} from "../../config/constant";
+	import MusicTitleComponent from './MusicTitleComponent';
+	
 	const { classifyItem } = defineProps({
 		classifyItem:{
 			type:Object,
@@ -41,15 +40,8 @@
 	@import '../../theme/color.less';
 	@import '../../theme/size.less';
 	@import '../../theme/style.less';
-	.classify-title-wrapper{
-		display: flex;
-		.icon-classify-arrow{
-			width: @small-icon-size;
-			height: @small-icon-size;
-		}
-		.classify-name{
-			padding-left: @page-padding;
-		}
+	.module-block-last{
+		margin-bottom: @page-padding;
 	}
 	.classify-music-list{
 		.classify-music-item{

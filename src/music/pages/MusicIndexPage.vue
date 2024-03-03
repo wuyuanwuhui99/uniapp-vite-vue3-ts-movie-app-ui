@@ -64,7 +64,7 @@
 	    .page-container{
 	        flex:1;
 			height: 0;
-			padding: 0 @page-padding @page-padding;
+			padding: 0 @page-padding;
 			box-sizing: border-box;
 			overflow: auto;
 			&::-webkit-scrollbar{

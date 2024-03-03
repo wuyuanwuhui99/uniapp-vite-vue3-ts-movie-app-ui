@@ -29,3 +29,12 @@ export const getMusicClassifyService = ():Promise<MyAwesomeData<Array<types.Musi
 export const getMusicListByClassifyIdService = (classifyId:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicType>>> => {
     return httpRequest.get<Array<types.MusicType>>(`${api.getMusicListByClassifyId}?classifyId=${classifyId}&pageNum=${pageNum}&pageSize=${pageSize}`);
 }
+
+/**
+ * @description: 获取推荐的歌手
+ * @date: 2024-03-03 18:23
+ * @author wuwenqiang
+ */
+export const getSingerListService = (category:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorModel>>> => {
+    return httpRequest.get<Array<types.MusicAuthorModel>>(`${api.getSingerList}?${category != '' && category != null ? "category=" + category + "&" : ""}pageNum=${pageNum}&pageSize=${pageSize}`);
+}

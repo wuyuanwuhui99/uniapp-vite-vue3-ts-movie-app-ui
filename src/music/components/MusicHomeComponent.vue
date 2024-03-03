@@ -21,9 +21,9 @@
 				</view>
 			</view>
 			
-			<template v-for="item in allClassifies">
-				<MusicSingerComponent :key="'classifyId' + item.id" v-if="item.classifyName === '推荐歌手'"/>
-				<MusicClassifyComponent :key="'classifyId' + item.id" v-else :classifyItem="item"/>
+			<template v-for="item,index in allClassifies">
+				<MusicSingerComponent :key="'classifyId' + item.id" :classifyItem="item" v-if="item.classifyName === '推荐歌手'"/>
+				<MusicClassifyComponent :class="index === allClassifies.length - 1 ? 'module-block-last': ''" :key="'classifyId' + item.id" v-else :classifyItem="item"/>
 			</template>
 		</view>
 	</scroll-view>
