@@ -35,6 +35,6 @@ export const getMusicListByClassifyIdService = (classifyId:string,pageNum:number
  * @date: 2024-03-03 18:23
  * @author wuwenqiang
  */
-export const getSingerListService = (category:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorModel>>> => {
-    return httpRequest.get<Array<types.MusicAuthorModel>>(`${api.getSingerList}?${category != '' && category != null ? "category=" + category + "&" : ""}pageNum=${pageNum}&pageSize=${pageSize}`);
+export const getSingerListService = (category:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorType>>> => {
+    return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getSingerList}?${category != '' && category != null ? "category=" + category + "&" : ""}pageNum=${pageNum}&pageSize=${pageSize}`);
 }
