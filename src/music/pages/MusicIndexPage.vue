@@ -36,7 +36,7 @@
 	import MusicRecommentComponent from '../components/MusicRecommentComponent.vue';
 	import MusicCircleComponent from '../components/MusicCircleComponent.vue';
 	import MusicMyComponent from '../components/MusicMyComponent.vue';
-	import {getKeyWordMusicService} from '../service';
+	
 	import { ref,onMounted,reactive } from 'vue';
 	import {httpRequest} from '../../utils/HttpUtils';
 	
@@ -47,6 +47,8 @@
 		activeIndex.value = index;
 		!isInitComponent[index] && isInitComponent.splice(index,1,true)
 	}
+	
+	
 </script>
 
 <style lang="less">

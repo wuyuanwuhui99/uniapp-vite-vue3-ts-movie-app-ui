@@ -32,7 +32,7 @@
 	import {getAllCategoryListByPageNameService} from '../service';
 	import SwiperComponent from './SwiperComponent';
 	import CategoryComponent from './CategoryComponent';
-	import type { ClassifyType } from '../type';
+	import type { ClassifyType } from '../types';
 	import SearchComponent from './SearchComponent';
 	const classifyList = reactive<Array<ClassifyType>>([])
 	onMounted(()=>{

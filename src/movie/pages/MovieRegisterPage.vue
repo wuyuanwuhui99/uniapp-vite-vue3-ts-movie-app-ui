@@ -78,10 +78,10 @@
 <script setup lang="ts">
 	import uniDatetimePicker from '@dcloudio/uni-ui/lib/uni-datetime-picker/uni-datetime-picker.vue';
 	import { ref, reactive } from 'vue';
-	import type { UserDataType } from '../type';
+	import type { UserDataType } from '../types';
 	import { registerService, getUserByIdService } from '../service';
 	import { useMovieStore } from '../../stores/useMovieStore';
-	import OptionsDialog from '../component/OptionsDialog';
+	import OptionsDialog from '../components/OptionsDialog';
 	
 	let loading:boolean = false;
 	

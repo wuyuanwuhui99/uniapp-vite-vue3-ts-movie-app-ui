@@ -10,7 +10,7 @@
 	import { ref,onMounted,reactive,defineProps } from 'vue';
 	import {getCategoryListService} from '../service/index';
 	import {HOST} from '../../config/constant';
-	import type { MovieType } from '../type';
+	import type { MovieType } from '../types';
 	const prop = defineProps({
 		classify:{
 			type:String,

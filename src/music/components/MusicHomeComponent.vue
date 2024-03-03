@@ -1,29 +1,53 @@
 <template>
-	<view class="page-wrapper">
-		<MusicSearchComponent/>
-		<view class="classsify-wrapper module-block">
-			<view class="classify-item">
-				<image class="classify-img" src="../../../static/icon_music_singer.png"/>
-				<text class="classify-name">歌手</text>
+	<scroll-view scroll-y show-scrollbar="false" class="page-wrapper">
+		<view>
+			<MusicSearchComponent/>
+			<view class="category-wrapper module-block">
+				<view class="category-item">
+					<image class="category-img" src="../../../static/icon_music_singer.png"/>
+					<text class="category-name">歌手</text>
+				</view>
+				<view class="category-item">
+					<image class="category-img" src="../../../static/icon_music_classify.png"/>
+					<text class="category-name">分类歌曲</text>
+				</view>
+				<view class="category-item">
+					<image class="category-img" src="../../../static/icon_music_classics.png"/>
+					<text class="category-name">经典老歌</text>
+				</view>
+				<view class="category-item">
+					<image class="category-img" src="../../../static/icon_music_rank.png"/>
+					<text class="category-name">热门榜单</text>
+				</view>
 			</view>
-			<view class="classify-item">
-				<image class="classify-img" src="../../../static/icon_music_classify.png"/>
-				<text class="classify-name">分类歌曲</text>
-			</view>
-			<view class="classify-item">
-				<image class="classify-img" src="../../../static/icon_music_classics.png"/>
-				<text class="classify-name">经典老歌</text>
-			</view>
-			<view class="classify-item">
-				<image class="classify-img" src="../../../static/icon_music_rank.png"/>
-				<text class="classify-name">热门榜单</text>
-			</view>
+			
+			<template v-for="item in allClassifies">
+				<MusicSingerComponent :key="'classifyId' + item.id" v-if="item.classifyName === '推荐歌手'"/>
+				<MusicClassifyComponent :key="'classifyId' + item.id" v-else :classifyItem="item"/>
+			</template>
 		</view>
-	</view>
+	</scroll-view>
 </template>
 
 <script setup lang="ts">
+	import {ref,reactive} from "vue";
 	import MusicSearchComponent from './MusicSearchComponent';
+	import {getMusicClassifyService} from '../service';
+	import type {MusicClassifyType} from "../types";
+	import MusicSingerComponent from './MusicSingerComponent';
+	import MusicClassifyComponent from './MusicClassifyComponent';
+	const pageNum = ref<number>(2);// 初始化加载3个模块，其他模块按需加载
+	const allClassifies = reactive<Array<MusicClassifyType>>([]);// 所有分类模块
+	
+	/**
+	 * @description: 获取模块分类
+	 * @date: 2024-03-03 11:23
+	 * @author wuwenqiang
+	 */
+	getMusicClassifyService().then((res)=>{
+		allClassifies.push(...res.data);
+	});
+	
 </script>
 
 <style lang="less">
@@ -33,20 +57,26 @@
 	.page-wrapper{
 		width: 100%;
 		height: 100%;
-		.classsify-wrapper{
+		/deep/.uni-scroll-view-content{
+			overflow: auto;
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+		.category-wrapper{
 			display: flex;
-			.classify-item{
+			.category-item{
 				width: 25%;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
-				.classify-img{
+				.category-img{
 					width: calc(@big-icon-size * 1.5);
 					height: calc(@big-icon-size * 1.5);
 					margin-bottom: @small-margin;
 				}
-				.classify-name{
+				.category-name{
 					
 				}
 			}

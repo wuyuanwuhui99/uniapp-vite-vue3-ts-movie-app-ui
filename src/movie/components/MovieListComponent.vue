@@ -22,7 +22,7 @@
 <script setup lang="ts">
 	import { defineProps } from 'vue';
 	import {HOST} from '../../config/constant';
-	import type { MovieType,ClassifyType } from '../type';
+	import type { MovieType,ClassifyType } from '../types';
 	const { list } = defineProps({
 		list:{
 			type:Array,

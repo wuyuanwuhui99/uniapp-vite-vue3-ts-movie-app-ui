@@ -43,7 +43,7 @@
 <script setup lang="ts">
 	import { reactive,onMounted } from 'vue';
 	import { useRoute } from "vue-router";
-	import type { MovieType,StarType } from '../type';
+	import type { MovieType,StarType } from '../types';
 	import {HOST} from '../../config/constant';
 	import TitleComponent from '../components/TitleComponent.vue';
 	import MovieListComponent from '../components/MovieListComponent.vue';

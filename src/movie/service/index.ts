@@ -1,7 +1,7 @@
 import {httpRequest} from '../../utils/HttpUtils';
 import type {MyAwesomeData} from '../../utils/HttpUtils';
 import api from '../api/index';
-import type * as types from '../type/index';
+import type * as types from '../types/index';
 import md5 from 'md5';
 
 /**

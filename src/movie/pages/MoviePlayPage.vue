@@ -45,7 +45,7 @@
 <script setup lang="ts">
 	import { reactive,onMounted,ref } from 'vue';
 	import { useRoute } from "vue-router";
-	import type { MovieType,MovieUrlType } from '../type';
+	import type { MovieType,MovieUrlType } from '../types';
 	import {HOST} from '../../config/constant';
 	import TitleComponent from '../components/TitleComponent.vue';
 	import MovieListComponent from '../components/MovieListComponent.vue';

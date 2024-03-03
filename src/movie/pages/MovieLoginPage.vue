@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue';
-	import type { UserDataType } from '../type';
+	import type { UserDataType } from '../types';
 	import {loginService} from '../service';
 	import { useMovieStore } from '../../stores/useMovieStore';
 	
