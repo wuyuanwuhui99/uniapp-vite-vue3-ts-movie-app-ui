@@ -1,5 +1,5 @@
 <template>
-	<scroll-view scroll-y show-scrollbar="false" class="page-wrapper">
+	<scroll-view class="page-wrapper" @scrolltolower="onScrolltolower" scroll-y show-scrollbar="false">
 		<view class="music-list">
 			<view class="music-item module-block" :key="item.id" v-for="item,index in musicList">
 				<image v-if="index === 0" src="../../../static/icon_no1.png" class="music-rank" />
@@ -17,6 +17,8 @@
 				<image class="icon-operatation" v-else src="../../../static/icon_like.png" />
 				<image class="icon-operatation" src="../../../static/icon_music_menu.png" />
 			</view>
+
+			<view class="bottom"><text>{{total > pageSize * pageNum  ? "正在加载更多..." :"已经到底了" }}</text></view>
 		</view>
 	</scroll-view>
 </template>
@@ -27,18 +29,43 @@
 	import type { MusicType } from '../types';
 	import { HOST } from '../../config/constant';
 
-	const pageSize = 20;
+	const pageSize = ref<number>(20);
+	let loadding : boolean = false;
+
 	const pageNum = ref<number>(1);
+	const total = ref<number>(0);
 	const musicList = reactive<Array<MusicType>>([]);
+
 
 	/**
 	 * @description: 获取推荐列表，1为列表的id
 	 * @date: 2024-03-03 18:23
 	 * @author wuwenqiang
 	 */
-	getMusicListByClassifyIdService(1, pageNum.value, pageSize).then((res) => {
-		musicList.push(...res.data);
-	});
+	const useMusicList = () => {
+		loadding = true;
+		getMusicListByClassifyIdService(1, pageNum.value, pageSize.value).then((res) => {
+			if (total.value === 0) total.value = res.total;
+			musicList.push(...res.data);
+		}).finally(() => {
+			loadding = false;
+		});
+	}
+
+	/**
+	 * @description: 滚动到底部出发
+	 * @date: 2024-03-03 18:23
+	 * @author wuwenqiang
+	 */
+	const onScrolltolower = () => {
+		if (loadding) return;
+		if (total.value > pageSize .value * pageNum.value) {
+			pageNum.value++;
+			useMusicList();
+		}
+	}
+
+	useMusicList()
 </script>
 
 <style lang="less">
@@ -51,8 +78,6 @@
 		height: 100%;
 
 		/deep/.uni-scroll-view-content {
-			overflow: auto;
-
 			&::-webkit-scrollbar {
 				display: none;
 			}
@@ -101,6 +126,12 @@
 					;
 				}
 			}
+		}
+
+		.bottom {
+			display: flex;
+			justify-content: center;
+			margin: @page-padding 0;
 		}
 	}
 </style>

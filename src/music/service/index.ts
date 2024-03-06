@@ -26,7 +26,7 @@ export const getMusicClassifyService = ():Promise<MyAwesomeData<Array<types.Musi
  * @date: 2024-03-03 11:50
  * @author wuwenqiang
  */
-export const getMusicListByClassifyIdService = (classifyId:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicType>>> => {
+export const getMusicListByClassifyIdService = (classifyId:number,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicType>>> => {
     return httpRequest.get<Array<types.MusicType>>(`${api.getMusicListByClassifyId}?classifyId=${classifyId}&pageNum=${pageNum}&pageSize=${pageSize}`);
 }
 
