@@ -38,3 +38,12 @@ export const getMusicListByClassifyIdService = (classifyId:number,pageNum:number
 export const getSingerListService = (category:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorType>>> => {
     return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getSingerList}?${category != '' && category != null ? "category=" + category + "&" : ""}pageNum=${pageNum}&pageSize=${pageSize}`);
 }
+
+/**
+ * @description: 获取音乐圈数据
+ * @date: 2024-03-03 18:23
+ * @author wuwenqiang
+ */
+export const getCircleListByTypeService = (type:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.CircleModel>>> => {
+    return httpRequest.get<Array<types.CircleModel>>(`${api.getCircleListByType}?type=${type}&pageNum=${pageNum}&pageSize=${pageSize}`);
+}

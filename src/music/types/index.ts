@@ -60,3 +60,68 @@ export type MusicAuthorType = {
   updateTime: string,// 更新时间
   total: string// 歌曲总数
 }
+
+// 点赞字段
+export type CircleLikeType = {
+	id:number,
+	circleId:number,// 朋友圈id
+	userId:string,// 用户id
+	username:string,// 用户名称
+	createTime:string,// 创建时间
+	updateTime:string// 更新时间
+}
+
+// 评论字段
+export type CommentType = {
+	id:number,//主键
+	content:string,//评论内容
+	parentId:number,//父节点id
+	topId:number,//顶级节点id
+	movieId:number,//影片id
+	createTime:string,//创建时间
+	updateTime:string,//更新时间
+	replyCount:number,//回复数量
+	userId:string,//用户id
+	username:string,//用户名
+	avater:string,//用户头像
+	replyUserId:string,//被回复者id
+	replyUserName:string,//被回复者名称
+	showCommentCount:string,//显示的回复数量
+	replyPageNum:number,
+	replyList:Array<CommentType>
+}
+
+export type CircleType = {
+  id:number,
+  relationId:number,// 关联音乐audio_id或者电影movie_id
+  content:string,// 朋友圈内容
+  imgs:string,// 朋友圈图片
+  type:string,// 类型
+  userId:string,// 用户id
+  username:string,// 用户的昵称
+  useravater:string,// 用户头像
+  createTime:string,// 创建时间
+  updateTime:string,// 更新时间
+  musicSongName:string,// 歌曲名称
+  musicAudioId:string,// 歌曲id
+  musicAuthorName:string,// 歌曲作者
+  musicAlbumName:string,// 专辑名称
+  musicCover:string,// 音乐图片
+  musicPlayUrl:string,// 音乐播放地址
+  musicLocalPlayUrl:string,// 音乐本地播放地址
+  musicLyrics:string,// 歌词
+  movieId:string,// 电影id
+  movieName:string,// 电影名称
+  movieDirector:string,// 电影导演
+  movieStar:string,// 电影主演
+  movieType:string,// 电影类型
+  movieCountryLanguage:string,// 电影上映国家
+  movieViewingState:string,// 电影状态
+  movieReleaseTime:string,// 上映时间
+  movieImg:string,// 电影海报
+  movieClassify:string,// 电影分类
+  movieLocalImg:string,// 电影本地图片
+  movieScore:string,// 电影得分
+  circleLikes:Array<CircleLikeType>,
+  circleComments: Array<CommentType> ,
+}
