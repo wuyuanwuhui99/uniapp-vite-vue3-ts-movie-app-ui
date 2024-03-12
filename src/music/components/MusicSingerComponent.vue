@@ -33,7 +33,7 @@
 	 * @date: 2024-03-03 18:23
 	 * @author wuwenqiang
 	 */
-	getSingerListService(null, 1, 4).then((res) => {
+	getSingerListService("", 1, 4).then((res) => {
 		singerList.push(...res.data);
 	})
 </script>

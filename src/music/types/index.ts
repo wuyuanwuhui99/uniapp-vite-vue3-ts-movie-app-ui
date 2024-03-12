@@ -62,13 +62,14 @@ export type MusicAuthorType = {
 }
 
 // 点赞字段
-export type CircleLikeType = {
-	id:number,
-	circleId:number,// 朋友圈id
-	userId:string,// 用户id
-	username:string,// 用户名称
-	createTime:string,// 创建时间
-	updateTime:string// 更新时间
+export type LikeType = {
+	id?:number,
+	type:string,
+	relationId:number,// 朋友圈id
+	userId?:string,// 用户id
+	username?:string,// 用户名称
+	createTime?:string,// 创建时间
+	updateTime?:string// 更新时间
 }
 
 // 评论字段
@@ -122,6 +123,6 @@ export type CircleType = {
   movieClassify:string,// 电影分类
   movieLocalImg:string,// 电影本地图片
   movieScore:string,// 电影得分
-  circleLikes:Array<CircleLikeType>,
+  circleLikes:Array<LikeType>,
   circleComments: Array<CommentType> ,
 }

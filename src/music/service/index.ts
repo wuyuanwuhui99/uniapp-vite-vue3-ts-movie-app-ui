@@ -44,6 +44,24 @@ export const getSingerListService = (category:string,pageNum:number,pageSize:num
  * @date: 2024-03-03 18:23
  * @author wuwenqiang
  */
-export const getCircleListByTypeService = (type:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.CircleModel>>> => {
-    return httpRequest.get<Array<types.CircleModel>>(`${api.getCircleListByType}?type=${type}&pageNum=${pageNum}&pageSize=${pageSize}`);
+export const getCircleListByTypeService = (type:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.CircleType>>> => {
+    return httpRequest.get<Array<types.CircleType>>(`${api.getCircleListByType}?type=${type}&pageNum=${pageNum}&pageSize=${pageSize}`);
+}
+
+/**
+ * @description: 点赞
+ * @date: 2024-03-12 23:25
+ * @author wuwenqiang
+ */
+export const saveLikeService = (likeItem:types.LikeType):Promise<MyAwesomeData<types.LikeType>> => {
+    return httpRequest.post<types.LikeType>(api.saveLike,likeItem);
+}
+
+/**
+ * @description: 删除点赞
+ * @date: 2024-03-12 23:25
+ * @author wuwenqiang
+ */
+export const deleteLikeService = (relationId:number,type:string):Promise<MyAwesomeData<number>> => {
+    return httpRequest.delete<number>(`${api.deleteLike}?relationId=${relationId}&type=${type}`);
 }
