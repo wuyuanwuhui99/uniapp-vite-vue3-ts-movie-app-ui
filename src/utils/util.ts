@@ -1,20 +1,27 @@
-export const formatTime = (data:string) => {
-  // 获取当前时间对象
-  const now:Date = new Date();
-  const date:Date = new Date(data);
-  // 相差多少分钟
-  const minutes:number = Math.floor(now.getTime() - date.getTime())/1000/60;
-  if(minutes < 1){
-    return '刚刚';
-  }else if(minutes >= 1 && minutes < 60){
-    return minutes + '分钟前';
-  }else if(minutes >= 60 && minutes < 60*24){
-    return Math.floor(minutes/60) + '小时前';
-  }else if(minutes > 60 * 24 && minutes <  60 * 24 *30){
-    return Math.floor(minutes/60/24) + '天前';
-  }else if(minutes > 60 * 24 * 30 && minutes <  60 * 24 *30 *12){
-    return Math.floor(minutes/60 / 24 / 30)+ '个月前';
-  }else{
-    return data;
-  }
+export const zorefull=(value:number):string|number=>{
+    return value < 9 ? "0"+value:value
 }
+
+export const formatTime=(value:any):string=>{
+    var date =new Date(value);
+    var nowDate = new Date()
+    let diff = Math.ceil((nowDate.getTime()-date.getTime())/1000);
+    if(diff < 60){
+        return "刚刚"
+    }else if(diff < 60*60){
+        return Math.ceil(diff/60) + "分前"
+    }else if(diff < 60*60*24){
+        return Math.ceil(diff/(60*60))+"小时前"
+    }else if(diff < 60*60*24*30){
+        return Math.ceil(diff/(60*60*24))+"天前"
+    }else if(diff < 60*60*24*30*12){
+        return Math.ceil(diff/(60*60*24*30))+"个月前"
+    }
+    const year = zorefull(date.getFullYear());
+    const month = zorefull(date.getMonth()+1);
+    const dates = zorefull(date.getDate());
+    const hour = zorefull(date.getHours());
+    const minutes = zorefull(date.getMinutes());
+    const seconds = zorefull(date.getSeconds());
+    return `${year}-${month}-${dates} ${hour}:${minutes}:${seconds}`
+};

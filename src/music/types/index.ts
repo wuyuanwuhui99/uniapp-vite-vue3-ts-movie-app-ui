@@ -77,8 +77,9 @@ export type CommentType = {
 	id:number,//主键
 	content:string,//评论内容
 	parentId:number,//父节点id
+	type:string,
 	topId:number,//顶级节点id
-	movieId:number,//影片id
+	relationId:number,//影片id
 	createTime:string,//创建时间
 	updateTime:string,//更新时间
 	replyCount:number,//回复数量

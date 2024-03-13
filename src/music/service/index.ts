@@ -65,3 +65,12 @@ export const saveLikeService = (likeItem:types.LikeType):Promise<MyAwesomeData<t
 export const deleteLikeService = (relationId:number,type:string):Promise<MyAwesomeData<number>> => {
     return httpRequest.delete<number>(`${api.deleteLike}?relationId=${relationId}&type=${type}`);
 }
+
+/**
+ * @description: 添加评论
+ * @date: 2024-03-12 23:25
+ * @author wuwenqiang
+ */
+export const insertCommentService = (commentItem:types.CommentType):Promise<MyAwesomeData<types.CommentType>> => {
+    return httpRequest.post<types.CommentType>(api.insertComment,commentItem);
+}
