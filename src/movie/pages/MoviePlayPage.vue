@@ -1,8 +1,7 @@
 <template>
 	<view class="page-wrapper">
 		<scroll-view scroll-y>
-			<web-view class="play-webview" src="" v-if="currentUrl"></web-view>
-			<view class="play-webview" v-else></view>
+			<div id="player" class="play-webview"></div>
 			<view class="section-wrapper">
 				<view class="module-block row">
 					<image class="icon-middle" src="../../../static/icon_comment.png"/>
@@ -43,7 +42,15 @@
 </template>
 
 <script setup lang="ts">
-	import { reactive,onMounted,ref } from 'vue';
+	// 播放器样式文件
+	import 'mui-player/dist/mui-player.min.css'
+	// npm安装方式引入mui-player
+	import MuiPlayer from 'mui-player'
+	// 要播放m3u8的视频就必须要引入hls.js
+	import Hls from 'hls.js'
+	
+	import { reactive,onMounted,ref,onUnmounted } from 'vue';
+	
 	import { useRoute } from "vue-router";
 	import type { MovieType,MovieUrlType } from '../types';
 	import {HOST} from '../../config/constant';
@@ -59,6 +66,7 @@
 	const movieUrlGroup = reactive<Array<Array<MovieUrlType>>>([]);//电影分组
 	const currentUrlGroup = ref<number>(0);// 播放的分组
 	const recommentList = reactive<Array<MovieType>>([]);// 推荐电影
+	let mp:MuiPlayer;
 
 	const useTabPlayGroup = (index:number) => {
 		currentUrlGroup.value = index;
@@ -133,7 +141,25 @@
 	}
 
 
-	savePlayRecordService(movieItem)
+	savePlayRecordService(movieItem);
+	
+	onMounted(()=>{
+		mp = new MuiPlayer({
+		    container:document.getElementById("player"),
+		    src:currentUrl.value,
+		    parse:{
+		        type:'hls',
+		        loader:Hls,
+		        config:{ 
+		            cors:true
+		        },
+		    },
+		});
+	})
+	
+	onUnmounted(()=>{
+		mp.destroy();
+	})
 </script>
 
 <style lang="less">
