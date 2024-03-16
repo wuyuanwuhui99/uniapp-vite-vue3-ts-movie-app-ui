@@ -1,3 +1,5 @@
+import { type } from "os"
+
 // 歌曲字段
 export type MusicType = {
 	id : number, //主键
@@ -126,4 +128,14 @@ export type CircleType = {
   movieScore:string,// 电影得分
   circleLikes:Array<LikeType>,
   circleComments: Array<CommentType> ,
+}
+
+export type MuiscPlayMenuType = {
+  id:number,//主键
+  name:string,// 歌单名称
+  userId:string;// 用户id
+  total:number;// 歌单里面的歌曲总数
+  cover:string;// 歌单封面
+  createTime:string;// 创建时间
+  updateTime:string;// 更新时间
 }

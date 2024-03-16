@@ -99,14 +99,6 @@
 					display: flex;
 				}
 
-				.music-cover {
-					display: flex;
-					margin-left: @page-padding;
-					width: @middle-avater;
-					height: @middle-avater;
-					border-radius: 50%;
-				}
-
 				.music-info {
 					display: flex;
 					flex-direction: column;

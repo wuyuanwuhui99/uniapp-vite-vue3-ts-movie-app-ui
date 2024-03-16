@@ -2,7 +2,9 @@
 	<view class="classify-title-wrapper">
 		<image class="icon-classify-arrow" src="../../../static/icon_down.png" />
 		<text class="classify-name">{{classifyItem.classifyName}}</text>
-		<text>更多</text>
+		<slot>
+			<text>更多</text>
+		</slot>
 	</view>
 </template>
 

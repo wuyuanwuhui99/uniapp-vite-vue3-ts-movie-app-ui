@@ -74,3 +74,13 @@ export const deleteLikeService = (relationId:number,type:string):Promise<MyAweso
 export const insertCommentService = (commentItem:types.CommentType):Promise<MyAwesomeData<types.CommentType>> => {
     return httpRequest.post<types.CommentType>(api.insertComment,commentItem);
 }
+
+/**
+ * @description: 获取用户歌单
+ * @date: 2024-03-16 23:25
+ * @author wuwenqiang
+ */
+export const getMusicPlayMenuService = ():Promise<MyAwesomeData<Array<types.MuiscPlayMenuType>>> => {
+    return httpRequest.get<Array<types.MuiscPlayMenuType>>(api.getMusicPlayMenu);
+}
+

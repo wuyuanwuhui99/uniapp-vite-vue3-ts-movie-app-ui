@@ -4,8 +4,8 @@ import type {UserDataType} from '../movie/type/index';
 export const useMovieStore = defineStore("myStore", {
     state:() => { 
         return {
-			userData<UserDataType>:null,
-			token<string>: ''
+			userData:{} as UserDataType,
+			token: ''
 		}
     },
     actions: {

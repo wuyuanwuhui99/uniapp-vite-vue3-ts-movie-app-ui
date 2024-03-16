@@ -1,6 +1,5 @@
 <template>
-	<scroll-view class="page-wrapper" scroll-y @scrolltolower="onScrolltolower" ref="scrollViewRef"
-		show-scrollbar="false">
+	<scroll-view class="page-wrapper" scroll-y @scrolltolower="onScrolltolower" show-scrollbar="false">
 		<view>
 			<MusicSearchComponent />
 			<view class="category-wrapper module-block">
@@ -44,7 +43,6 @@
 
 	const pageNum = ref<number>(3);// 初始化加载3个模块，其他模块按需加载
 	const allClassifies = reactive<Array<MusicClassifyType>>([]);// 所有分类模块
-	const scrollViewRef = ref<HTMLElement>();
 	
 	/**
 	 * @description: 获取模块分类
