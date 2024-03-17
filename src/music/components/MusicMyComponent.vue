@@ -24,23 +24,101 @@
 				<image class="icon-operate" src="../../../static/icon_music_menu.png"/>
 			</view>
 		</view>
+		
+		<view class="module-block">
+			<MusicTitleComponent :classifyItem="{classifyName:'我关注的歌手',category:''}"/>
+			<view v-for="item in mySingerList" class="singer-list">
+				<image v-if="item.avatar" class="music-cover" :src="/http[s]?:\/\//.test(item.avatar) ? item.avatar.replace('{size}','480') : HOST + item.avatar" />
+				<text class="music-cover" v-else>{{item.name.slice(0,1)}}</text>
+				<view class="songname-wrapper">
+					<text>{{item.authorName}}</text>
+					<text class="total">{{item.total}}首</text>
+				</view>
+				<image class="icon-operate" src="../../../static/icon_music_play.png"/>
+				<image class="icon-operate" src="../../../static/icon_delete.png"/>
+				<image class="icon-operate" src="../../../static/icon_music_menu.png"/>
+			</view>
+		</view>
+		
+		<view class="module-block">
+			<MusicTitleComponent :classifyItem="{classifyName:'我关注的歌手',category:''}"/>
+			<view v-for="item in mySingerList" class="singer-list">
+				<image class="music-cover" :src="/http[s]?:\/\//.test(item.avatar) ? item.avatar.replace('{size}','480') : HOST + item.avatar" />
+				<view class="songname-wrapper">
+					<text>{{item.authorName}}</text>
+					<text class="total">{{item.total}}首</text>
+				</view>
+				<image class="icon-operate" src="../../../static/icon_music_play.png"/>
+				<image class="icon-operate" src="../../../static/icon_delete.png"/>
+				<image class="icon-operate" src="../../../static/icon_music_menu.png"/>
+			</view>
+		</view>
+		
+		<view class="module-block module-block-last">
+			<MusicTitleComponent :classifyItem="{classifyName:'我听过的歌曲',category:''}"/>
+			<view v-for="item in recordMusicList" class="singer-list">
+				<image class="music-cover" :src="/http[s]?:\/\//.test(item.cover) ? item.cover.replace('{size}','480') : HOST + item.cover" />
+				<view class="songname-wrapper">
+					<text>{{item.songName}}</text>
+					<text class="total">{{formatTime(item.createTime)}}</text>
+				</view>
+				<image class="icon-operate" src="../../../static/icon_music_play.png"/>
+				<image class="icon-operate" src="../../../static/icon_delete.png"/>
+				<image class="icon-operate" src="../../../static/icon_music_menu.png"/>
+			</view>
+		</view>
 	</scroll-view>
 </template>
 
 <script setup lang="ts">
-	import type { ClassifyType, MuiscPlayMenuType} from "../../movie/types";
+	import type { ClassifyType, MuiscPlayMenuType,MusicAuthorType,MusicType} from "../types";
 	import AvaterComponent from "../../movie/components/AvaterComponent";
 	import { useMovieStore } from "../../stores/useMovieStore";
 	import MusicTitleComponent from "./MusicTitleComponent";
-	import {getMusicPlayMenuService} from "../service";
+	import {getMusicPlayMenuService,getMySingerService,getMusicRecordService} from "../service";
 	import {reactive} from 'vue';
 	import {HOST} from '../../config/constant';
-	
+	import {formatTime} from '../../utils/util';
 	const store = useMovieStore();
 	const musicPlayMenu = reactive<Array<MuiscPlayMenuType>>([]);
+	const mySingerList = reactive<Array<MusicAuthorType>>([]);
+	const recordMusicList = reactive<Array<MusicType>>([]);
 	
+ 	
+	/**
+	 * @description: 获取用户歌单
+	 * @date: 2024-03-16 23:25
+	 * @author wuwenqiang
+	 */
 	getMusicPlayMenuService().then((res)=>{
 		musicPlayMenu.push(...res.data);
+	});
+	
+	/**
+	 * @description: 获取我关注的歌手
+	 * @date: 2024-03-17 22:12
+	 * @author wuwenqiang
+	 */
+	getMySingerService(1,5).then((res)=>{
+		mySingerList.push(...res.data);
+	});
+	
+	/**
+	 * @description: 获取我关注的歌手
+	 * @date: 2024-03-17 22:12
+	 * @author wuwenqiang
+	 */
+	getMySingerService(1,5).then((res)=>{
+		mySingerList.push(...res.data);
+	});
+	
+	/**
+	 * @description: 获取播放记录
+	 * @date: 2024-03-17 22:12
+	 * @author wuwenqiang
+	 */
+	getMusicRecordService(1,5).then((res)=>{
+		recordMusicList.push(...res.data);
 	});
 </script>
 

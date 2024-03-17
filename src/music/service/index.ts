@@ -84,3 +84,20 @@ export const getMusicPlayMenuService = ():Promise<MyAwesomeData<Array<types.Muis
     return httpRequest.get<Array<types.MuiscPlayMenuType>>(api.getMusicPlayMenu);
 }
 
+/**
+ * @description: 获取我关注的歌手
+ * @date: 2024-03-17 22:12
+ * @author wuwenqiang
+ */
+export const getMySingerService = (pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorType>>> => {
+    return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getSingerList}?pageNum=${pageNum}&pageSize=${pageSize}`);
+}
+
+/**
+ * @description: 获取播放记录
+ * @date: 2024-03-17 22:12
+ * @author wuwenqiang
+ */
+export const getMusicRecordService = (pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicType>>> => {
+    return httpRequest.get<Array<types.MusicType>>(`${api.getMusicRecord}?pageNum=${pageNum}&pageSize=${pageSize}`);
+}
