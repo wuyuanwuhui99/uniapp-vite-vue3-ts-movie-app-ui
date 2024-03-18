@@ -71,6 +71,7 @@
 			<text class="btn-send" @click="useSend">发送</text>
 		</view>
 		<text class="bottm" v-if="total">{{pageNum*pageSize >= total?"已经到底了":"正在加载更多"}}</text>
+		<image @click="usePublishCircle" class="icon-add-circle" src="../../../static/icon_music_add.png"/>
 	</scroll-view>
 </template>
 
@@ -246,11 +247,17 @@
 	}
 
 	const onScrolltolower = () => {
-		if (pageNum.value * pageSize >= total) return;
+		if (pageNum.value * pageSize >= total.value) return;
 		pageNum.value++;
 		getCircleListByTypeService("music", pageNum.value, pageSize).then((res) => {
 			circleList.push(...res.data);
 		});
+	}
+	
+	const usePublishCircle = ()=>{
+		uni.navigateTo({
+			url: `../pages/MusicCirClePublishPage`
+		})
 	}
 </script>
 
@@ -473,6 +480,14 @@
 			display: inline-block;
 			width: 100%;
 			text-align: center;
+		}
+		.icon-add-circle{
+			width: @middle-avater;
+			height: @middle-avater;
+			position: fixed;
+			right: @page-padding;
+			bottom:15%;
+			opacity: 0.2;
 		}
 	}
 </style>

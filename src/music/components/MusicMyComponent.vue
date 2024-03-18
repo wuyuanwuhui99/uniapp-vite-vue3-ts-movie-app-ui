@@ -41,8 +41,8 @@
 		</view>
 		
 		<view class="module-block">
-			<MusicTitleComponent :classifyItem="{classifyName:'我关注的歌手',category:''}"/>
-			<view v-for="item in mySingerList" class="singer-list">
+			<MusicTitleComponent :classifyItem="{classifyName:'我发布的歌曲',category:''}"/>
+			<view v-for="item in myPublishList" class="singer-list">
 				<image class="music-cover" :src="/http[s]?:\/\//.test(item.avatar) ? item.avatar.replace('{size}','480') : HOST + item.avatar" />
 				<view class="songname-wrapper">
 					<text>{{item.authorName}}</text>
@@ -83,7 +83,7 @@
 	const musicPlayMenu = reactive<Array<MuiscPlayMenuType>>([]);
 	const mySingerList = reactive<Array<MusicAuthorType>>([]);
 	const recordMusicList = reactive<Array<MusicType>>([]);
-	
+	const myPublishList = reactive<Array<MusicType>>([]);
  	
 	/**
 	 * @description: 获取用户歌单
@@ -92,15 +92,6 @@
 	 */
 	getMusicPlayMenuService().then((res)=>{
 		musicPlayMenu.push(...res.data);
-	});
-	
-	/**
-	 * @description: 获取我关注的歌手
-	 * @date: 2024-03-17 22:12
-	 * @author wuwenqiang
-	 */
-	getMySingerService(1,5).then((res)=>{
-		mySingerList.push(...res.data);
 	});
 	
 	/**
@@ -178,5 +169,4 @@
 			}
 		}
 	}		
-
 </style>

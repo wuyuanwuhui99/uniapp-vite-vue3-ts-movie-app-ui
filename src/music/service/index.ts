@@ -90,7 +90,7 @@ export const getMusicPlayMenuService = ():Promise<MyAwesomeData<Array<types.Muis
  * @author wuwenqiang
  */
 export const getMySingerService = (pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorType>>> => {
-    return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getSingerList}?pageNum=${pageNum}&pageSize=${pageSize}`);
+    return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getMySinger}?pageNum=${pageNum}&pageSize=${pageSize}`);
 }
 
 /**
