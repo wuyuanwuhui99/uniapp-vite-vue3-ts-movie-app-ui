@@ -22,7 +22,7 @@
 						<view class="popup-menu" v-if="circleIndex === index">
 							<view class="popup-menu-item" @click.stop="useLike(item)">
 								<image class="icon-popup-menu" src="../../../static/icon_like_white.png" />
-								<text>{{item.circleLikes.find((dItem)=>dItem.userId === store.userData.userId) ? '取消赞' : '赞'}}</text>
+								<text>{{(item.circleLikes||[]).find((dItem)=>dItem.userId === store.userData.userId) ? '取消赞' : '赞'}}</text>
 							</view>
 							<view class="popup-menu-item" @click="useComment(item,null,null)">
 								<image class="icon-popup-menu" src="../../../static/icon_comment_white.png" />
@@ -42,15 +42,14 @@
 					</view>
 					<view class="comment-wrapper">
 						<view class="comment-item" :key="bItem.id"
-							v-for="bItem,bIndex in item.circleComments.filter((item)=>!item.parentId)">
+							v-for="bItem,bIndex in item.circleComments">
 							<image class="comment-avater" :src="HOST + bItem.avater" />
 							<view class="comment-content-wrapper">
 								<text class="comment-username">{{bItem.username}}</text>
 								<text class="comment-text"
 									@click="useComment(item,bItem,bItem)">{{bItem.content}}</text>
 								<text class="comment-time">{{formatTime(bItem.createTime)}}</text>
-								<view class="comment-item" :key="cItem.id"
-									v-for="cItem in item.circleComments.filter((item)=>item.topId && item.topId === bItem.id)">
+								<view class="comment-item" :key="cItem.id" v-for="cItem in bItem.replyList">
 									<image class="comment-reply-avater" :src="HOST + cItem.avater" />
 									<view class="comment-content-wrapper">
 										<text class="comment-username">{{cItem.username}}▶{{cItem.replyUserName}}</text>
@@ -223,8 +222,11 @@
 		insertCommentService(commentItem).then((res) => {
 			inputValue.value = "";
 			showInput.value = false;
-			if (!circleItem.circleComments) circleItem.circleComments = [];
-			circleItem.circleComments.push(res.data);
+			if(firstComment){// 回复的评论，二级评论
+				firstComment.replyList.push(res.data)
+			}else{// 一级评论
+				circleItem.circleComments.push(res.data);
+			}
 			firstComment = replyComment = null;// 清空评论和回复
 			placeholder.value = "评论";
 		}).finally(() => {
