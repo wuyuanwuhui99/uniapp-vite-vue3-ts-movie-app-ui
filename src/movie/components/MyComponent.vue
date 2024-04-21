@@ -6,7 +6,7 @@
 				<text class="user-name">{{store.userData.username}}</text>
 				<text class="user-sign">{{store.userData.sign}}</text>
 			</view>
-			<image class="icon-edit" src="../../../static/icon_edit.png"/>
+			<image @click="useNavigateTo" class="icon-edit" src="../../../static/icon_edit.png"/>
 		</view>
 
 		<view class="user-msg-wrapper module-block">
@@ -157,6 +157,17 @@
 	const useNavigateToMusicIndex = () => {
 		uni.navigateTo({
 			url: `../../music/pages/MusicIndexPage`
+		})
+	}
+
+/**
+	 * @description: 跳转用户信息编辑页面
+	 * @date: 2024-03-02 22:22
+	 * @author wuwenqiang
+	 */
+	const useNavigateTo = () => {
+		uni.navigateTo({
+			url: `../pages/MovieUserPage`
 		})
 	}
 
