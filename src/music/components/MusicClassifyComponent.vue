@@ -8,7 +8,8 @@
 					<text class="song-name">{{item.songName}}</text>
 					<text class="song-desc">{{`${item.authorName} - ${item.albumName}`}}</text>
 				</view>
-				<image class="icon-play" src="../../../static/icon_music_play.png"></image>
+				<image v-if="store.isPlaying && store.musicItem.id === item.id" @click="store.usePlay(false)" class="icon-play" src="../../../static/icon_music_playing_grey.png"/>
+				<image v-else @click="usePlayMusic(item)" class="icon-play" src="../../../static/icon_music_play.png"/>
 				<text class="icon-add">+</text>
 				<image class="icon-play" src="../../../static/icon_music_menu.png" />
 			</view>
@@ -22,7 +23,10 @@
 	import { getMusicListByClassifyIdService } from '../service';
 	import { HOST } from "../../config/constant";
 	import MusicTitleComponent from './MusicTitleComponent';
-
+	import { useStore } from "../../stores/useStore"; 
+	
+	const store = useStore();
+	
 	const { classifyItem } = defineProps({
 		classifyItem: {
 			type: Object,
@@ -30,6 +34,16 @@
 			default: {}
 		}
 	});
+	
+	/**
+	 * @description: 播放音乐
+	 * @date: 2024-05-07 22:56
+	 * @author wuwenqiang
+	 */
+	const usePlayMusic = (musicItem:MusicType) => {
+		store.musicItem.id === musicItem.id ? store.usePlay(true) : store.setMusic(musicItem)
+	}
+	
 	const classifyMusicList = reactive<Array<MusicType>>([]);
 	getMusicListByClassifyIdService(classifyItem.id, 1, 3).then((res) => {
 		classifyMusicList.push(...res.data);

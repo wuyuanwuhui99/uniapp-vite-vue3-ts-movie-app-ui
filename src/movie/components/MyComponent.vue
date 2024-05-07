@@ -81,7 +81,7 @@
 	import AvaterComponent from './AvaterComponent';
 	import MovieListComponent from './MovieListComponent';
 	import { reactive, onMounted ,ref } from 'vue';
-	import { useMovieStore } from '../../stores/useMovieStore';
+	import { useStore } from '../../stores/useStore';
 	import {
 		getUserMsgService,
 		getPlayRecordMovieListService,
@@ -99,7 +99,7 @@
 	const myFavoriteMovieList = reactive<Array<MovieType>>([])
 	const myViewsMovieList = reactive<Array<MovieType>>([])
 
-	const store = useMovieStore();
+	const store = useStore();
 
 	const userMsg = reactive<UserMsgType>({
 		userAge: 0,// 使用天数

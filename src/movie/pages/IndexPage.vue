@@ -36,7 +36,7 @@ import HomeComponent from '../components/HomeComponent.vue';
 import MovieComponent from '../components/MovieComponent.vue';
 import TVComponent from '../components/TVComponent.vue';
 import MyComponent from '../components/MyComponent.vue';
-import { useMovieStore } from '../../stores/useMovieStore'
+import { useStore } from '../../stores/useStore'
 import { ref,onMounted,reactive } from 'vue'
 import {getUserDataService} from '../service';
 import {httpRequest} from '../../utils/HttpUtils';
@@ -52,7 +52,7 @@ const useTab = (index:number) =>{
 onMounted(()=>{
 	const token:string = uni.getStorageSync('token');
 	getUserDataService(token).then((res)=>{
-		const store = useMovieStore()
+		const store = useStore()
 		store.setUserData(res.data)
 		store.setToken(res.token)
 		uni.setStorage({key:'token',data:res.token});

@@ -80,7 +80,7 @@
 	import { reactive, ref } from "vue";
 	import type { CircleType, CommentType, LikeType } from '../types';
 	import { formatTime } from '../../utils/util';
-	import { useMovieStore } from '../../stores/useMovieStore';
+	import { useStore } from '../../stores/useStore';
 
 	const circleIndex = ref<number>(-1);// 朋友圈动态的id
 	const circleList = reactive<Array<CircleType>>([]);
@@ -89,7 +89,7 @@
 	const total = ref<number>(0);
 	const placeholder = ref<string>("评论");// 评论框提示语
 	const showInput = ref<boolean>(false);//是否显示评论 
-	const store = useMovieStore();// 获取当前登录的用户账号
+	const store = useStore();// 获取当前登录的用户账号
 	const inputValue = ref<string>("");// 评论框的值
 
 	let circleItem : CircleType;// 评论的id

@@ -73,13 +73,13 @@
 <script setup lang="ts">
 	import type { ClassifyType, MuiscPlayMenuType,MusicAuthorType,MusicType} from "../types";
 	import AvaterComponent from "../../movie/components/AvaterComponent";
-	import { useMovieStore } from "../../stores/useMovieStore";
+	import { useStore } from "../../stores/useStore";
 	import MusicTitleComponent from "./MusicTitleComponent";
 	import {getMusicPlayMenuService,getMySingerService,getMusicRecordService} from "../service";
 	import {reactive} from 'vue';
 	import {HOST} from '../../config/constant';
 	import {formatTime} from '../../utils/util';
-	const store = useMovieStore();
+	const store = useStore();
 	const musicPlayMenu = reactive<Array<MuiscPlayMenuType>>([]);
 	const mySingerList = reactive<Array<MusicAuthorType>>([]);
 	const recordMusicList = reactive<Array<MusicType>>([]);

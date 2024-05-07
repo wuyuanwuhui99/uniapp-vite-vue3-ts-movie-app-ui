@@ -1,5 +1,5 @@
 <template>
-  <view class="index-wrapper">
+  <view class="page-wrapper">
       <view class="page-container">
           <MusicHomeComponent :style="{display:activeIndex === 0 ? 'block': 'none'}"/>
 		  <MusicRecommentComponent v-if="isInitComponent[1]" :style="{display:activeIndex === 1 ? 'block': 'none'}"/>
@@ -17,6 +17,11 @@
               <image class="tab-icon" v-else src="../../../static/icon_recomment.png"/>
               <text class="tab-text" :class='{"tab-text-active" : activeIndex === 1}'>推荐</text>
           </view>
+		  <view class="mini-player-empty"></view>
+		  <view class="mini-player-wrapper" :style="{transform:'translateX(-50%) rotate(' + angle + 'deg)'}">
+			  <image class="music-img-cover" v-if="store.musicItem.id" :src="/http[s]?:\/\//.test(store.musicItem.cover) ? store.musicItem.cover.replace('{size}','480') : HOST + store.musicItem.cover"/>
+			  <image v-else class="music-img-default" src="../../../static/icon_music.png" alt="" />
+		  </view>
           <view class="tab-item" @click="useTab(2)">
               <image class="tab-icon" v-if="activeIndex === 2" src="../../../static/icon_music_circle_active.png"/>
               <image class="tab-icon" v-else src="../../../static/icon_music_circle.png"/>
@@ -36,30 +41,37 @@
 	import MusicRecommentComponent from '../components/MusicRecommentComponent.vue';
 	import MusicCircleComponent from '../components/MusicCircleComponent.vue';
 	import MusicMyComponent from '../components/MusicMyComponent.vue';
-	
-	import { ref,onMounted,reactive } from 'vue';
+	import { useStore } from "../../stores/useStore";
+	import { ref,onMounted,reactive,watch } from 'vue';
 	import {httpRequest} from '../../utils/HttpUtils';
+	import {HOST} from '../../config/constant';
 	
-	
+	const angle = ref<number>(0);// 选择的角度
+	const store = useStore();
 	const activeIndex = ref<number>(0)
 	const isInitComponent = reactive<Array<boolean>>([true,false,false,false])
 	const useTab = (index:number) =>{
 		activeIndex.value = index;
 		!isInitComponent[index] && isInitComponent.splice(index,1,true)
 	}
-	
-	
+	onMounted(()=>{
+		store.audio.addEventListener('timeupdate', function() {
+			angle.value += 10
+			angle.value = angle.value === 360 ? 0 : angle.value;
+		});
+		
+		let musicItem:string = uni.getStorageSync('music');
+		if(musicItem !== '' && musicItem !== null){
+			store.setMusic(JSON.parse(musicItem),false)
+		}
+	})
 </script>
 
 <style lang="less">
 	@import '../../theme/color.less';
 	@import '../../theme/size.less';
 	@import '../../theme/style.less';
-	.index-wrapper{
-	    height: 100%;
-	    display: flex;
-	    flex-direction: column;
-	    background-color: @page-background-color;
+	.page-wrapper{
 		position: relative;
 	    .page-container{
 	        flex:1;
@@ -78,6 +90,32 @@
 	        background-color: @module-background-color;
 	        border-top: @tab-border-buttom;
 	        padding: @middle-margin 0;
+			position: relative;
+			.mini-player-empty{
+				width: @mini-music-player-size;
+			}
+			.mini-player-wrapper{
+				position: absolute;
+				left: 50%;
+				top:-30%;
+				transform: translateX(-50%);
+				width: @mini-music-player-size;
+				height: @mini-music-player-size;
+				border-radius: 50%;
+				overflow: hidden;
+				background-color: @page-background-color;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				.music-img-default{
+					width: @big-icon-size;
+					height: @big-icon-size;
+				}
+				.music-img-cover{
+					width: 100%;
+					height: 100%;
+				}
+			}
 	        .tab-item{
 	            flex:1;
 	            align-items: center;
