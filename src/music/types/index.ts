@@ -43,6 +43,8 @@ export type MusicClassifyType = {
 	disabled : number,// 是否禁用
 	createTime : string,// 创建时间
 	updateTime : string// 更新时间
+	pageNum: number,// 第几页
+	pageSize: number// 每页显示条数
 }
 
 // 歌手字段

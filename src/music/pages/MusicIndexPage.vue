@@ -45,6 +45,8 @@
 	import { ref,onMounted,reactive,watch } from 'vue';
 	import {httpRequest} from '../../utils/HttpUtils';
 	import {HOST} from '../../config/constant';
+	import type { MusicClassifyType } from '../types';
+	import {getMusicListByClassifyIdService} from '../service'
 	
 	const angle = ref<number>(0);// 选择的角度
 	const store = useStore();
@@ -60,10 +62,24 @@
 			angle.value = angle.value === 360 ? 0 : angle.value;
 		});
 		
-		let musicItem:string = uni.getStorageSync('music');
-		if(musicItem !== '' && musicItem !== null){
-			store.setMusic(JSON.parse(musicItem),false)
-		}
+		uni.getStorage({key:'music',
+			success: (res) => {
+			if(res.data !== '' && res.data !== null){
+				store.setMusic(JSON.parse(res.data),false)
+			}
+		  },
+		});
+		
+		uni.getStorage({key:'musicClassify',
+			success: (res) => {
+			if(res.data !== '' && res.data !== null){
+				const musicClassify:MusicClassifyType = JSON.parse(res.data) as MusicClassifyType;
+				getMusicListByClassifyIdService(musicClassify.id, musicClassify.pageNum, musicClassify.pageSize).then((res) => {
+					store.setMusicList(res.data,musicClassify)
+				});
+			}
+		  },
+		});
 	})
 </script>
 

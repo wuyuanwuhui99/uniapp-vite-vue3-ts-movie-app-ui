@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 	import { defineProps, reactive } from 'vue';
-	import type { MusicType } from "../types";
+	import type { MusicClassifyType, MusicType } from "../types";
 	import { getMusicListByClassifyIdService } from '../service';
 	import { HOST } from "../../config/constant";
 	import MusicTitleComponent from './MusicTitleComponent';
@@ -41,7 +41,19 @@
 	 * @author wuwenqiang
 	 */
 	const usePlayMusic = (musicItem:MusicType) => {
-		store.musicItem.id === musicItem.id ? store.usePlay(true) : store.setMusic(musicItem)
+		if(store.musicItem.id === musicItem.id){
+			store.usePlay(true)
+		}else{
+			if(store.musicClassify.classifyName !== classifyItem.classifyName){
+				getMusicListByClassifyIdService(classifyItem.id, 1, 100).then((res) => {
+					const myClassifyItem:MusicClassifyType = {...classifyItem} as MusicClassifyType
+					myClassifyItem.pageNum = 1;
+					myClassifyItem.pageSize = 100
+					store.setMusicList(res.data,myClassifyItem)
+				});
+			}
+			store.setMusic(musicItem)
+		} 
 	}
 	
 	const classifyMusicList = reactive<Array<MusicType>>([]);
