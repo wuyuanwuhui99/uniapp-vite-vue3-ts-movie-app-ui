@@ -53,13 +53,19 @@
 				});
 			}
 			store.setMusic(musicItem)
-		} 
+		}
+		 uni.navigateTo({
+		 	url: `../pages/MusicPlayerPage`
+		 })
 	}
 	
 	const classifyMusicList = reactive<Array<MusicType>>([]);
+	
 	getMusicListByClassifyIdService(classifyItem.id, 1, 3).then((res) => {
 		classifyMusicList.push(...res.data);
-	})
+	});
+	
+	
 </script>
 
 <style lang="less">
