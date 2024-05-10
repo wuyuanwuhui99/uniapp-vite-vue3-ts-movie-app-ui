@@ -34,7 +34,7 @@
 <script  setup lang="ts">
 	import { useStore } from "../../stores/useStore"; 
 	import {HOST} from '../../config/constant';
-	import {ref,onMounted} from 'vue';
+	import {ref,onMounted,onUnmounted} from 'vue';
 	import {formatSecond} from '../../utils/util';
 	
 	const angle = ref<number>(0);// 旋转的角度
@@ -55,6 +55,10 @@
 	}
 	
 	store.audio.addEventListener('timeupdate', useRotate);
+	
+	onUnmounted(()=>{
+		store.audio.removeEventListener('timeupdate', useRotate);
+	});
 </script>
 
 <style lang="less">
