@@ -25,3 +25,11 @@ export const formatTime=(value:any):string=>{
     const seconds = zorefull(date.getSeconds());
     return `${year}-${month}-${dates} ${hour}:${minutes}:${seconds}`
 };
+
+export const formatSecond=(value:number,showHour:boolean = false):string => {
+	if(showHour){
+		return `${zorefull(Math.floor(value / (60 * 60)))}:${zorefull(Math.floor(value % (60 * 60) / 60))}:${zorefull(Math.floor(value % (60 * 60) % 60))}`
+	}else{
+		return `${zorefull(Math.floor(value / 60))}:${zorefull(Math.floor(value % 60))}`
+	}
+};

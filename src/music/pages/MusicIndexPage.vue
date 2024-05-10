@@ -42,26 +42,42 @@
 	import MusicCircleComponent from '../components/MusicCircleComponent.vue';
 	import MusicMyComponent from '../components/MusicMyComponent.vue';
 	import { useStore } from "../../stores/useStore";
-	import { ref,onMounted,reactive,watch } from 'vue';
+	import { ref,onMounted,reactive,onActivated,onDeactivated,onUnmounted } from 'vue';
 	import {httpRequest} from '../../utils/HttpUtils';
 	import {HOST} from '../../config/constant';
 	import type { MusicClassifyType } from '../types';
 	import {getMusicListByClassifyIdService} from '../service'
 	
-	const angle = ref<number>(0);// 选择的角度
+	const angle = ref<number>(0);// 旋转的角度
 	const store = useStore();
 	const activeIndex = ref<number>(0)
 	const isInitComponent = reactive<Array<boolean>>([true,false,false,false])
-	const useTab = (index:number) =>{
+	const useTab = (index:number) => {
 		activeIndex.value = index;
 		!isInitComponent[index] && isInitComponent.splice(index,1,true)
 	}
+	
+	/**
+	 * @description: 头像旋转
+	 * @date: 2024-05-10 22:10
+	 * @author wuwenqiang
+	 */
+	const useRotate = () => {
+		angle.value += 10
+		angle.value = angle.value === 360 ? 0 : angle.value;
+	}
+	
+	/**
+	 * @description: 移除监听事件
+	 * @date: 2024-05-10 22:10
+	 * @author wuwenqiang
+	 */
+	const useRemoveEventListener = () => {
+		store.audio.removeEventListener('timeupdate', useRotate);
+	}
+	
 	onMounted(()=>{
-		store.audio.addEventListener('timeupdate', function() {
-			angle.value += 10
-			angle.value = angle.value === 360 ? 0 : angle.value;
-		});
-		
+		store.audio.addEventListener('timeupdate', useRotate);
 		uni.getStorage({key:'music',
 			success: (res) => {
 			if(res.data !== '' && res.data !== null){
@@ -81,6 +97,12 @@
 		  },
 		});
 	})
+	
+	onActivated(useRotate);// 从缓存中激活
+	
+	onDeactivated(useRemoveEventListener);// 进入缓存
+	
+	onUnmounted(useRemoveEventListener);// 销毁
 </script>
 
 <style lang="less">
