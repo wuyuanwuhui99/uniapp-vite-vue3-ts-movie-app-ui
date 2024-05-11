@@ -21,11 +21,19 @@
 			</view>
 			<view class="play-progress-wrapper">
 				<text class="play-time">{{currentTime}}</text>
-				<view class="play-progress-bar">
-					<progress class="play-progress" :percent="percent" stroke-width="5" backgroundColor="rgba(255,255,255,0.3)" activeColor="rgba(255,255,255,0.6)"/>
-					<view class="play-indication" :style="{left:percent + '%'}"/>
-				</view>
+				<slider class="slider-bar" :value="percent" block-size="20"  activeColor="#fff" backgroundColor="rgba(255,255,255,0.2)"/>
 				<text class="play-time">{{formatSecond(store.audio.duration)}}</text>
+			</view>
+			<view class="toggle-wrapper">
+				<view class="play-menu">
+					<image class="icon-loop" src="../../../static/icon_music_order.png"/>
+				</view>
+				<image class="play-menu" src="../../../static/icon_music_prev.png"/>
+				<view class="play-circle">
+					<image class="play-menu" @click="store.usePlay(!store.isPlaying)" :src="store.isPlaying ? playingIcon : pauseIcon"/>
+				</view>
+				<image class="play-menu" src="../../../static/icon_music_next.png"/>
+				<image class="play-menu" src="../../../static/icon_music_play_menu.png"/>
 			</view>
 		</view>
 	</view>
@@ -36,7 +44,8 @@
 	import {HOST} from '../../config/constant';
 	import {ref,onMounted,onUnmounted} from 'vue';
 	import {formatSecond} from '../../utils/util';
-	
+	import playingIcon from '../../../static/icon_music_playing.png';
+	import pauseIcon from '../../../static/icon_music_play_white.png';
 	const angle = ref<number>(0);// 旋转的角度
 	const store = useStore()
 	const percent = ref<number>(0);// 播放进度
@@ -96,7 +105,7 @@
 				width: @play-circle-size;
 				height: @play-circle-size;
 				border-radius: 50%;
-				margin-top: @big-avater;
+				margin-top: @middle-avater;
 				background-color: rgba(0, 0, 0, 0.1);
 				padding: @middle-margin;
 				overflow: hidden;
@@ -121,6 +130,8 @@
 				padding-top: @page-padding;
 				color: @white-background-color;
 				font-weight: bold;
+				height: 0;
+				flex: 1;
 				.lyrice-text{
 					text-align: center;
 					opacity: 0.5;
@@ -154,28 +165,31 @@
 					opacity: 0.8;
 					color: @white-background-color;
 				}
-				.play-progress-bar{
+				.slider-bar{
 					flex: 1;
 					margin: 0 @page-padding;
-					position: relative;
-					display: flex;
-					align-items: center;
-					.play-progress{
-						width: 100%;
-					}
-					.play-indication{
-						width: @play-indication;
-						height: @play-indication;
-						background-color: @white-background-color;
-						opacity: 0.8;
-						left:0;
-						top:50%;
-						border-radius: 50%;
-						position: absolute;
-						transform: translateY(-50%);
-					}
 				}
-				
+			}
+			.toggle-wrapper{
+				display: flex;
+				width: 90%;
+				justify-content: space-around;
+				margin-bottom: @page-padding ;
+				align-items: center;
+				.play-menu,.icon-loop{
+					position: relative;
+					width: @middle-icon-size;
+					height: @middle-icon-size;
+				}
+				.play-circle{
+					width: @big-avater;
+					height: @big-avater;
+					border-radius: 50%;
+					border: @border-size solid @white-background-color;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+				}
 			}
 		}
 		
