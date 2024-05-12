@@ -29,8 +29,8 @@
 					<image class="icon-loop" src="../../../static/icon_music_order.png"/>
 				</view>
 				<image class="play-menu" @click="useTabMusic('prev')" src="../../../static/icon_music_prev.png"/>
-				<view class="play-circle">
-					<image class="play-menu" @click="store.usePlay(!store.isPlaying)" :src="store.isPlaying ? playingIcon : pauseIcon"/>
+				<view @click="store.usePlay(!store.isPlaying)" class="play-circle">
+					<image class="play-menu"  :src="store.isPlaying ? playingIcon : pauseIcon"/>
 				</view>
 				<image class="play-menu"  @click="useTabMusic('next')" src="../../../static/icon_music_next.png"/>
 				<image class="play-menu" src="../../../static/icon_music_play_menu.png"/>
