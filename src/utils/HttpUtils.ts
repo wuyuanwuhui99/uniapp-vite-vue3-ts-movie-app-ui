@@ -155,7 +155,7 @@ class HttpRequest {
 	 * @param {RequestConfig} OtherConfig request其他配置
 	 * @return {*}
 	 */
-	public post<T>(url: string, data: Object, OtherConfig?: RequestConfig) {
+	public post<T>(url: string, data?: Object, OtherConfig?: RequestConfig) {
 		return this.request<T>({ method: HttpMethod.POST, url, data, ...OtherConfig })
 	}
 

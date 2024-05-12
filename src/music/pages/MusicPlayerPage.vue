@@ -14,10 +14,10 @@
 			</view>
 			<text class="singer">{{store.musicItem.authorName}}</text>
 			<view class="play-operate-wrapper">
-				<image class="icon-favorite" src="../../../static/icon_music_collect.png"/>
-				<image class="icon-favorite" src="../../../static/icon_music_down.png"/>
-				<image class="icon-favorite" src="../../../static/icon_music_comments.png"/>
-				<image class="icon-favorite" src="../../../static/icon_music_white_menu.png"/>
+				<image class="icon-operate" @click="useFavorite" :src="store.musicItem.isFavorite ? favoriteActiveIcon: favoriteIcon"/>
+				<image class="icon-operate" src="../../../static/icon_music_down.png"/>
+				<image class="icon-operate" src="../../../static/icon_music_comments.png"/>
+				<image class="icon-operate" src="../../../static/icon_music_white_menu.png"/>
 			</view>
 			<view class="play-progress-wrapper">
 				<text class="play-time">{{currentTime}}</text>
@@ -46,10 +46,14 @@
 	import {formatSecond} from '../../utils/util';
 	import playingIcon from '../../../static/icon_music_playing.png';
 	import pauseIcon from '../../../static/icon_music_play_white.png';
+	import favoriteIcon from '../../../static/icon_music_collect.png'; 
+	import favoriteActiveIcon from '../../../static/icon_collection_active.png'; 
+	import {insertMusicFavoriteService,deleteMusicFavoriteService} from '../service'
 	const angle = ref<number>(0);// 旋转的角度
 	const store = useStore()
 	const percent = ref<number>(0);// 播放进度
 	const currentTime = ref<string>('');// 当前播放的时间
+	let loading = false;
 	
 	/**
 	 * @description: 头像旋转
@@ -69,6 +73,11 @@
 		store.audio.removeEventListener('timeupdate', useRotate);
 	});
 
+	/**
+	 * @description: 切换歌曲
+	 * @date: 2024-05-12 11:45
+	 * @author wuwenqiang
+	 */
 	const useTabMusic = (direct:string) => {
 		if(direct === 'prev'){
 			if(store.playIndex === 0)return;
@@ -76,6 +85,40 @@
 		}else{
 			if(store.playIndex === store.musicList.length - 1)return;
 			store.setMusicPlayIndex(store.playIndex + 1);
+		}
+	}
+
+	/**
+	 * @description: 添加收藏或取消收藏
+	 * @date: 2024-05-12 11:45
+	 * @author wuwenqiang
+	 */
+	const useFavorite = () => {
+		if (loading)return;
+		loading = true;
+		if(store.musicItem.isFavorite){
+			deleteMusicFavoriteService(store.musicItem.id).then((res)=>{
+				if(res.data > 0){
+					store.musicItem.isFavorite = 0;
+					uni.showToast({
+						duration:2000,
+						position:'center',
+						title:'取消收藏成功'
+					})
+				}
+				
+			}).finally(()=>loading = false)
+		}else{
+			insertMusicFavoriteService(store.musicItem.id).then((res)=>{
+				if(res.data > 0){
+					store.musicItem.isFavorite = 1;
+					uni.showToast({
+						duration:2000,
+						position:'center',
+						title:'添加收藏成功'
+					})
+				}
+			}).finally(()=>loading = false)
 		}
 	}
 </script>
@@ -160,7 +203,7 @@
 				display: flex;
 				justify-content: space-between;
 				padding-top: @page-padding;
-				.icon-favorite{
+				.icon-operate{
 					width: @middle-icon-size;
 					height: @middle-icon-size;
 				}

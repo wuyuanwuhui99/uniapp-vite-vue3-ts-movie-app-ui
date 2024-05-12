@@ -101,3 +101,22 @@ export const getMySingerService = (pageNum:number,pageSize:number):Promise<MyAwe
 export const getMusicRecordService = (pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicType>>> => {
     return httpRequest.get<Array<types.MusicType>>(`${api.getMusicRecord}?pageNum=${pageNum}&pageSize=${pageSize}`);
 }
+
+/**
+ * @description: 添加收藏
+ * @date: 2024-05-12 12:21
+ * @author wuwenqiang
+ */
+export const insertMusicFavoriteService = (musicId:number):Promise<MyAwesomeData<number>> => {
+    return httpRequest.post<number>(api.insertMusicFavorite + musicId);
+}
+
+/**
+ * @description: 删除收藏
+ * @date: 2024-05-12 12:21
+ * @author wuwenqiang
+ */
+export const deleteMusicFavoriteService = (musicId:number):Promise<MyAwesomeData<number>> => {
+    return httpRequest.delete<number>(api.deleteMusicFavorite + musicId);
+}
+
