@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-	import { defineProps, reactive } from 'vue';
+	import { defineProps, reactive, type PropType } from 'vue';
 	import type { MusicClassifyType, MusicType } from "../types";
 	import { getMusicListByClassifyIdService } from '../service';
 	import { HOST } from "../../config/constant";
@@ -29,7 +29,7 @@
 	
 	const { classifyItem } = defineProps({
 		classifyItem: {
-			type: Object,
+			type: Object as PropType<MusicClassifyType>,
 			reqiure: true,
 			default: {}
 		}
@@ -45,12 +45,7 @@
 			store.usePlay(true)
 		}else{
 			if(store.musicClassify.classifyName !== classifyItem.classifyName){
-				getMusicListByClassifyIdService(classifyItem.id, 1, 100).then((res) => {
-					const myClassifyItem:MusicClassifyType = {...classifyItem} as MusicClassifyType
-					myClassifyItem.pageNum = 1;
-					myClassifyItem.pageSize = 100
-					store.setMusicList(res.data,myClassifyItem)
-				});
+				store.setMusicClassify({...classifyItem})
 			}
 			store.setMusic(musicItem)
 		}

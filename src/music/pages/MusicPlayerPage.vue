@@ -12,7 +12,7 @@
 				<text class="lyrice-text lyrice-text-active">依然记得从你口中</text>
 				<text class="lyrice-text">说出再见坚决如铁</text>
 			</view>
-			<text class="singer">孙露</text>
+			<text class="singer">{{store.musicItem.authorName}}</text>
 			<view class="play-operate-wrapper">
 				<image class="icon-favorite" src="../../../static/icon_music_collect.png"/>
 				<image class="icon-favorite" src="../../../static/icon_music_down.png"/>
@@ -28,11 +28,11 @@
 				<view class="play-menu">
 					<image class="icon-loop" src="../../../static/icon_music_order.png"/>
 				</view>
-				<image class="play-menu" src="../../../static/icon_music_prev.png"/>
+				<image class="play-menu" @click="useTabMusic('prev')" src="../../../static/icon_music_prev.png"/>
 				<view class="play-circle">
 					<image class="play-menu" @click="store.usePlay(!store.isPlaying)" :src="store.isPlaying ? playingIcon : pauseIcon"/>
 				</view>
-				<image class="play-menu" src="../../../static/icon_music_next.png"/>
+				<image class="play-menu"  @click="useTabMusic('next')" src="../../../static/icon_music_next.png"/>
 				<image class="play-menu" src="../../../static/icon_music_play_menu.png"/>
 			</view>
 		</view>
@@ -68,6 +68,16 @@
 	onUnmounted(()=>{
 		store.audio.removeEventListener('timeupdate', useRotate);
 	});
+
+	const useTabMusic = (direct:string) => {
+		if(direct === 'prev'){
+			if(store.playIndex === 0)return;
+			store.setMusicPlayIndex(store.playIndex - 1);
+		}else{
+			if(store.playIndex === store.musicList.length - 1)return;
+			store.setMusicPlayIndex(store.playIndex + 1);
+		}
+	}
 </script>
 
 <style lang="less">

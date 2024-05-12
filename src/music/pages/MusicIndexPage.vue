@@ -18,7 +18,7 @@
               <text class="tab-text" :class='{"tab-text-active" : activeIndex === 1}'>推荐</text>
           </view>
 		  <view class="mini-player-empty"></view>
-		  <view class="mini-player-wrapper" :style="{transform:'translateX(-50%) rotate(' + angle + 'deg)'}">
+		  <view class="mini-player-wrapper" @click="useNavigateTo" :style="{transform:'translateX(-50%) rotate(' + angle + 'deg)'}">
 			  <image class="music-img-cover" v-if="store.musicItem.id" :src="/http[s]?:\/\//.test(store.musicItem.cover) ? store.musicItem.cover.replace('{size}','480') : HOST + store.musicItem.cover"/>
 			  <image v-else class="music-img-default" src="../../../static/icon_music.png" alt="" />
 		  </view>
@@ -75,6 +75,12 @@
 	const useRemoveEventListener = () => {
 		store.audio.removeEventListener('timeupdate', useRotate);
 	}
+
+	const useNavigateTo = () => {
+		uni.navigateTo({
+			url: `../pages/MusicPlayerPage`
+		})
+	}
 	
 	onMounted(()=>{
 		store.audio.addEventListener('timeupdate', useRotate);
@@ -90,9 +96,7 @@
 			success: (res) => {
 			if(res.data !== '' && res.data !== null){
 				const musicClassify:MusicClassifyType = JSON.parse(res.data) as MusicClassifyType;
-				getMusicListByClassifyIdService(musicClassify.id, musicClassify.pageNum, musicClassify.pageSize).then((res) => {
-					store.setMusicList(res.data,musicClassify)
-				});
+				store.setMusicClassify(musicClassify)
 			}
 		  },
 		});
