@@ -67,6 +67,8 @@
 		angle.value = angle.value === 360 ? 0 : angle.value;
 	}
 	
+	store.audio.addEventListener('ended', () => useTabMusic('next'));
+
 	store.audio.addEventListener('timeupdate', useRotate);
 	
 	onUnmounted(()=>{
