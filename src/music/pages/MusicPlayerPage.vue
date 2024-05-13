@@ -8,10 +8,12 @@
 					<view class="song-cover" :style="{backgroundImage: `url(${HOST + store.musicItem.cover})`}"/>
 				</view>
 			</view>
-			<view class="lyrice-wrapper">
-				<text class="lyrice-text lyrice-text-active">依然记得从你口中</text>
-				<text class="lyrice-text">说出再见坚决如铁</text>
-			</view>
+			<scroll-view :scroll-into-view="'lyric' + currentLineNum" class="lyrice-scroll-wrapper" scroll-y show-scrollbar="false">
+				<view class="lyric-wrapper" v-if="currentLyric">
+					<text :id="'lyric'+index" :key="'lyric-index' + store.musicItem.id + index" class="text" :class="{'current': currentLineNum ===index}" v-for="(line,index) in currentLyric.lines">{{line.txt}}</text>
+				</view>
+				<text v-else>暂无歌词</text>
+			</scroll-view>
 			<text class="singer">{{store.musicItem.authorName}}</text>
 			<view class="play-operate-wrapper">
 				<image class="icon-operate" @click="useFavorite" :src="store.musicItem.isFavorite ? favoriteActiveIcon: favoriteIcon"/>
@@ -21,7 +23,7 @@
 			</view>
 			<view class="play-progress-wrapper">
 				<text class="play-time">{{currentTime}}</text>
-				<slider class="slider-bar" :value="percent" block-size="20"  activeColor="#fff" backgroundColor="rgba(255,255,255,0.2)"/>
+				<slider @change="useChange" class="slider-bar" :value="percent" block-size="20"  activeColor="#fff" backgroundColor="rgba(255,255,255,0.2)"/>
 				<text class="play-time">{{formatSecond(store.audio.duration)}}</text>
 			</view>
 			<view class="toggle-wrapper">
@@ -42,17 +44,20 @@
 <script  setup lang="ts">
 	import { useStore } from "../../stores/useStore"; 
 	import {HOST} from '../../config/constant';
-	import {ref,onMounted,onUnmounted} from 'vue';
+	import {ref,onMounted,onUnmounted, reactive} from 'vue';
 	import {formatSecond} from '../../utils/util';
 	import playingIcon from '../../../static/icon_music_playing.png';
 	import pauseIcon from '../../../static/icon_music_play_white.png';
 	import favoriteIcon from '../../../static/icon_music_collect.png'; 
 	import favoriteActiveIcon from '../../../static/icon_collection_active.png'; 
-	import {insertMusicFavoriteService,deleteMusicFavoriteService} from '../service'
+	import {insertMusicFavoriteService,deleteMusicFavoriteService} from '../service';
+	import Lyric from 'lyric-parser';
 	const angle = ref<number>(0);// 旋转的角度
 	const store = useStore()
 	const percent = ref<number>(0);// 播放进度
 	const currentTime = ref<string>('');// 当前播放的时间
+	const currentLyric = ref<any>(null)
+	const currentLineNum = ref<number>(0)
 	let loading = false;
 	
 	/**
@@ -65,6 +70,7 @@
 		percent.value = (store.audio.currentTime/store.audio.duration) * 100
 		angle.value += 5
 		angle.value = angle.value === 360 ? 0 : angle.value;
+		currentLyric.value.seek(Math.floor(store.audio.currentTime * 1000))
 	}
 	
 	store.audio.addEventListener('ended', () => useTabMusic('next'));
@@ -74,6 +80,26 @@
 	onUnmounted(()=>{
 		store.audio.removeEventListener('timeupdate', useRotate);
 	});
+
+	onMounted(()=>{
+		useLyric();
+	})
+
+	/**
+	 * @description: 切换歌曲
+	 * @date: 2024-05-12 11:45
+	 * @author wuwenqiang
+	 */
+	const useLyric = () => {
+		if(!store.musicItem.lyrics)return;
+		currentLyric.value = new Lyric(store.musicItem.lyrics,({lineNum=0})=>{
+			currentLineNum.value = lineNum;
+		})
+	}
+	
+	const useChange = (event:Event) => {
+		store.audio.currentTime = (store.audio.duration * 60 / 100)
+	}
 
 	/**
 	 * @description: 切换歌曲
@@ -88,6 +114,7 @@
 			if(store.playIndex === store.musicList.length - 1)return;
 			store.setMusicPlayIndex(store.playIndex + 1);
 		}
+		useLyric()
 	}
 
 	/**
@@ -179,7 +206,8 @@
 					}
 				}
 			}
-			.lyrice-wrapper{
+			.lyrice-scroll-wrapper{
+				width: 100%;
 				display: flex;
 				flex-direction: column;
 				padding-top: @page-padding;
@@ -187,6 +215,24 @@
 				font-weight: bold;
 				height: 0;
 				flex: 1;
+				.lyric-wrapper {
+					width: 80%;
+					margin: 0 auto;
+					overflow: hidden;
+					text-align: center;
+					flex-direction: column;
+					display: flex;
+					.text {
+						color: @white-background-color;
+						opacity: 0.5;
+						&.current {
+							opacity: 1;
+						}
+					}
+				}
+				/deep/.uni-scroll-view::-webkit-scrollbar{
+					display: none;
+				}
 				.lyrice-text{
 					text-align: center;
 					opacity: 0.5;

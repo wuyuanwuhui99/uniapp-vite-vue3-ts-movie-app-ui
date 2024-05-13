@@ -4488,6 +4488,11 @@
   dependencies:
     "yallist" "^4.0.0"
 
+"lyric-parser@^1.0.1":
+  "integrity" "sha512-klGkA3gsKMyHENefKj1OnbscWRAxvxNsYNuxgmSIQg6KqVx/HnTrfcD/gNP74XBcu7HSh+kGhCjetPlH91OtFA=="
+  "resolved" "https://registry.npmmirror.com/lyric-parser/-/lyric-parser-1.0.1.tgz"
+  "version" "1.0.1"
+
 "magic-string@^0.25.7":
   "integrity" "sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ=="
   "resolved" "https://registry.npmmirror.com/magic-string/-/magic-string-0.25.9.tgz"
