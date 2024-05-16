@@ -73,7 +73,7 @@
 	 * @author wuwenqiang
 	 */
 	const useRemoveEventListener = () => {
-		store.audio.removeEventListener('timeupdate', useRotate);
+		store.audio.offTimeUpdate(useRotate);
 	}
 
 	const useNavigateTo = () => {
@@ -83,7 +83,7 @@
 	}
 	
 	onMounted(()=>{
-		store.audio.addEventListener('timeupdate', useRotate);
+		store.audio.onTimeUpdate(useRotate);
 		uni.getStorage({key:'music',
 			success: (res) => {
 			if(res.data !== '' && res.data !== null){

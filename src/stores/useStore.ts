@@ -9,7 +9,7 @@ export const useStore = defineStore("myStore", {
 			userData:{} as UserDataType,
 			token: '',
 			musicItem: {} as MusicType,
-			audio: new Audio() as HTMLAudioElement,
+			audio: uni.createInnerAudioContext(),
 			isPlaying: false,
 			musicList: [] as Array<MusicType>,
 			musicClassify: {} as MusicClassifyType,// 播放的类型

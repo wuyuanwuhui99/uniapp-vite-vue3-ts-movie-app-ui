@@ -44,7 +44,7 @@
 <script  setup lang="ts">
 	import { useStore } from "../../stores/useStore"; 
 	import {HOST} from '../../config/constant';
-	import {ref,onMounted,onUnmounted, reactive} from 'vue';
+	import {ref,onMounted,onUnmounted} from 'vue';
 	import {formatSecond} from '../../utils/util';
 	import playingIcon from '../../../static/icon_music_playing.png';
 	import pauseIcon from '../../../static/icon_music_play_white.png';
@@ -72,17 +72,19 @@
 		angle.value = angle.value === 360 ? 0 : angle.value;
 		currentLyric.value.seek(Math.floor(store.audio.currentTime * 1000))
 	}
-	
-	store.audio.addEventListener('ended', () => useTabMusic('next'));
 
-	store.audio.addEventListener('timeupdate', useRotate);
-	
-	onUnmounted(()=>{
-		store.audio.removeEventListener('timeupdate', useRotate);
-	});
+	const onEnded = () => useTabMusic('next');
+
+	store.audio.onEnded(onEnded);
+	store.audio.onTimeUpdate(useRotate);
 
 	onMounted(()=>{
 		useLyric();
+	})
+
+	onUnmounted(()=>{
+		store.audio.offEnded(onEnded);
+		store.audio.offTimeUpdate(useRotate);
 	})
 
 	/**
