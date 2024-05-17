@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type {UserDataType} from '../movie/types/index';
 import type {MusicType,MusicClassifyType} from '../music/types/index';
-import {HOST} from '../config/constant';
+import {HOST,LoopMode} from '../config/constant';
 import { getMusicListByClassifyIdService } from '../music/service';
 export const useStore = defineStore("myStore", {
     state:() => { 
@@ -15,6 +15,7 @@ export const useStore = defineStore("myStore", {
 			musicClassify: {} as MusicClassifyType,// 播放的类型
 			playIndex: -1 as number,// 播放的下标
 			total: 0,
+			loop: LoopMode.ORDER// 默认顺序播放
 		}
     },
     actions: {
@@ -78,10 +79,17 @@ export const useStore = defineStore("myStore", {
 		 * @author wuwenqiang
 		 */
 		setMusicPlayIndex(playIndex:number){
-			console.log(this.musicList[playIndex])
 			this.playIndex = playIndex;
 			this.setMusic(this.musicList[playIndex]);
+		},
+
+		/**
+		 * @description: 切换歌曲
+		 * @date: 2024-05-17 23:09
+		 * @author wuwenqiang
+		 */
+		setLoop(loop:LoopMode){
+			this.loop = loop;
 		}
-		
     }
 })

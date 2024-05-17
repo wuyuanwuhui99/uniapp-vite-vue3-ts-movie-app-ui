@@ -1,5 +1,5 @@
 <template>
-	<view class="play-wrapper">
+	<view class="play-wrapper" @click="showLoopMenu = false">
 		<view class="song-bg" :style="`background-image: url(${HOST + store.musicItem.cover})`"></view>
 		<view class="play-controller-wrapper">
 			<text class="song-name">{{store.musicItem.songName}}</text>
@@ -16,7 +16,7 @@
 			</scroll-view>
 			<text class="singer">{{store.musicItem.authorName}}</text>
 			<view class="play-operate-wrapper">
-				<image class="icon-operate" @click="useFavorite" :src="store.musicItem.isFavorite ? favoriteActiveIcon: favoriteIcon"/>
+				<image class="icon-operate" @click.stop="useFavorite" :src="store.musicItem.isFavorite ? favoriteActiveIcon: favoriteIcon"/>
 				<image class="icon-operate" src="../../../static/icon_music_down.png"/>
 				<image class="icon-operate" src="../../../static/icon_music_comments.png"/>
 				<image class="icon-operate" src="../../../static/icon_music_white_menu.png"/>
@@ -27,15 +27,29 @@
 				<text class="play-time">{{formatSecond(store.audio.duration)}}</text>
 			</view>
 			<view class="toggle-wrapper">
-				<view class="play-menu">
-					<image class="icon-loop" src="../../../static/icon_music_order.png"/>
+				<view class="play-menu-item">
+					<image @click.stop="useShowMenu" class="icon-loop" :src="loopMap[store.loop]"/>
+					<view class="loop-menu" v-show="showLoopMenu">
+						<view class="loop-item" @click="useToggleLoopMenu(LoopMode.ORDER)">
+							<image class="icon-loop" src="../../../static/icon_music_order.png"/>
+							<text class="loop-name">顺序播放</text>
+						</view>
+						<view class="loop-item"  @click="useToggleLoopMenu(LoopMode.REPEAT)">
+							<image class="icon-loop" src="../../../static/icon_music_loop.png"/>
+							<text class="loop-name">单曲循环</text>
+						</view>
+						<view class="loop-item"  @click="useToggleLoopMenu(LoopMode.RANDOM)">
+							<image class="icon-loop" src="../../../static/icon_music_random.png"/>
+							<text class="loop-name">随机播放</text>
+						</view>
+					</view>
 				</view>
-				<image class="play-menu" @click="useTabMusic('prev')" src="../../../static/icon_music_prev.png"/>
-				<view @click="store.usePlay(!store.isPlaying)" class="play-circle">
-					<image class="play-menu"  :src="store.isPlaying ? playingIcon : pauseIcon"/>
+				<image class="play-menu-item" @click.stop="useTabMusic('prev')" src="../../../static/icon_music_prev.png"/>
+				<view @click.stop="store.usePlay(!store.isPlaying)" class="play-circle">
+					<image class="play-menu-item"  :src="store.isPlaying ? playingIcon : pauseIcon"/>
 				</view>
-				<image class="play-menu"  @click="useTabMusic('next')" src="../../../static/icon_music_next.png"/>
-				<image class="play-menu" src="../../../static/icon_music_play_menu.png"/>
+				<image class="play-menu-item"  @click.stop="useTabMusic('next')" src="../../../static/icon_music_next.png"/>
+				<image class="play-menu-item" src="../../../static/icon_music_play_menu.png"/>
 			</view>
 		</view>
 	</view>
@@ -43,7 +57,7 @@
 
 <script  setup lang="ts">
 	import { useStore } from "../../stores/useStore"; 
-	import {HOST} from '../../config/constant';
+	import {HOST,LoopMode} from '../../config/constant';
 	import {ref,onMounted,onUnmounted} from 'vue';
 	import {formatSecond} from '../../utils/util';
 	import playingIcon from '../../../static/icon_music_playing.png';
@@ -51,14 +65,25 @@
 	import favoriteIcon from '../../../static/icon_music_collect.png'; 
 	import favoriteActiveIcon from '../../../static/icon_collection_active.png'; 
 	import {insertMusicFavoriteService,deleteMusicFavoriteService} from '../service';
+	import orderImg from '../../../static/icon_music_order.png';
+	import repeatImg from '../../../static/icon_music_loop.png';
+	import randomImg from '../../../static/icon_music_random.png';
 	import Lyric from 'lyric-parser';
 	const angle = ref<number>(0);// 旋转的角度
 	const store = useStore()
 	const percent = ref<number>(0);// 播放进度
 	const currentTime = ref<string>('');// 当前播放的时间
 	const currentLyric = ref<any>(null)
-	const currentLineNum = ref<number>(0)
+	const currentLineNum = ref<number>(0);
+	const showLoopMenu = ref<boolean>(false);
 	let loading = false;
+	
+	// 循环模式
+	const loopMap = {
+		[LoopMode.ORDER]:orderImg,
+		[LoopMode.REPEAT]:repeatImg,
+		[LoopMode.RANDOM]:randomImg,
+	}
 	
 	/**
 	 * @description: 头像旋转
@@ -71,6 +96,25 @@
 		angle.value += 5
 		angle.value = angle.value === 360 ? 0 : angle.value;
 		currentLyric.value.seek(Math.floor(store.audio.currentTime * 1000))
+	}
+
+	/**
+	 * @description: 显示循环模式的菜单
+	 * @date: 2024-05-17 22:53
+	 * @author wuwenqiang
+	 */
+	const useShowMenu = () => {
+		showLoopMenu.value = !showLoopMenu.value;
+	}
+
+	/**
+	 * @description: 切换循环模式
+	 * @date: 2024-05-17 22:54
+	 * @author wuwenqiang
+	 */
+	const useToggleLoopMenu = (loop:LoopMode) => {
+		showLoopMenu.value = false;
+		store.setLoop(loop);
 	}
 
 	const onEnded = () => useTabMusic('next');
@@ -279,10 +323,33 @@
 				justify-content: space-around;
 				margin-bottom: @page-padding ;
 				align-items: center;
-				.play-menu,.icon-loop{
+				.play-menu-item,.icon-loop{
 					position: relative;
 					width: @middle-icon-size;
 					height: @middle-icon-size;
+					.loop-menu{
+						position: absolute;
+						width: @popup-menu-width;
+						left: 0;
+						bottom: 100%;
+						height: @popup-menu-width;
+						display: flex;
+						flex-direction: column;
+						background: @black-background-color;
+						opacity: 0.8;
+						border-radius: @module-border-radius;
+						z-index: 2;
+						.loop-item{
+							flex: 1;
+							display: flex;
+							align-items: center;
+							padding-left: @page-padding;
+							.loop-name{
+								padding-left: @page-padding;
+								color:@white-background-color;
+							}
+						}
+					}
 				}
 				.play-circle{
 					width: @big-avater;

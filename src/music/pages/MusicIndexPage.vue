@@ -44,7 +44,7 @@
 	import { useStore } from "../../stores/useStore";
 	import { ref,onMounted,reactive,onActivated,onDeactivated,onUnmounted } from 'vue';
 	import {httpRequest} from '../../utils/HttpUtils';
-	import {HOST} from '../../config/constant';
+	import {HOST, LoopMode} from '../../config/constant';
 	import type { MusicClassifyType } from '../types';
 	import {getMusicListByClassifyIdService} from '../service'
 	
@@ -97,6 +97,14 @@
 			if(res.data !== '' && res.data !== null){
 				const musicClassify:MusicClassifyType = JSON.parse(res.data) as MusicClassifyType;
 				store.setMusicClassify(musicClassify)
+			}
+		  },
+		});
+
+		uni.getStorage({key:'loop',
+			success: (res) => {
+			if(res.data !== '' && res.data !== null){
+				store.setLoop(res.data as LoopMode)
 			}
 		  },
 		});
