@@ -2,6 +2,7 @@ import {httpRequest} from '../../utils/HttpUtils';
 import type {MyAwesomeData} from '../../utils/HttpUtils';
 import api from '../api';
 import type * as types from '../types';
+import type {CommentEnum} from '../../config/constant';
 
 /**
  * @description: 获取推荐的音乐
@@ -119,4 +120,14 @@ export const insertMusicFavoriteService = (musicId:number):Promise<MyAwesomeData
 export const deleteMusicFavoriteService = (musicId:number):Promise<MyAwesomeData<number>> => {
     return httpRequest.delete<number>(api.deleteMusicFavorite + musicId);
 }
+
+/**
+ * @description: 删除收藏
+ * @date: 2024-05-12 12:21
+ * @author wuwenqiang
+ */
+export const getTopCommentListService = (relationId:number,type:CommentEnum,pageNum:number,pageSize:number):Promise<MyAwesomeData<number>> => {
+    return httpRequest.get<number>(`${api.getTopCommentList}?relationId=${relationId}&type=${type}&pageSize=${pageSize}&pageNum=${pageNum}`);
+}
+
 

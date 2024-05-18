@@ -22,7 +22,7 @@
 				<image class="icon-operate" @click.stop="useFavorite"
 					:src="store.musicItem.isFavorite ? favoriteActiveIcon: favoriteIcon" />
 				<image class="icon-operate" src="../../../static/icon_music_down.png" />
-				<image class="icon-operate" src="../../../static/icon_music_comments.png" />
+				<image @click.stop="useComment" class="icon-operate" src="../../../static/icon_music_comments.png" />
 				<image class="icon-operate" src="../../../static/icon_music_white_menu.png" />
 			</view>
 			<view class="play-progress-wrapper">
@@ -54,11 +54,11 @@
 				<view @click.stop="store.usePlay(!store.isPlaying)" class="play-circle">
 					<image class="play-menu-item" :src="store.isPlaying ? playingIcon : pauseIcon" />
 				</view>
-				<image class="play-menu-item" @click.stop="useTabMusic('next')"
-					src="../../../static/icon_music_next.png" />
+				<image class="play-menu-item" @click.stop="useTabMusic('next')" src="../../../static/icon_music_next.png" />
 				<image class="play-menu-item" src="../../../static/icon_music_play_menu.png" />
 			</view>
 		</view>
+		<DialogComponent @onClose="showCommentDialog = false" v-if="showCommentDialog"></DialogComponent>
 	</view>
 </template>
 
@@ -67,23 +67,28 @@
 	import Lyric from 'lyric-parser';
 
 	import { useStore } from "../../stores/useStore";
-	import { HOST, LoopMode } from '../../config/constant';
+	import { HOST, LoopMode,CommentEnum } from '../../config/constant';
 	import { formatSecond } from '../../utils/util';
 	import playingIcon from '../../../static/icon_music_playing.png';
 	import pauseIcon from '../../../static/icon_music_play_white.png';
 	import favoriteIcon from '../../../static/icon_music_collect.png';
 	import favoriteActiveIcon from '../../../static/icon_collection_active.png';
-	import { insertMusicFavoriteService, deleteMusicFavoriteService } from '../service';
+	import { insertMusicFavoriteService, deleteMusicFavoriteService, getTopCommentListService} from '../service';
 	import orderImg from '../../../static/icon_music_order.png';
 	import repeatImg from '../../../static/icon_music_loop.png';
 	import randomImg from '../../../static/icon_music_random.png';
-
+	import DialogComponent from '../components/DialogComponent.vue';
+	
 	const angle = ref<number>(0);// 旋转的角度
 	const percent = ref<number>(0);// 播放进度
 	const currentTime = ref<string>('');// 当前播放的时间
-	const currentLyric = ref<any>(null);
-	const currentLineNum = ref<number>(0);
-	const showLoopMenu = ref<boolean>(false);
+	const currentLyric = ref<any>(null);// 歌词兑现
+	const currentLineNum = ref<number>(0);// 歌词播放的当前行
+	const showLoopMenu = ref<boolean>(false);// 显示循环播放选择菜单
+	const showCommentDialog = ref<boolean>(false);// 显示评论弹窗
+	const pageSize = 20;
+	const pageNum = ref<number>(1);
+
 	let loading = false;
 
 	const store = useStore();
@@ -210,6 +215,18 @@
 				}
 			}).finally(() => loading = false)
 		}
+	}
+
+	/**
+	 * @description: 添加收藏或取消收藏
+	 * @date: 2024-05-12 11:45
+	 * @author wuwenqiang
+	 */
+	const useComment = () => {
+		getTopCommentListService(store.musicItem.id,CommentEnum.MUSIC,pageNum.value,pageSize).then(()=>{
+			showCommentDialog.value = true;
+		})
+		
 	}
 </script>
 
@@ -405,5 +422,6 @@
 			}
 		}
 
+		
 	}
 </style>

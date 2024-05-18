@@ -5,3 +5,9 @@ export enum LoopMode {
 	RANDOM,// 随机播放
 	REPEAT,// 单曲循环
 }
+export enum CommentEnum {
+    MUSIC_CIRCLE,
+    MUSIC,
+    MOVIE,
+    MOVIE_CIRCLE
+}
