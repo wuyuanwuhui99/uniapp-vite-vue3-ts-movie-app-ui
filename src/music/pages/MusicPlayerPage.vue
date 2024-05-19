@@ -60,7 +60,7 @@
 		</view>
 		<DialogComponent @onClose="showCommentDialog = false" v-if="showCommentDialog">
 			<template #header><text class="comment-header">{{commentList.length}}条评论</text></template>
-			<template #content><CommentComponent :showInput="true" :relationId="store.musicItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
+			<template #content><CommentComponent :isShowInput="true" :relationId="store.musicItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
 		</DialogComponent>
 	</view>
 </template>

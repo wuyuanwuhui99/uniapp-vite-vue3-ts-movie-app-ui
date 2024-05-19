@@ -1,16 +1,12 @@
 <template>
-    <view class="comment-dialog">
+    <view class="dialog-wrapper">
         <view class="mask" @click="onClose"></view>
-        <view class="comment-wrapper">
+        <view class="dialog-body-wrapper">
             <view class="dialog-header">
                 <slot name="header"/>
                 <image class="icon-close" @click="onClose" src="../../../static/icon_close.png"/>
             </view>
-            <scroll-view  scroll-y @scrolltolower="onScrolltolower">
-            <view>
-                <slot name="content"></slot>
-            </view>
-        </scroll-view>
+            <slot name="content"></slot>
         </view>
         
     </view>
@@ -28,10 +24,6 @@
     const onClose = () => {
         emits('onClose');
     }
-
-    const onScrolltolower = () => {
-
-    }
 </script>
 
 
@@ -39,7 +31,7 @@
 @import '../../theme/color.less';
 @import '../../theme/size.less';
 @import '../../theme/style.less';
-.comment-dialog{
+.dialog-wrapper{
     position: fixed;
     width: 100%;
     height: 100%;
@@ -55,7 +47,7 @@
         background: @black-background-color;
         opacity: 0.5;
     }
-    .comment-wrapper{
+    .dialog-body-wrapper{
         height: 80%;
         background: @white-background-color;
         position: absolute;
@@ -64,6 +56,9 @@
         bottom: 0;
         border-top-right-radius: @module-border-radius;
         border-top-left-radius: @module-border-radius;
+        display: flex;
+        flex-direction: column;
+        
         .dialog-header{
             position: relative;
             height: 10%;

@@ -1,23 +1,25 @@
 <template>
-    <view class="comment-wrapper">
-        <view class="comment-item" :key="aItem.id"
+    <view class="comment-wrapper" :style="{height:isShowInput ? 0 : 'auto'}">
+        <scroll-view class="comment-list" scroll-y @scrolltolower="onScrolltolower" :style="{height:isShowInput ? 0 : 'auto'}">
+            <view class="comment-item" :key="aItem.id"
             v-for="aItem in myCommentList">
-            <image class="comment-avater" :src="HOST + aItem.avater" />
-            <view class="comment-content-wrapper">
-                <text class="comment-username">{{aItem.username}}</text>
-                <text class="comment-text" @click="useComment(aItem,aItem)">{{aItem.content}}</text>
-                <text class="comment-time">{{formatTime(aItem.createTime)}}</text>
-                <view class="comment-item" :key="bItem.id" v-for="bItem in aItem.replyList">
-                    <image class="comment-reply-avater" :src="HOST + bItem.avater" />
-                    <view class="comment-content-wrapper">
-                        <text class="comment-username">{{bItem.username}}▶{{bItem.replyUserName}}</text>
-                        <text class="comment-text" @click="useComment(aItem,bItem)">{{bItem.content}}</text>
-                        <text class="comment-time">{{formatTime(bItem.createTime)}}</text>
+                <image class="comment-avater" :src="HOST + aItem.avater" />
+                <view class="comment-content-wrapper">
+                    <text class="comment-username">{{aItem.username}}</text>
+                    <text class="comment-text" @click="useComment(aItem,aItem)">{{aItem.content}}</text>
+                    <text class="comment-time">{{formatTime(aItem.createTime)}}</text>
+                    <view class="comment-item" :key="bItem.id" v-for="bItem in aItem.replyList">
+                        <image class="comment-reply-avater" :src="HOST + bItem.avater" />
+                        <view class="comment-content-wrapper">
+                            <text class="comment-username">{{bItem.username}}▶{{bItem.replyUserName}}</text>
+                            <text class="comment-text" @click="useComment(aItem,bItem)">{{bItem.content}}</text>
+                            <text class="comment-time">{{formatTime(bItem.createTime)}}</text>
+                        </view>
                     </view>
                 </view>
             </view>
-        </view>
-        <view class="input-wrapper" v-if="showComponentInput || showInput">
+        </scroll-view>
+        <view class="input-wrapper" :style="{position:isShowInput ? 'relative' : 'fixed'}" v-if="isShowInput || showInput">
 			<input v-model="inputValue" class="input" @blur="useBlur" :placeholder="placeholder" />
 			<text class="btn-send" @click="useSend">发送</text>
 		</view>
@@ -30,7 +32,7 @@
     import { formatTime } from '../../utils/util';
     import { insertCommentService } from "../service";
     import {HOST} from '../../config/constant';
-    const { commentList,relationId,showInput:showComponentInput, category} = defineProps({
+    const { commentList,relationId,isShowInput, category} = defineProps({
 		commentList: {
 			type: Object as PropType<Array<CommentType>>,
 			reqiure: true,
@@ -42,7 +44,7 @@
 			reqiure: true,
 			default: -1
         },
-        showInput:{
+        isShowInput:{
             type: Boolean,
 			reqiure: true,
 			default: false
@@ -67,7 +69,7 @@
 
     onMounted(()=>{
         myCommentList.push(...commentList);
-        showInput.value =  showComponentInput;
+        showInput.value =  isShowInput;
     });
 
     /**
@@ -127,9 +129,11 @@
 			commentItem.parentId = replyComment.id;
 		}
 		insertCommentService(commentItem).then((res) => {
+            console.log(res.data);
 			inputValue.value = "";
-			showInput.value = showComponentInput;// 如果是弹窗里面的评论框，点击发送之后不隐藏输入框
+			showInput.value = isShowInput;// 如果是弹窗里面的评论框，点击发送之后不隐藏输入框
 			if(firstComment){// 回复的评论，二级评论
+                if(!firstComment.replyList)firstComment.replyList = [];
 				firstComment.replyList.push(res.data)
 			}else{// 一级评论
 				myCommentList.push(res.data);
@@ -147,7 +151,7 @@
 	 * @author wuwenqiang
 	 */
 	const useBlur = () => {
-        if(showComponentInput)return;
+        if(isShowInput)return;
 		if (timer) clearInterval(timer);
 		// 点击发送时失去焦点事件要比点击事件先执行，可能导致发送按钮隐藏而点击不到，
 		// 在点击发送按钮式清除定时器，不要隐藏输入框
@@ -155,6 +159,19 @@
 			showInput.value = false;
 		}, 100)
 	}
+
+    const onScrolltolower = () => {
+
+    }
+
+    const useShowInput = () => {
+        showInput.value = true;
+    }
+
+    
+    defineExpose({
+        useShowInput,
+    });
 </script>
 
 
@@ -163,39 +180,50 @@
 @import '../../theme/size.less';
 @import '../../theme/style.less';
 .comment-wrapper {
-    .comment-item {
-        display: flex;
-        margin-top: @page-padding;
-
-        .comment-avater {
-            width: @middle-avater;
-            height: @middle-avater;
-            border-radius: 50%;
-            margin-right: @page-padding;
-        }
-
-        .comment-reply-avater {
-            width: @small-avater;
-            height: @small-avater;
-            border-radius: 50%;
-            margin-right: @page-padding;
-        }
-
-        .comment-content-wrapper {
-            flex: 1;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 0 @page-padding @page-padding;
+    /deep/.uni-scroll-view::-webkit-scrollbar {
+        display: none;
+    }
+    .comment-list{
+        flex: 1;
+        .comment-item {
             display: flex;
-            flex-direction: column;
+            margin-top: @page-padding;
 
-            .comment-text {
-                padding: @small-margin 0;
+            .comment-avater {
+                width: @middle-avater;
+                height: @middle-avater;
+                border-radius: 50%;
+                margin-right: @page-padding;
             }
 
-            .comment-username,
-            .comment-time {
-                color: @sub-title-color;
+            .comment-reply-avater {
+                width: @small-avater;
+                height: @small-avater;
+                border-radius: 50%;
+                margin-right: @page-padding;
+            }
+
+            .comment-content-wrapper {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+
+                .comment-text {
+                    padding: @small-margin 0;
+                }
+
+                .comment-username,
+                .comment-time {
+                    color: @sub-title-color;
+                }
             }
         }
     }
+    
     .input-wrapper {
         width: 100%;
         position: fixed;

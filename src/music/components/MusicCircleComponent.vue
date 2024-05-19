@@ -24,7 +24,7 @@
 								<image class="icon-popup-menu" src="../../../static/icon_like_white.png" />
 								<text>{{(item.circleLikes||[]).find((dItem)=>dItem.userId === store.userData.userId) ? '取消赞' : '赞'}}</text>
 							</view>
-							<view class="popup-menu-item" @click="useComment(item,null,null)">
+							<view class="popup-menu-item" @click="useComment(index)">
 								<image class="icon-popup-menu" src="../../../static/icon_comment_white.png" />
 								<text>评论</text>
 							</view>
@@ -40,7 +40,7 @@
 							<text v-if="aIndex !== item.circleLikes.length - 1">、</text>
 						</template>
 					</view>
-					<CommentComponent :relationId="item.id" :category='CommentEnum.MUSIC_CIRCLE'
+					<CommentComponent ref="commentRefs" :relationId="item.id" :category='CommentEnum.MUSIC_CIRCLE'
 						:commentList="item.circleComments"></CommentComponent>
 				</view>
 			</view>
@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 	import { HOST } from "../../config/constant";
-	import { getCircleListByTypeService, saveLikeService, deleteLikeService, insertCommentService } from "../service";
+	import { getCircleListByTypeService, saveLikeService, deleteLikeService } from "../service";
 	import { reactive, ref } from "vue";
 	import type { CircleType, LikeType } from '../types';
 	import { formatTime } from '../../utils/util';
@@ -63,6 +63,7 @@
 	const circleIndex = ref<number>(-1);// 朋友圈动态的id
 	const circleList = reactive<Array<CircleType>>([]);
 	const pageNum = ref<number>(1);
+	const commentRefs = ref<Array<HTMLElement>>([])
 	const pageSize = 5;
 	const total = ref<number>(0);
 	const store = useStore();// 获取当前登录的用户账号
@@ -144,6 +145,10 @@
 		uni.navigateTo({
 			url: `../pages/MusicCirClePublishPage`
 		})
+	}
+
+	const useComment = (index:number) => {
+		commentRefs.value[index].useShowInput()
 	}
 </script>
 
@@ -265,14 +270,13 @@
 
 				.social-wrapper {
 					background: @page-background-color;
-					padding: @page-padding;
 					border-radius: @module-border-radius;
 					margin-top: @page-padding;
 
 					.like-wrapper {
 						display: flex;
 						flex-wrap: wrap;
-
+						padding: @page-padding @page-padding 0;
 						.icon-like {
 							width: @small-icon-size;
 							height: @small-icon-size;
