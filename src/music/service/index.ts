@@ -130,4 +130,13 @@ export const getTopCommentListService = (relationId:number,type:CommentEnum,page
     return httpRequest.get<Array<types.CommentType>>(`${api.getTopCommentList}?relationId=${relationId}&type=${type}&pageSize=${pageSize}&pageNum=${pageNum}`);
 }
 
+/**
+ * @description: 删除收藏
+ * @date: 2024-05-12 12:21
+ * @author wuwenqiang
+ */
+export const getTopCommentCountService = (relationId:number,type:CommentEnum):Promise<MyAwesomeData<number>> => {
+    return httpRequest.get<number>(`${api.getCommentCount}?relationId=${relationId}&type=${type}`);
+}
+
 

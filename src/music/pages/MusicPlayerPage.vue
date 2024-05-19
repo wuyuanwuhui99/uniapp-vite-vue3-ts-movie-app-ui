@@ -59,8 +59,8 @@
 			</view>
 		</view>
 		<DialogComponent @onClose="showCommentDialog = false" v-if="showCommentDialog">
-			<template #header><text class="comment-header">{{commentList.length}}条评论</text></template>
-			<template #content><CommentComponent :isShowInput="true" :relationId="store.musicItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
+			<template #header><text class="comment-header">{{commentTotal}}条评论</text></template>
+			<template #content><CommentComponent @onSend="useUpdateTotal" :isShowInput="true" :relationId="store.musicItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
 		</DialogComponent>
 	</view>
 </template>
@@ -77,7 +77,7 @@
 	import favoriteIcon from '../../../static/icon_music_collect.png';
 	import favoriteActiveIcon from '../../../static/icon_collection_active.png';
 	import type {CommentType} from '../types';
-	import { insertMusicFavoriteService, deleteMusicFavoriteService, getTopCommentListService} from '../service';
+	import { insertMusicFavoriteService, deleteMusicFavoriteService, getTopCommentListService, getTopCommentCountService} from '../service';
 	import orderImg from '../../../static/icon_music_order.png';
 	import repeatImg from '../../../static/icon_music_loop.png';
 	import randomImg from '../../../static/icon_music_random.png';
@@ -92,7 +92,8 @@
 	const showCommentDialog = ref<boolean>(false);// 显示评论弹窗
 	const commentList = reactive<Array<CommentType>>([]);// 
 	const pageSize = 20;
-	const pageNum = ref<number>(1);
+	const pageNum = ref<number>(1);// 评论分页
+	const commentTotal = ref<number>(0);// 评论总数 
 
 	let loading = false;
 
@@ -229,10 +230,19 @@
 	 */
 	const useComment = () => {
 		getTopCommentListService(store.musicItem.id,CommentEnum.MUSIC,pageNum.value,pageSize).then(res => {
+			commentTotal.value = res.total;
 			commentList.splice(0,commentList.length,...res.data);
 			showCommentDialog.value = true;
 		})
-		
+	}
+
+	/**
+	 * @description: 更新总数
+	 * @date: 2024-05-12 11:45
+	 * @author wuwenqiang
+	 */
+	const useUpdateTotal = () => {
+		getTopCommentCountService(store.musicItem.id,CommentEnum.MUSIC).then(res => commentTotal.value = res.data)
 	}
 </script>
 

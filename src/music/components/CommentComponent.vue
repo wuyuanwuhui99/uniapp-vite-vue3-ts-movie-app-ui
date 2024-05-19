@@ -27,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-    import { defineProps, reactive, type PropType,onMounted,ref } from 'vue';
+    import { defineProps, reactive, type PropType,onMounted,ref,defineEmits } from 'vue';
     import type { CommentType} from "../types";
     import { formatTime } from '../../utils/util';
     import { insertCommentService } from "../service";
@@ -66,6 +66,8 @@
 	let replyComment : CommentType | null;// 二级评论，即回复的内容
     let timer : number = 0;// 输入框隐藏的定时器
     let loading : boolean = false;
+
+    const emits = defineEmits(['onSend'])
 
     onMounted(()=>{
         myCommentList.push(...commentList);
@@ -140,6 +142,7 @@
 			}
 			firstComment = replyComment = null;// 清空评论和回复
 			placeholder.value = "评论";
+            emits('onSend')
 		}).finally(() => {
 			loading = false;
 		});

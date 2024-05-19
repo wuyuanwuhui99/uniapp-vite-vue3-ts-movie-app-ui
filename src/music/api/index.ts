@@ -16,5 +16,6 @@ export default {
   saveLike:'/service/social-getway/saveLike',// 添加点赞
   deleteLike:'/service/social-getway/deleteLike',// 删除点赞
   insertComment:'/service/social-getway/insertComment',// 新增评论
-  getTopCommentList:'/service/social/getTopCommentList'// 获取一级评论列表
+  getTopCommentList:'/service/social/getTopCommentList',// 获取一级评论列表
+  getCommentCount: '/service/social/getCommentCount'// 获取评论总数
 };
