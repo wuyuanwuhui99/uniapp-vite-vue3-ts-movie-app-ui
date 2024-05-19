@@ -29,7 +29,7 @@
     import type { CommentType} from "../types";
     import { formatTime } from '../../utils/util';
     import { insertCommentService } from "../service";
-    import {HOST} from '../../config/constant'
+    import {HOST} from '../../config/constant';
     const { commentList,relationId,showInput:showComponentInput, category} = defineProps({
 		commentList: {
 			type: Object as PropType<Array<CommentType>>,
@@ -94,7 +94,6 @@
 	 * @author wuwenqiang
 	 */
 	const useSend = () => {
-        console.log('category=',category)
 		// 先清除定时器，避免出发失去焦点事件导致发送按钮隐藏
 		// 点击按钮式，先触发输入失去焦点事件，在触发点击事件
 		clearTimeout(timer);
