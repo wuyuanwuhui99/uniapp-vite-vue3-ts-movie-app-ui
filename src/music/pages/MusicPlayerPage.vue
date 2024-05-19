@@ -58,12 +58,15 @@
 				<image class="play-menu-item" src="../../../static/icon_music_play_menu.png" />
 			</view>
 		</view>
-		<DialogComponent @onClose="showCommentDialog = false" v-if="showCommentDialog"></DialogComponent>
+		<DialogComponent @onClose="showCommentDialog = false" v-if="showCommentDialog">
+			<template #header><text class="comment-header">{{commentList.length}}条评论</text></template>
+			<template #content><CommentComponent :showInput="true" :relationId="store.musicItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
+		</DialogComponent>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted, onUnmounted } from 'vue';
+	import { ref, onMounted, onUnmounted, reactive } from 'vue';
 	import Lyric from 'lyric-parser';
 
 	import { useStore } from "../../stores/useStore";
@@ -73,12 +76,13 @@
 	import pauseIcon from '../../../static/icon_music_play_white.png';
 	import favoriteIcon from '../../../static/icon_music_collect.png';
 	import favoriteActiveIcon from '../../../static/icon_collection_active.png';
+	import type {CommentType} from '../types';
 	import { insertMusicFavoriteService, deleteMusicFavoriteService, getTopCommentListService} from '../service';
 	import orderImg from '../../../static/icon_music_order.png';
 	import repeatImg from '../../../static/icon_music_loop.png';
 	import randomImg from '../../../static/icon_music_random.png';
 	import DialogComponent from '../components/DialogComponent.vue';
-	
+	import CommentComponent from '../components/CommentComponent.vue';
 	const angle = ref<number>(0);// 旋转的角度
 	const percent = ref<number>(0);// 播放进度
 	const currentTime = ref<string>('');// 当前播放的时间
@@ -86,6 +90,7 @@
 	const currentLineNum = ref<number>(0);// 歌词播放的当前行
 	const showLoopMenu = ref<boolean>(false);// 显示循环播放选择菜单
 	const showCommentDialog = ref<boolean>(false);// 显示评论弹窗
+	const commentList = reactive<Array<CommentType>>([]);// 
 	const pageSize = 20;
 	const pageNum = ref<number>(1);
 
@@ -223,7 +228,8 @@
 	 * @author wuwenqiang
 	 */
 	const useComment = () => {
-		getTopCommentListService(store.musicItem.id,CommentEnum.MUSIC,pageNum.value,pageSize).then(()=>{
+		getTopCommentListService(store.musicItem.id,CommentEnum.MUSIC,pageNum.value,pageSize).then(res => {
+			commentList.splice(0,commentList.length,...res.data);
 			showCommentDialog.value = true;
 		})
 		
@@ -422,6 +428,12 @@
 			}
 		}
 
-		
+		.comment-header{
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
 	}
 </style>

@@ -126,8 +126,8 @@ export const deleteMusicFavoriteService = (musicId:number):Promise<MyAwesomeData
  * @date: 2024-05-12 12:21
  * @author wuwenqiang
  */
-export const getTopCommentListService = (relationId:number,type:CommentEnum,pageNum:number,pageSize:number):Promise<MyAwesomeData<number>> => {
-    return httpRequest.get<number>(`${api.getTopCommentList}?relationId=${relationId}&type=${type}&pageSize=${pageSize}&pageNum=${pageNum}`);
+export const getTopCommentListService = (relationId:number,type:CommentEnum,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.CommentType>>> => {
+    return httpRequest.get<Array<types.CommentType>>(`${api.getTopCommentList}?relationId=${relationId}&type=${type}&pageSize=${pageSize}&pageNum=${pageNum}`);
 }
 
 

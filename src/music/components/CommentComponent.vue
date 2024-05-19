@@ -17,7 +17,7 @@
                 </view>
             </view>
         </view>
-        <view class="input-wrapper" v-if="showInput">
+        <view class="input-wrapper" v-if="showComponentInput || showInput">
 			<input v-model="inputValue" class="input" @blur="useBlur" :placeholder="placeholder" />
 			<text class="btn-send" @click="useSend">发送</text>
 		</view>
@@ -29,8 +29,8 @@
     import type { CommentType} from "../types";
     import { formatTime } from '../../utils/util';
     import { insertCommentService } from "../service";
-
-    const { commentList,relationId } = defineProps({
+    import {HOST} from '../../config/constant'
+    const { commentList,relationId,showInput:showComponentInput, category} = defineProps({
 		commentList: {
 			type: Object as PropType<Array<CommentType>>,
 			reqiure: true,
@@ -38,15 +38,25 @@
 		},
 
         relationId:{
-            type: Object as PropType<number>,
+            type: Number,
 			reqiure: true,
 			default: -1
+        },
+        showInput:{
+            type: Boolean,
+			reqiure: true,
+			default: false
+        },
+        category:{
+            type: String,
+			reqiure: true,
+			default: ''
         }
 	});
 
 
     const myCommentList = reactive<Array<CommentType>>([]);
-    const showInput = ref<boolean>(false);//是否显示评论 
+    const showInput = ref<Boolean>(false);//是否显示评论 
     const placeholder = ref<string>("评论");// 评论框提示语
     const inputValue = ref<string>("");// 评论框的值
         
@@ -57,6 +67,7 @@
 
     onMounted(()=>{
         myCommentList.push(...commentList);
+        showInput.value =  showComponentInput;
     });
 
     /**
@@ -83,6 +94,7 @@
 	 * @author wuwenqiang
 	 */
 	const useSend = () => {
+        console.log('category=',category)
 		// 先清除定时器，避免出发失去焦点事件导致发送按钮隐藏
 		// 点击按钮式，先触发输入失去焦点事件，在触发点击事件
 		clearTimeout(timer);
@@ -95,7 +107,7 @@
 			content: inputValue.value,//评论内容
 			parentId: 0,//父节点id
 			topId: 0,//顶级节点id
-			type: "music_circle",// 类型
+			type:category,// 类型
 			relationId,//影片id
 			createTime: "",//创建时间
 			updateTime: "",//更新时间
@@ -117,7 +129,7 @@
 		}
 		insertCommentService(commentItem).then((res) => {
 			inputValue.value = "";
-			showInput.value = false;
+			showInput.value = showComponentInput;// 如果是弹窗里面的评论框，点击发送之后不隐藏输入框
 			if(firstComment){// 回复的评论，二级评论
 				firstComment.replyList.push(res.data)
 			}else{// 一级评论
@@ -136,6 +148,7 @@
 	 * @author wuwenqiang
 	 */
 	const useBlur = () => {
+        if(showComponentInput)return;
 		if (timer) clearInterval(timer);
 		// 点击发送时失去焦点事件要比点击事件先执行，可能导致发送按钮隐藏而点击不到，
 		// 在点击发送按钮式清除定时器，不要隐藏输入框
