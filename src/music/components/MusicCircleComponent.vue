@@ -63,7 +63,7 @@
 	const circleIndex = ref<number>(-1);// 朋友圈动态的id
 	const circleList = reactive<Array<CircleType>>([]);
 	const pageNum = ref<number>(1);
-	const commentRefs = ref<Array<HTMLElement>>([])
+	const commentRefs = ref<Array<InstanceType<typeof CommentComponent>>>([])
 	const pageSize = 5;
 	const total = ref<number>(0);
 	const store = useStore();// 获取当前登录的用户账号
