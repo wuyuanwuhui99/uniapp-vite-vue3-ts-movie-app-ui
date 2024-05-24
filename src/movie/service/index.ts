@@ -61,8 +61,8 @@ export const getUserMsgService = ():Promise<MyAwesomeData<types.UserMsgType>>=> 
  * @date: 2023-12-14 22:49
  * @author wuwenqiang
  */
-export const getPlayRecordMovieListService = ():Promise<MyAwesomeData<Array<types.MovieType>>>=> {
-  return httpRequest.get<Array<types.MovieType>>(api.getPlayRecord)
+export const getPlayRecordMovieListService = (pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MovieType>>>=> {
+  return httpRequest.get<Array<types.MovieType>>(`${api.getPlayRecord}?pageNum=${pageNum}&pageSize=${pageSize}`)
 }
 
 /**

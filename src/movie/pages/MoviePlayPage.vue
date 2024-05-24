@@ -4,7 +4,7 @@
 			<div id="player" class="play-webview"></div>
 			<view class="section-wrapper">
 				<view class="module-block row">
-					<image class="icon-middle" src="../../../static/icon_comment.png"/>
+					<image @click="showCommentDialog = true" class="icon-middle" src="../../../static/icon_comment.png"/>
 					<text class="comment-count small-margin">{{commonCount}}</text>
 					<image class="icon-middle" v-if="isFavorite" @click="useDeleteFavorite" src="../../../static/icon_collection_active.png"/>
 					<image class="icon-middle" v-else @click="useSaveFavorite" src="../../../static/icon_collection.png"/>
@@ -38,6 +38,10 @@
 				</view>
 			</view>
 		</scroll-view>
+		<DialogComponent @onClose="showCommentDialog = false" v-if="showCommentDialog">
+			<template #header><text class="comment-header">{{commonCount}}条评论</text></template>
+			<template #content><CommentComponent @onSend="useUpdateTotal" :isShowInput="true" :relationId="movieItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
+		</DialogComponent>
 	</view>
 </template>
 
@@ -50,13 +54,16 @@
 	import Hls from 'hls.js'
 	
 	import { reactive,onMounted,ref,onUnmounted } from 'vue';
-	
+	import { HOST, LoopMode,CommentEnum } from '../../config/constant';
 	import { useRoute } from "vue-router";
 	import type { MovieType,MovieUrlType } from '../types';
-	import {HOST} from '../../config/constant';
 	import TitleComponent from '../components/TitleComponent.vue';
 	import MovieListComponent from '../components/MovieListComponent.vue';
 	import ScoreComponent from '../components/ScoreComponent.vue';
+	import DialogComponent from '../../music/components/DialogComponent.vue';
+	import CommentComponent from '../../music/components/CommentComponent.vue';
+	import type {CommentType} from '../../music/types';
+	import { getTopCommentCountService} from '../../music/service';
 	import {getCommentCountService,savePlayRecordService,getMovieUrlService,getRecommentListService,isFavoriteService,saveFavoriteService,deleteFavoriteService} from '../service';
 
 	const movieItem = reactive<MovieType>({} as MovieType);
@@ -66,6 +73,8 @@
 	const movieUrlGroup = reactive<Array<Array<MovieUrlType>>>([]);//电影分组
 	const currentUrlGroup = ref<number>(0);// 播放的分组
 	const recommentList = reactive<Array<MovieType>>([]);// 推荐电影
+	const commentList = reactive<Array<CommentType>>([]);// 
+	const showCommentDialog = ref<boolean>(false);// 是否评论展示弹窗
 	let mp:MuiPlayer;
 
 	const useTabPlayGroup = (index:number) => {
@@ -140,6 +149,15 @@
 		})
 	}
 
+
+	/**
+	 * @description: 更新总数
+	 * @date: 2024-05-12 11:45
+	 * @author wuwenqiang
+	 */
+	const useUpdateTotal = () => {
+		getTopCommentCountService(movieItem.id,CommentEnum.MUSIC).then(res => commonCount.value = res.data)
+	}
 
 	savePlayRecordService(movieItem);
 	
@@ -230,6 +248,13 @@
 					border-color: @selected-color;
 				}
 			}
+		}
+		.comment-header{
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 		}
 	}
 </style>

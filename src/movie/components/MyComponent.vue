@@ -116,7 +116,7 @@
 		if(showPlayMovieList.value){// 如果是展开状态，重新获取一次播放记录
 			loading.value = true
 			playMovieList.splice(0,playMovieList.length)
-			getPlayRecordMovieListService()
+			getPlayRecordMovieListService(1,20)
 				.then(res => playMovieList.push(...res.data))
 				.finally(()=>loading.value = false)
 		}
@@ -174,7 +174,7 @@
 	onMounted(()=>{
 		// 获取分类
 		getUserMsgService().then(res => Object.assign(userMsg,res.data))
-		getPlayRecordMovieListService().then(res => playMovieList.push(...res.data))
+		getPlayRecordMovieListService(1,20).then(res => playMovieList.push(...res.data))
 	})
 </script>
 

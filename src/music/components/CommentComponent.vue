@@ -1,6 +1,6 @@
 <template>
     <view class="comment-wrapper" :style="{height:isShowInput ? 0 : 'auto'}">
-        <scroll-view class="comment-list" scroll-y @scrolltolower="onScrolltolower" :style="{height:isShowInput ? 0 : 'auto'}">
+        <scroll-view v-if="myCommentList.length > 0" class="comment-list" scroll-y @scrolltolower="onScrolltolower" :style="{height:isShowInput ? 0 : 'auto'}">
             <view class="comment-item" :key="aItem.id"
             v-for="aItem in myCommentList">
                 <image class="comment-avater" :src="HOST + aItem.avater" />
@@ -19,6 +19,7 @@
                 </view>
             </view>
         </scroll-view>
+        <text class="no-data">暂无评论</text>
         <view class="input-wrapper" :style="{position:isShowInput ? 'relative' : 'fixed'}" v-if="isShowInput || showInput">
 			<input v-model="inputValue" class="input" @blur="useBlur" :placeholder="placeholder" />
 			<text class="btn-send" @click="useSend">发送</text>
@@ -259,6 +260,13 @@
             padding-right: calc(@page-padding * 2);
             border-radius: @module-border-radius;
         }
+    }
+    .no-data{
+        display: flex;
+        height: 0;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
     }
 }
 </style>
