@@ -19,7 +19,7 @@
                 </view>
             </view>
         </scroll-view>
-        <text class="no-data">暂无评论</text>
+        <text class="no-data" v-else>暂无评论</text>
         <view class="input-wrapper" :style="{position:isShowInput ? 'relative' : 'fixed'}" v-if="isShowInput || showInput">
 			<input v-model="inputValue" class="input" @blur="useBlur" :placeholder="placeholder" />
 			<text class="btn-send" @click="useSend">发送</text>
