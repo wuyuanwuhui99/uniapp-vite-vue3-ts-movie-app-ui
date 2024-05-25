@@ -133,7 +133,7 @@
 	 * @date: 2023-12-28 22:58
 	 */
 	const useSaveFavorite = () => {
-		saveFavoriteService(movieItem).then((res)=>{
+		saveFavoriteService(movieItem.id).then((res)=>{
 			isFavorite.value = res.data > 0
 		})
 	}

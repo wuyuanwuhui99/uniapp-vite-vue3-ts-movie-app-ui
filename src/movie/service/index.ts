@@ -133,8 +133,8 @@ export const isFavoriteService = (movieId:number):Promise<MyAwesomeData<number>>
  * @description: 添加收藏
  * @date: 2023-12-28 22:58
  */
-export const saveFavoriteService = (movieItem:types.MovieType):Promise<MyAwesomeData<number>>=>{
-    return httpRequest.post<number>(api.saveFavorite,movieItem)
+export const saveFavoriteService = (movieId:number):Promise<MyAwesomeData<number>>=>{
+    return httpRequest.post<number>(`${api.saveFavorite}/${movieId}`)
 };
 
 /**
@@ -143,7 +143,7 @@ export const saveFavoriteService = (movieItem:types.MovieType):Promise<MyAwesome
  * @date: 2023-12-28 22:58
  */
 export const deleteFavoriteService = (movieId:number):Promise<MyAwesomeData<number>>=>{
-    return httpRequest.delete<number>(`${api.deleteFavorite}?movieId=${movieId}`);
+    return httpRequest.delete<number>(`${api.deleteFavorite}/${movieId}`);
 };
 
 /**
