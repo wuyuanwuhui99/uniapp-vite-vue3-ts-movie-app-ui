@@ -64,7 +64,7 @@
 
 <script setup lang="ts">
 	import uniPopup from '@dcloudio/uni-ui/lib/uni-popup/uni-popup.vue';
-	import { useMovieStore } from '../../stores/useMovieStore';
+	import { useStore } from '../../stores/useStore';
 	import OptionsDialog from '../components/OptionsDialog';
 	import {HOST} from '../../config/constant';
 	import { ref } from 'vue';
@@ -77,7 +77,7 @@
 	const popup1= ref<null | InstanceType<typeof uniPopup>>(null);
 	const sexOptionsDialog = ref<null | InstanceType<typeof OptionsDialog>>(null);
 	const inputValue = ref<string>('');
-	const store = useMovieStore();	
+	const store = useStore();	
 	
 	/**
 	 * @author: wuwenqiang

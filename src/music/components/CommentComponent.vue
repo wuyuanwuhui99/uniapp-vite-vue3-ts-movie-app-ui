@@ -72,6 +72,7 @@
 
     onMounted(()=>{
         myCommentList.push(...commentList);
+        console.log("myCommentList.length"+myCommentList.length)
         showInput.value =  isShowInput;
     });
 
@@ -109,8 +110,8 @@
 		const commentItem : CommentType = {
 			id: 0,//主键
 			content: inputValue.value,//评论内容
-			parentId: 0,//父节点id
-			topId: 0,//顶级节点id
+			parentId:  replyComment?.id || 0,//父节点id
+			topId: firstComment?.id || 0 ,//顶级节点id
 			type:category,// 类型
 			relationId,//影片id
 			createTime: "",//创建时间
@@ -124,12 +125,6 @@
 			showCommentCount: "",//显示的回复数量
 			replyPageNum: 0,
 			replyList: []
-		}
-		if (firstComment) {// 获取一级评论的id
-			commentItem.topId = firstComment.id;
-		}
-		if (replyComment) {// 获取回复的id
-			commentItem.parentId = replyComment.id;
 		}
 		insertCommentService(commentItem).then((res) => {
             console.log(res.data);

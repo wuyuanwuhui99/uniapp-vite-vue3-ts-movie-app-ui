@@ -77,7 +77,7 @@
 	import favoriteIcon from '../../../static/icon_music_collect.png';
 	import favoriteActiveIcon from '../../../static/icon_collection_active.png';
 	import type {CommentType} from '../types';
-	import { insertMusicFavoriteService, deleteMusicFavoriteService, getTopCommentListService, getTopCommentCountService} from '../service';
+	import { insertMusicFavoriteService, deleteMusicFavoriteService, getTopCommentListService, getCommentCountService} from '../service';
 	import orderImg from '../../../static/icon_music_order.png';
 	import repeatImg from '../../../static/icon_music_loop.png';
 	import randomImg from '../../../static/icon_music_random.png';
@@ -232,6 +232,7 @@
 		getTopCommentListService(store.musicItem.id,CommentEnum.MUSIC,pageNum.value,pageSize).then(res => {
 			commentTotal.value = res.total;
 			commentList.splice(0,commentList.length,...res.data);
+			console.log(`commentList`+commentList.length)
 			showCommentDialog.value = true;
 		})
 	}
@@ -242,7 +243,7 @@
 	 * @author wuwenqiang
 	 */
 	const useUpdateTotal = () => {
-		getTopCommentCountService(store.musicItem.id,CommentEnum.MUSIC).then(res => commentTotal.value = res.data)
+		getCommentCountService(store.musicItem.id,CommentEnum.MUSIC).then(res => commentTotal.value = res.data)
 	}
 </script>
 

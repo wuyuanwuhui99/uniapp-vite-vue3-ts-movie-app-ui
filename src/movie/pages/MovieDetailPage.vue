@@ -8,7 +8,7 @@
 
 				<view class="movie-name-wrapper">
 					<text class="movie-name">{{movieItem.movieName}}</text>
-					<text class="movie-description">{{movieItem.description.replace(/\n\s/g,'')}}</text>
+					<text class="movie-description">{{movieItem.description?.replace(/\n\s/g,'')}}</text>
 					<text class="movie-description">{{movieItem.star}}</text>
 					<text class="movie-description">{{movieItem.type}}</text>
 					<ScoreComponent :score="movieItem.score"/>

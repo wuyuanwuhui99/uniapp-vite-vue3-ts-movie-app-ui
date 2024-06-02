@@ -4,7 +4,7 @@
 			<div id="player" class="play-webview"></div>
 			<view class="section-wrapper">
 				<view class="module-block row">
-					<image @click="showCommentDialog = true" class="icon-middle" src="../../../static/icon_comment.png"/>
+					<image @click="useShowCommentDialog" class="icon-middle" src="../../../static/icon_comment.png"/>
 					<text class="comment-count small-margin">{{commonCount}}</text>
 					<image class="icon-middle" v-if="isFavorite" @click="useDeleteFavorite" src="../../../static/icon_collection_active.png"/>
 					<image class="icon-middle" v-else @click="useSaveFavorite" src="../../../static/icon_collection.png"/>
@@ -14,7 +14,7 @@
 				<view class="module-block column">
 					<text class="movieName">{{movieItem.movieName}}</text>
 					<text class="sub-title">{{movieItem.star}}</text>
-					<text class="sub-title" v-if="movieItem.description">{{movieItem.description.replace(/\n|\s/g,'')}}</text>
+					<text class="sub-title" v-if="movieItem.description">{{movieItem.description?.replace(/\n|\s/g,'')}}</text>
 					<ScoreComponent :score="movieItem.score"/>
 				</view>
 
@@ -40,7 +40,7 @@
 		</scroll-view>
 		<DialogComponent @onClose="showCommentDialog = false" v-if="showCommentDialog">
 			<template #header><text class="comment-header">{{commonCount}}条评论</text></template>
-			<template #content><CommentComponent @onSend="useUpdateTotal" :isShowInput="true" :relationId="movieItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
+			<template #content><CommentComponent @onSend="useUpdateTotal" :isShowInput="true" :relationId="movieItem.id" :category='CommentEnum.MOVIE' :commentList="commentList"></CommentComponent></template>
 		</DialogComponent>
 	</view>
 </template>
@@ -63,8 +63,8 @@
 	import DialogComponent from '../../music/components/DialogComponent.vue';
 	import CommentComponent from '../../music/components/CommentComponent.vue';
 	import type {CommentType} from '../../music/types';
-	import { getTopCommentCountService} from '../../music/service';
-	import {getCommentCountService,savePlayRecordService,getMovieUrlService,getRecommentListService,isFavoriteService,saveFavoriteService,deleteFavoriteService} from '../service';
+	import {getCommentCountService,getTopCommentListService} from '../../music/service';
+	import {savePlayRecordService,getMovieUrlService,getRecommentListService,isFavoriteService,saveFavoriteService,deleteFavoriteService} from '../service';
 
 	const movieItem = reactive<MovieType>({} as MovieType);
 	const currentUrl = ref<string>('');// 当前播放地址
@@ -86,7 +86,7 @@
 	Object.assign(movieItem,JSON.parse(queryData))
 	movieItem.id = 72667;// 测试数据
 
-	getCommentCountService(movieItem.id).then((res)=>{
+	getCommentCountService(movieItem.id,CommentEnum.MOVIE).then((res)=>{
 		commonCount.value = res.data
 	})
 
@@ -156,7 +156,14 @@
 	 * @author wuwenqiang
 	 */
 	const useUpdateTotal = () => {
-		getTopCommentCountService(movieItem.id,CommentEnum.MUSIC).then(res => commonCount.value = res.data)
+		getCommentCountService(movieItem.id,CommentEnum.MUSIC).then(res => commonCount.value = res.data)
+	}
+
+	const useShowCommentDialog = () => {
+		getTopCommentListService(movieItem.id,CommentEnum.MOVIE,1,20).then(res => {
+			commentList.splice(0,commentList.length,...res.data)
+			showCommentDialog.value = true;
+		})	
 	}
 
 	savePlayRecordService(movieItem);

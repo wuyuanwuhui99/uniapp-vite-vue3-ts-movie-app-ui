@@ -23,12 +23,12 @@
 	import { ref } from 'vue';
 	import type { UserDataType } from '../types';
 	import {loginService} from '../service';
-	import { useMovieStore } from '../../stores/useMovieStore';
+	import { useStore } from '../../stores/useStore';
 	
 	const userId = ref<string>('');
 	const password = ref<string>('');
 	
-	const store = useMovieStore();
+	const store = useStore();
 	userId.value = store.userData.userId;
 	uni.getStorage({key:userId.value}).then(res=>{
 		password.value = res.data || ''

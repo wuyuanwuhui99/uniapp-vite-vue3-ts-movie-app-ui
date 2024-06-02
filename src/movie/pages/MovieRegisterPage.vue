@@ -80,7 +80,6 @@
 	import { ref, reactive } from 'vue';
 	import type { UserDataType } from '../types';
 	import { registerService, getUserByIdService } from '../service';
-	import { useMovieStore } from '../../stores/useMovieStore';
 	import OptionsDialog from '../components/OptionsDialog';
 	
 	let loading:boolean = false;

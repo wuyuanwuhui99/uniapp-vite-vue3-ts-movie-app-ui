@@ -68,15 +68,6 @@ export const deleteLikeService = (relationId:number,type:string):Promise<MyAweso
 }
 
 /**
- * @description: 添加评论
- * @date: 2024-03-12 23:25
- * @author wuwenqiang
- */
-export const insertCommentService = (commentItem:types.CommentType):Promise<MyAwesomeData<types.CommentType>> => {
-    return httpRequest.post<types.CommentType>(api.insertComment,commentItem);
-}
-
-/**
  * @description: 获取用户歌单
  * @date: 2024-03-16 23:25
  * @author wuwenqiang
@@ -122,7 +113,7 @@ export const deleteMusicFavoriteService = (musicId:number):Promise<MyAwesomeData
 }
 
 /**
- * @description: 删除收藏
+ * @description: 获取一级评论
  * @date: 2024-05-12 12:21
  * @author wuwenqiang
  */
@@ -135,8 +126,15 @@ export const getTopCommentListService = (relationId:number,type:CommentEnum,page
  * @date: 2024-05-12 12:21
  * @author wuwenqiang
  */
-export const getTopCommentCountService = (relationId:number,type:CommentEnum):Promise<MyAwesomeData<number>> => {
+export const getCommentCountService = (relationId:number,type:CommentEnum):Promise<MyAwesomeData<number>> => {
     return httpRequest.get<number>(`${api.getCommentCount}?relationId=${relationId}&type=${type}`);
 }
 
-
+/**
+ * @description: 添加评论
+ * @date: 2024-03-12 23:25
+ * @author wuwenqiang
+ */
+export const insertCommentService = (commentItem:types.CommentType):Promise<MyAwesomeData<types.CommentType>> => {
+  return httpRequest.post<types.CommentType>(api.insertComment,commentItem);
+}
