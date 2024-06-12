@@ -39,7 +39,6 @@ export const useStore = defineStore("myStore", {
 				this.audio.play();
 				this.isPlaying = true;
 			}
-			this.playIndex = this.musicList.findIndex(item => item.id === this.musicItem.id);
 			this.removePlayMusic();
 			uni.setStorage({key:'music',data:JSON.stringify(musicItem)});
 		},

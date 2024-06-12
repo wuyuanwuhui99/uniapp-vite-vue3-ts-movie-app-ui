@@ -180,7 +180,6 @@
 	 */
 	const useTabMusic = (direct : string) => {
 		let {playIndex,musicList} = store;
-		console.log(playIndex,musicList);
 		if (direct === 'prev') {
 			if (playIndex === 0) {
 				store.resetPlayList();
