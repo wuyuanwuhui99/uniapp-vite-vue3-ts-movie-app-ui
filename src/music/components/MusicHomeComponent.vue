@@ -20,7 +20,6 @@
 					<text class="category-name">热门榜单</text>
 				</view>
 			</view>
-
 			<template v-for="item,index in allClassifies.slice(0,pageNum)">
 				<MusicSingerComponent :key="'classifyId' + item.id" :classifyItem="item"
 					v-if="item.classifyName === '推荐歌手'" />
@@ -44,6 +43,18 @@
 	const pageNum = ref<number>(3);// 初始化加载3个模块，其他模块按需加载
 	const allClassifies = reactive<Array<MusicClassifyType>>([]);// 所有分类模块
 	
+	const onload = () => {
+
+	}
+
+	const onclose = () => {
+		
+	}
+
+	const onerror = () => {
+		
+	}
+
 	/**
 	 * @description: 获取模块分类
 	 * @date: 2024-03-03 11:23

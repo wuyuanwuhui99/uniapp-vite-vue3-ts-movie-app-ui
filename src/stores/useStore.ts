@@ -2,7 +2,6 @@ import { defineStore } from 'pinia'
 import type {UserDataType} from '../movie/types/index';
 import type {MusicType,MusicClassifyType} from '../music/types/index';
 import {HOST,LoopMode} from '../config/constant';
-import { getMusicListByClassifyIdService } from '../music/service';
 export const useStore = defineStore("myStore", {
     state:() => { 
         return {
@@ -11,11 +10,12 @@ export const useStore = defineStore("myStore", {
 			musicItem: {} as MusicType,
 			audio: uni.createInnerAudioContext(),
 			isPlaying: false,
+			playList: [] as  Array<MusicType>,// 待播放的歌曲
 			musicList: [] as Array<MusicType>,
 			musicClassify: {} as MusicClassifyType,// 播放的类型
 			playIndex: -1 as number,// 播放的下标
 			total: 0,
-			loop: LoopMode.ORDER// 默认顺序播放
+			loop: LoopMode.ORDER,// 默认顺序播放
 		}
     },
     actions: {
@@ -39,6 +39,8 @@ export const useStore = defineStore("myStore", {
 				this.audio.play();
 				this.isPlaying = true;
 			}
+			this.playIndex = this.musicList.findIndex(item => item.id === this.musicItem.id);
+			this.removePlayMusic();
 			uni.setStorage({key:'music',data:JSON.stringify(musicItem)});
 		},
 		
@@ -51,16 +53,37 @@ export const useStore = defineStore("myStore", {
 			!musicClassify.pageNum && (musicClassify.pageNum = 1);
 			!musicClassify.pageSize && (musicClassify.pageSize = 50);
 			this.musicClassify = musicClassify;
-			getMusicListByClassifyIdService(musicClassify.id, musicClassify.pageNum, musicClassify.pageSize).then(res => {
-				this.musicList = res.data;
-				this.total = res.total;
-				this.playIndex = this.musicList.findIndex((item)=>{item.id === this.musicItem.id})
-			});
-			
 			uni.setStorage({
 				key: 'musicClassify',
 				data: JSON.stringify(musicClassify)
 			})
+		},
+
+		/**
+		 * @description: 设置播放的歌曲列表
+		 * @date: 2024-06-12 23:38
+		 * @author wuwenqiang
+		 */
+		setMusicList(musicList:Array<MusicType>){
+			this.musicList = musicList;
+			this.playList = [...musicList];
+			this.playIndex = this.musicList.findIndex(item => item.id === this.musicItem.id);
+			console.log('setMusicList',this.playIndex,this.musicList)
+			this.removePlayMusic()
+		},
+
+		resetPlayList(){
+			this.playList = [...this.musicList];
+		},
+
+		/**
+		 * @description: 从待播放歌曲中移除一首歌
+		 * @date: 2024-06-12 23:38
+		 * @author wuwenqiang
+		 */
+		removePlayMusic(){
+			const index = this.playList.findIndex(item => item.id === this.musicItem.id);
+			if(index !== -1)this.playList.splice(index,1);	
 		},
 		
 		/**

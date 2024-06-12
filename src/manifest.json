@@ -1,12 +1,12 @@
 {
-    "name" : "",
-    "appid" : "",
+    "name" : "movie",
+    "appid" : "__UNI__0D01F9F",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
-    "statusbar":{
-        "style":"hidden"
+    "statusbar" : {
+        "style" : "hidden"
     },
     "app-plus" : {
         "usingComponents" : true,
@@ -40,8 +40,19 @@
                     "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
                 ]
             },
-            "ios" : {},
-            "sdkConfigs" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
+            "sdkConfigs" : {
+                "ad" : {
+                    "gdt" : {},
+                    "ks" : {},
+                    "ks-content" : {},
+                    "sigmob" : {},
+                    "hw" : {},
+                    "bd" : {}
+                }
+            },
             "splashscreen" : {
                 "iosStyle" : "storyboard"
             }
@@ -67,5 +78,6 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "3"
+    "vueVersion" : "3",
+    "locale" : "zh-Hans"
 }

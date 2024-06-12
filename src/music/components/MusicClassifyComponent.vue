@@ -41,13 +41,17 @@
 	 * @author wuwenqiang
 	 */
 	const usePlayMusic = (musicItem:MusicType) => {
-		if(store.musicItem.id === musicItem.id){
+		console.log('usePlayMusic',store.musicItem?.id, musicItem.id)
+		if(store.musicItem?.id === musicItem.id && store.musicList.length !== 0){
 			store.usePlay(true)
 		}else{
-			if(store.musicClassify.classifyName !== classifyItem.classifyName){
-				store.setMusicClassify({...classifyItem})
+			store.setMusic(musicItem);
+			if(store.musicClassify.id !== classifyItem.id || store.musicList.length === 0){
+				getMusicListByClassifyIdService(classifyItem.id,1,500).then((res)=>{
+					store.setMusicList(res.data);
+				});
+				store.setMusicClassify({...classifyItem});
 			}
-			store.setMusic(musicItem)
 		}
 		 uni.navigateTo({
 		 	url: `../pages/MusicPlayerPage`

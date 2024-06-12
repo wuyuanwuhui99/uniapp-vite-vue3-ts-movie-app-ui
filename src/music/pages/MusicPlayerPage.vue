@@ -179,13 +179,24 @@
 	 * @author wuwenqiang
 	 */
 	const useTabMusic = (direct : string) => {
+		let {playIndex,musicList} = store;
+		console.log(playIndex,musicList);
 		if (direct === 'prev') {
-			if (store.playIndex === 0) return;
-			store.setMusicPlayIndex(store.playIndex - 1);
+			if (playIndex === 0) {
+				store.resetPlayList();
+				playIndex = musicList.length - 1;
+			}else{
+				playIndex--;
+			}
 		} else {
-			if (store.playIndex === store.musicList.length - 1) return;
-			store.setMusicPlayIndex(store.playIndex + 1);
+			if (store.playIndex === store.musicList.length - 1){
+				store.resetPlayList();
+				playIndex = 0;
+			}else{
+				playIndex++;
+			}	
 		}
+		store.setMusicPlayIndex(playIndex);
 		useLyric()
 	}
 
@@ -232,7 +243,6 @@
 		getTopCommentListService(store.musicItem.id,CommentEnum.MUSIC,pageNum.value,pageSize).then(res => {
 			commentTotal.value = res.total;
 			commentList.splice(0,commentList.length,...res.data);
-			console.log(`commentList`+commentList.length)
 			showCommentDialog.value = true;
 		})
 	}
