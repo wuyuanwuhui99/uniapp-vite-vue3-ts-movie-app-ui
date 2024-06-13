@@ -1,7 +1,8 @@
 <template>
 	<view class="page-wrapper">
 		<scroll-view scroll-y>
-			<div id="player" class="play-webview"></div>
+			<div id="player" class="play-webview" v-if="/\.m3u8$/.test(currentUrl)"></div>
+			<web-view class="play-webview" :src="currentUrl"></web-view>
 			<view class="section-wrapper">
 				<view class="module-block row">
 					<image @click="useShowCommentDialog" class="icon-middle" src="../../../static/icon_comment.png"/>
@@ -169,21 +170,23 @@
 	savePlayRecordService(movieItem);
 	
 	onMounted(()=>{
-		mp = new MuiPlayer({
-		    container:document.getElementById("player"),
-		    src:currentUrl.value,
-		    parse:{
-		        type:'hls',
-		        loader:Hls,
-		        config:{ 
-		            cors:true
-		        },
-		    },
-		});
+		if(/\.m3u8/.test(currentUrl.value)){
+			mp = new MuiPlayer({
+				container:document.getElementById("player"),
+				src:currentUrl.value.replace(/^http.+url=/,''),
+				parse:{
+					type:'hls',
+					loader:Hls,
+					config:{ 
+						cors:true
+					},
+				},
+			});
+		}
 	})
 	
 	onUnmounted(()=>{
-		mp.destroy();
+		mp?.destroy();
 	})
 </script>
 
