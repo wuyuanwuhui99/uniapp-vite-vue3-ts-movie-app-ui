@@ -43,10 +43,8 @@
 	import MusicMyComponent from '../components/MusicMyComponent.vue';
 	import { useStore } from "../../stores/useStore";
 	import { ref,onMounted,reactive,onActivated,onDeactivated,onUnmounted } from 'vue';
-	import {httpRequest} from '../../utils/HttpUtils';
 	import {HOST, LoopMode} from '../../config/constant';
 	import type { MusicClassifyType } from '../types';
-	import {getMusicListByClassifyIdService} from '../service'
 	
 	const angle = ref<number>(0);// 旋转的角度
 	const store = useStore();
@@ -68,13 +66,10 @@
 	}
 	
 	/**
-	 * @description: 移除监听事件
+	 * @description: 跳转播放页面
 	 * @date: 2024-05-10 22:10
 	 * @author wuwenqiang
 	 */
-	const useRemoveEventListener = () => {
-		store.audio.offTimeUpdate(useRotate);
-	}
 
 	const useNavigateTo = () => {
 		uni.navigateTo({
@@ -110,11 +105,16 @@
 		});
 	})
 	
-	onActivated(useRotate);// 从缓存中激活
+	onActivated(() => store.audio.onTimeUpdate(useRotate));// 从缓存中激活
 	
-	onDeactivated(useRemoveEventListener);// 进入缓存
+	/**
+	 * @description: 移除监听事件
+	 * @date: 2024-05-10 22:10
+	 * @author wuwenqiang
+	 */
+	onDeactivated(() => store.audio.offTimeUpdate(useRotate));// 进入缓存
 	
-	onUnmounted(useRemoveEventListener);// 销毁
+	onUnmounted(() => store.audio.offTimeUpdate(useRotate));// 销毁
 </script>
 
 <style lang="less">

@@ -41,7 +41,6 @@
 	 * @author wuwenqiang
 	 */
 	const usePlayMusic = (musicItem:MusicType) => {
-		console.log('usePlayMusic',store.musicItem?.id, musicItem.id)
 		if(store.musicItem?.id === musicItem.id && store.musicList.length !== 0){
 			store.usePlay(true)
 		}else{

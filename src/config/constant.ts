@@ -7,6 +7,11 @@ export enum LoopMode {
 	REPEAT,// 单曲循环
 }
 
+export enum TabEnum {
+    PREV,// 上一曲或者上一部
+	NEXT,// 下一曲或者下一部
+}
+
 export enum CommentEnum {
     MUSIC_CIRCLE="MUSIC_CIRCLE",
     MUSIC="MUSIC",

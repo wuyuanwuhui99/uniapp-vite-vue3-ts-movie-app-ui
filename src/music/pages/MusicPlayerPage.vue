@@ -49,12 +49,12 @@
 						</view>
 					</view>
 				</view>
-				<image class="play-menu-item" @click.stop="useTabMusic('prev')"
+				<image class="play-menu-item" @click.stop="onTabMusic(TabEnum.PREV)"
 					src="../../../static/icon_music_prev.png" />
 				<view @click.stop="store.usePlay(!store.isPlaying)" class="play-circle">
 					<image class="play-menu-item" :src="store.isPlaying ? playingIcon : pauseIcon" />
 				</view>
-				<image class="play-menu-item" @click.stop="useTabMusic('next')" src="../../../static/icon_music_next.png" />
+				<image class="play-menu-item" @click.stop="onTabMusic(TabEnum.NEXT)" src="../../../static/icon_music_next.png" />
 				<image class="play-menu-item" src="../../../static/icon_music_play_menu.png" />
 			</view>
 		</view>
@@ -70,7 +70,7 @@
 	import Lyric from 'lyric-parser';
 
 	import { useStore } from "../../stores/useStore";
-	import { HOST, LoopMode,CommentEnum } from '../../config/constant';
+	import { HOST, LoopMode,CommentEnum,TabEnum } from '../../config/constant';
 	import { formatSecond } from '../../utils/util';
 	import playingIcon from '../../../static/icon_music_playing.png';
 	import pauseIcon from '../../../static/icon_music_play_white.png';
@@ -83,6 +83,7 @@
 	import randomImg from '../../../static/icon_music_random.png';
 	import DialogComponent from '../components/DialogComponent.vue';
 	import CommentComponent from '../components/CommentComponent.vue';
+
 	const angle = ref<number>(0);// 旋转的角度
 	const percent = ref<number>(0);// 播放进度
 	const currentTime = ref<string>('');// 当前播放的时间
@@ -94,10 +95,9 @@
 	const pageSize = 20;
 	const pageNum = ref<number>(1);// 评论分页
 	const commentTotal = ref<number>(0);// 评论总数 
+	const store = useStore();
 
 	let loading = false;
-
-	const store = useStore();
 
 	// 循环模式
 	const loopMap = {
@@ -139,36 +139,27 @@
 	}
 
 	/**
-	 * @description: 歌曲播放完成之后切换歌曲
-	 * @date: 2024-05-17 22:54
+	 * @description: 随机切换歌曲
+	 * @date: 2024-06-15 00:33
 	 * @author wuwenqiang
 	 */
-	const onEnded = () => {
-		switch (store.loop){
-			case LoopMode.REPEAT:
-				store.audio.play()
-				break;
-			case LoopMode.RANDOM:
-				const randomIndex = Math.floor(Math.random() * store.playList.length);
-				store.setMusic(store.playList[randomIndex]);
-				break;
-			default:
-				useTabMusic('next');
+	const useRandomTabMusic = () => {
+		const randomIndex = Math.floor(Math.random() * store.playList.length);
+		store.setMusic(store.playList[randomIndex]);
+	}
+
+	/**
+	 * @description: 切换歌曲
+	 * @date: 2024-06-15 00:24
+	 * @author wuwenqiang
+	 */
+	const onTabMusic = (direct:TabEnum) => {
+		if(store.loop === LoopMode.ORDER || store.loop === LoopMode.REPEAT){
+			useTabMusic(direct);
+		}else {
+			useRandomTabMusic();
 		}
-		
-	};
-
-	store.audio.onEnded(onEnded);
-	store.audio.onTimeUpdate(useRotate);
-
-	onMounted(() => {
-		useLyric();
-	})
-
-	onUnmounted(() => {
-		// store.audio.offEnded(onEnded);
-		store.audio.offTimeUpdate(useRotate);
-	})
+	}
 
 	/**
 	 * @description: 切换歌曲
@@ -176,10 +167,10 @@
 	 * @author wuwenqiang
 	 */
 	const useLyric = () => {
-		if (!store.musicItem.lyrics) return;
+		if (!store.musicItem.lyrics) return currentLyric.value = null;
 		currentLyric.value = new Lyric(store.musicItem.lyrics, ({ lineNum = 0 }) => {
 			currentLineNum.value = lineNum;
-		})
+		});
 	}
 
 	/**
@@ -196,25 +187,23 @@
 	 * @date: 2024-05-12 11:45
 	 * @author wuwenqiang
 	 */
-	const useTabMusic = (direct : string) => {
+	const useTabMusic = (direct : TabEnum) => {
 		let {playIndex,musicList} = store;
-		if (direct === 'prev') {
+		if (direct === TabEnum.PREV) {// 切换上一首
 			if (playIndex === 0) {
 				store.resetPlayList();
 				playIndex = musicList.length - 1;
 			}else{
 				playIndex--;
 			}
-		} else {
-			if (store.playIndex === store.musicList.length - 1){
-				store.resetPlayList();
-				playIndex = 0;
-			}else{
-				playIndex++;
-			}	
+		} else if (store.playIndex === store.musicList.length - 1){
+			store.resetPlayList();
+			playIndex = 0;
+		}else{
+			playIndex++;
 		}
 		store.setMusicPlayIndex(playIndex);
-		useLyric()
+		useLyric();
 	}
 
 	/**
@@ -238,7 +227,7 @@
 
 			}).finally(() => loading = false)
 		} else {
-			insertMusicFavoriteService(store.musicItem.id).then((res) => {
+			insertMusicFavoriteService(store.musicItem.id).then(res => {
 				if (res.data > 0) {
 					store.musicItem.isFavorite = 1;
 					uni.showToast({
@@ -261,7 +250,7 @@
 			commentTotal.value = res.total;
 			commentList.splice(0,commentList.length,...res.data);
 			showCommentDialog.value = true;
-		})
+		});
 	}
 
 	/**
@@ -269,9 +258,35 @@
 	 * @date: 2024-05-12 11:45
 	 * @author wuwenqiang
 	 */
-	const useUpdateTotal = () => {
-		getCommentCountService(store.musicItem.id,CommentEnum.MUSIC).then(res => commentTotal.value = res.data)
-	}
+	const useUpdateTotal = () => getCommentCountService(store.musicItem.id,CommentEnum.MUSIC).then(res => commentTotal.value = res.data)
+
+	/**
+	 * @description: 歌曲播放完成之后切换歌曲
+	 * @date: 2024-05-17 22:54
+	 * @author wuwenqiang
+	 */
+	 store.audio.onEnded(()=>{
+		switch (store.loop){
+			case LoopMode.REPEAT:
+				store.audio.play()
+				break;
+			case LoopMode.RANDOM:
+				useRandomTabMusic()
+				break;
+			default:
+				useTabMusic(TabEnum.NEXT);
+		}
+	});
+
+	store.audio.onTimeUpdate(useRotate);
+
+	onMounted(() => {
+		useLyric();
+	})
+
+	onUnmounted(() => {
+		store.audio.offTimeUpdate(useRotate);
+	})
 </script>
 
 <style lang="less">
