@@ -138,7 +138,25 @@
 		store.setLoop(loop);
 	}
 
-	const onEnded = () => useTabMusic('next');
+	/**
+	 * @description: 歌曲播放完成之后切换歌曲
+	 * @date: 2024-05-17 22:54
+	 * @author wuwenqiang
+	 */
+	const onEnded = () => {
+		switch (store.loop){
+			case LoopMode.REPEAT:
+				store.audio.play()
+				break;
+			case LoopMode.RANDOM:
+				const randomIndex = Math.floor(Math.random() * store.playList.length);
+				store.setMusic(store.playList[randomIndex]);
+				break;
+			default:
+				useTabMusic('next');
+		}
+		
+	};
 
 	store.audio.onEnded(onEnded);
 	store.audio.onTimeUpdate(useRotate);
@@ -148,7 +166,7 @@
 	})
 
 	onUnmounted(() => {
-		store.audio.offEnded(onEnded);
+		// store.audio.offEnded(onEnded);
 		store.audio.offTimeUpdate(useRotate);
 	})
 

@@ -67,7 +67,6 @@ export const useStore = defineStore("myStore", {
 			this.musicList = musicList;
 			this.playList = [...musicList];
 			this.playIndex = this.musicList.findIndex(item => item.id === this.musicItem.id);
-			console.log('setMusicList',this.playIndex,this.musicList)
 			this.removePlayMusic()
 		},
 
