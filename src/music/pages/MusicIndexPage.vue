@@ -66,11 +66,10 @@
 	}
 	
 	/**
-	 * @description: 跳转播放页面
+	 * @description: 跳转播放器页面
 	 * @date: 2024-05-10 22:10
 	 * @author wuwenqiang
 	 */
-
 	const useNavigateTo = () => {
 		uni.navigateTo({
 			url: `../pages/MusicPlayerPage`

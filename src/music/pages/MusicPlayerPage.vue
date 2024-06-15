@@ -66,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted, onUnmounted, reactive } from 'vue';
+	import { ref, onMounted, onUnmounted, reactive, onActivated,onDeactivated,watch } from 'vue';
 	import Lyric from 'lyric-parser';
 
 	import { useStore } from "../../stores/useStore";
@@ -76,7 +76,7 @@
 	import pauseIcon from '../../../static/icon_music_play_white.png';
 	import favoriteIcon from '../../../static/icon_music_collect.png';
 	import favoriteActiveIcon from '../../../static/icon_collection_active.png';
-	import type {CommentType} from '../types';
+	import type {CommentType,MusicType} from '../types';
 	import { insertMusicFavoriteService, deleteMusicFavoriteService, getTopCommentListService, getCommentCountService,isMusicFavoriteService} from '../service';
 	import orderImg from '../../../static/icon_music_order.png';
 	import repeatImg from '../../../static/icon_music_loop.png';
@@ -97,6 +97,8 @@
 	const commentTotal = ref<number>(0);// 评论总数 
 	const isFavorite = ref<boolean>(false);// 查询是否收藏
 	const store = useStore();
+	let musicModel:MusicType | null = null;// 当前歌曲
+	let isActivePage:boolean = true;// 页面是否激活
 
 	let loading = false;
 
@@ -206,8 +208,6 @@
 			playIndex++;
 		}
 		store.setMusicPlayIndex(playIndex);
-		useMusicFavorite();
-		useLyric();
 	}
 
 	/**
@@ -290,6 +290,15 @@
 
 	store.audio.onTimeUpdate(useRotate);
 
+	watch(() => store.musicItem, 
+		(newVal, oldVal) => {
+			if(!isActivePage)return;// 如果是进入缓存页面，不查询歌词和收藏
+			musicModel = newVal;
+			useMusicFavorite();
+			useLyric();
+        }
+	);
+
 	onMounted(() => {
 		useLyric();
 		isMusicFavoriteService(store.musicItem.id).then((res)=>{
@@ -300,6 +309,22 @@
 	onUnmounted(() => {
 		store.audio.offTimeUpdate(useRotate);
 	})
+
+	onActivated(()=>{
+		isActivePage = true;
+		if(musicModel !== store.musicItem){// 从缓存中唤醒
+			useMusicFavorite();
+			useLyric();
+		}
+		store.audio.onTimeUpdate(useRotate);
+	})
+
+	onDeactivated(()=>{
+		isActivePage = false;// 进入缓存
+		store.audio.offTimeUpdate(useRotate);// 移除监听
+	});
+
+
 </script>
 
 <style lang="less">
