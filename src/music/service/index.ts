@@ -103,16 +103,6 @@ export const insertMusicRecordService = (musicModel:types.MusicType):Promise<MyA
     return httpRequest.post<number>(api.insertMusicRecord,musicModel);
 }
 
-
-/**
- * @description: 查询是否收藏
- * @date: 2024-05-12 12:21
- * @author wuwenqiang
- */
-export const isMusicFavoriteService = (musicId:number):Promise<MyAwesomeData<number>> => {
-    return httpRequest.get<number>(api.isMusicFavorite + musicId);
-}
-
 /**
  * @description: 添加收藏
  * @date: 2024-05-12 12:21

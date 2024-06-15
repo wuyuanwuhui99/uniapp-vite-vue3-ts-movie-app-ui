@@ -20,7 +20,7 @@
 			<text class="singer">{{store.musicItem.authorName}}</text>
 			<view class="play-operate-wrapper">
 				<image class="icon-operate" @click.stop="useFavorite"
-					:src="isFavorite ? favoriteActiveIcon: favoriteIcon" />
+					:src="store.musicItem.isFavorite ? favoriteActiveIcon: favoriteIcon" />
 				<image class="icon-operate" src="../../../static/icon_music_down.png" />
 				<image @click.stop="useComment" class="icon-operate" src="../../../static/icon_music_comments.png" />
 				<image class="icon-operate" src="../../../static/icon_music_white_menu.png" />
@@ -77,7 +77,7 @@
 	import favoriteIcon from '../../../static/icon_music_collect.png';
 	import favoriteActiveIcon from '../../../static/icon_collection_active.png';
 	import type {CommentType,MusicType} from '../types';
-	import { insertMusicFavoriteService, deleteMusicFavoriteService, getTopCommentListService, getCommentCountService,isMusicFavoriteService} from '../service';
+	import { insertMusicFavoriteService, deleteMusicFavoriteService, getTopCommentListService, getCommentCountService} from '../service';
 	import orderImg from '../../../static/icon_music_order.png';
 	import repeatImg from '../../../static/icon_music_loop.png';
 	import randomImg from '../../../static/icon_music_random.png';
@@ -95,7 +95,6 @@
 	const pageSize = 20;
 	const pageNum = ref<number>(1);// 评论分页
 	const commentTotal = ref<number>(0);// 评论总数 
-	const isFavorite = ref<boolean>(false);// 查询是否收藏
 	const store = useStore();
 	let musicModel:MusicType | null = null;// 当前歌曲
 	let isActivePage:boolean = true;// 页面是否激活
@@ -149,7 +148,6 @@
 	const useRandomTabMusic = () => {
 		const randomIndex = Math.floor(Math.random() * store.playList.length);
 		store.setMusic(store.playList[randomIndex]);
-		useMusicFavorite();
 		useLyric();
 	}
 
@@ -218,10 +216,10 @@
 	const useFavorite = () => {
 		if (loading) return;
 		loading = true;
-		if (isFavorite.value) {
+		if (store.musicItem.isFavorite) {
 			deleteMusicFavoriteService(store.musicItem.id).then((res) => {
 				if (res.data > 0) {
-					isFavorite.value = false;
+					store.musicItem.isFavorite = 0;
 					uni.showToast({
 						duration: 2000,
 						position: 'center',
@@ -233,7 +231,7 @@
 		} else {
 			insertMusicFavoriteService(store.musicItem.id).then(res => {
 				if (res.data > 0) {
-					isFavorite.value = true;
+					store.musicItem.isFavorite = 1;
 					uni.showToast({
 						duration: 2000,
 						position: 'center',
@@ -282,11 +280,6 @@
 		}
 	});
 
-	const useMusicFavorite = () => {
-		isMusicFavoriteService(store.musicItem.id).then((res)=>{
-			isFavorite.value = res.data > 0
-		});
-	}
 
 	store.audio.onTimeUpdate(useRotate);
 
@@ -294,16 +287,12 @@
 		(newVal, oldVal) => {
 			if(!isActivePage)return;// 如果是进入缓存页面，不查询歌词和收藏
 			musicModel = newVal;
-			useMusicFavorite();
 			useLyric();
         }
 	);
 
 	onMounted(() => {
 		useLyric();
-		isMusicFavoriteService(store.musicItem.id).then((res)=>{
-			isFavorite.value = res.data > 0
-		});
 	})
 
 	onUnmounted(() => {
@@ -313,7 +302,6 @@
 	onActivated(()=>{
 		isActivePage = true;
 		if(musicModel !== store.musicItem){// 从缓存中唤醒
-			useMusicFavorite();
 			useLyric();
 		}
 		store.audio.onTimeUpdate(useRotate);
