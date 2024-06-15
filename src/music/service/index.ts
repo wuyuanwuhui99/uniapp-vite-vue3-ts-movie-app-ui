@@ -95,12 +95,22 @@ export const getMusicRecordService = (pageNum:number,pageSize:number):Promise<My
 }
 
 /**
- * @description: 获取播放记录
+ * @description: 插入播放记录
  * @date: 2024-03-17 22:12
  * @author wuwenqiang
  */
 export const insertMusicRecordService = (musicModel:types.MusicType):Promise<MyAwesomeData<number>> => {
     return httpRequest.post<number>(api.insertMusicRecord,musicModel);
+}
+
+
+/**
+ * @description: 查询是否收藏
+ * @date: 2024-05-12 12:21
+ * @author wuwenqiang
+ */
+export const isMusicFavoriteService = (musicId:number):Promise<MyAwesomeData<number>> => {
+    return httpRequest.get<number>(api.isMusicFavorite + musicId);
 }
 
 /**
