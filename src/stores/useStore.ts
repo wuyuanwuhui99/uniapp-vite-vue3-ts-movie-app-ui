@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type {UserDataType} from '../movie/types/index';
 import type {MusicType,MusicClassifyType} from '../music/types/index';
 import {HOST,LoopMode} from '../config/constant';
+import {insertMusicRecordService} from '../music/service';
 export const useStore = defineStore("myStore", {
     state:() => { 
         return {
@@ -41,6 +42,7 @@ export const useStore = defineStore("myStore", {
 			}
 			this.removePlayMusic();
 			uni.setStorage({key:'music',data:JSON.stringify(musicItem)});
+			isPlaying && insertMusicRecordService(musicItem);
 		},
 		
 		/**
