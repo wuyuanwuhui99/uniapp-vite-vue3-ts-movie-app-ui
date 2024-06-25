@@ -19,11 +19,11 @@
 			</scroll-view>
 			<text class="singer">{{store.musicItem.authorName}}</text>
 			<view class="play-operate-wrapper">
-				<image class="icon-operate" @click.stop="useFavorite"
-					:src="store.musicItem.isFavorite ? favoriteActiveIcon: favoriteIcon" />
+				<image class="icon-operate" @click.stop="useLike"
+					:src="store.musicItem.isLike ? likeActiveIcon : likeIcon" />
 				<image class="icon-operate" src="../../../static/icon_music_down.png" />
 				<image @click.stop="useComment" class="icon-operate" src="../../../static/icon_music_comments.png" />
-				<image class="icon-operate" src="../../../static/icon_music_white_menu.png" />
+				<image class="icon-operate" @click="showFavoriteDialog = true" :src="isFavorite ? favoriteActiveIcon: favoriteIcon" />
 			</view>
 			<view class="play-progress-wrapper">
 				<text class="play-time">{{currentTime}}</text>
@@ -62,6 +62,11 @@
 			<template #header><text class="comment-header">{{commentTotal}}条评论</text></template>
 			<template #content><CommentComponent @onSend="useUpdateTotal" :isShowInput="true" :relationId="store.musicItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
 		</DialogComponent>
+
+		<DialogComponent @onClose="showFavoriteDialog = false" v-if="showFavoriteDialog">
+			<template #header><text class="comment-header">收藏夹</text></template>
+			// <template #content><CommentComponent @onSend="useUpdateTotal" :isShowInput="true" :relationId="store.musicItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
+		</DialogComponent>
 	</view>
 </template>
 
@@ -74,10 +79,12 @@
 	import { formatSecond } from '../../utils/util';
 	import playingIcon from '../../../static/icon_music_playing.png';
 	import pauseIcon from '../../../static/icon_music_play_white.png';
-	import favoriteIcon from '../../../static/icon_music_collect.png';
-	import favoriteActiveIcon from '../../../static/icon_collection_active.png';
+	import likeIcon from '../../../static/icon_music_collect.png';
+	import likeActiveIcon from '../../../static/icon_collection_active.png';
+	import favoriteIcon from '../../../static/icon_favorite.png';
+	import favoriteActiveIcon from '../../../static/icon_full_star.png';
 	import type {CommentType,MusicType} from '../types';
-	import { insertMusicFavoriteService, deleteMusicFavoriteService, getTopCommentListService, getCommentCountService} from '../service';
+	import { insertMusicLikeService, deleteMusicLikeService, getTopCommentListService, getCommentCountService,isMusicFavoriteService} from '../service';
 	import orderImg from '../../../static/icon_music_order.png';
 	import repeatImg from '../../../static/icon_music_loop.png';
 	import randomImg from '../../../static/icon_music_random.png';
@@ -92,9 +99,11 @@
 	const showLoopMenu = ref<boolean>(false);// 显示循环播放选择菜单
 	const showCommentDialog = ref<boolean>(false);// 显示评论弹窗
 	const commentList = reactive<Array<CommentType>>([]);// 
-	const pageSize = 20;
 	const pageNum = ref<number>(1);// 评论分页
 	const commentTotal = ref<number>(0);// 评论总数 
+	const isFavorite = ref<boolean>(false);// 是否已经收藏
+	const showFavoriteDialog = ref<boolean>(false);// 显示音乐收藏弹窗
+	const pageSize = 20;
 	const store = useStore();
 	let musicModel:MusicType | null = null;// 当前歌曲
 	let isActivePage:boolean = true;// 页面是否激活
@@ -209,33 +218,33 @@
 	}
 
 	/**
-	 * @description: 添加收藏或取消收藏
+	 * @description: 添加或者取消点赞
 	 * @date: 2024-05-12 11:45
 	 * @author wuwenqiang
 	 */
-	const useFavorite = () => {
+	const useLike = () => {
 		if (loading) return;
 		loading = true;
-		if (store.musicItem.isFavorite) {
-			deleteMusicFavoriteService(store.musicItem.id).then((res) => {
+		if (store.musicItem.isLike) {
+			deleteMusicLikeService(store.musicItem.id).then((res) => {
 				if (res.data > 0) {
-					store.musicItem.isFavorite = 0;
+					store.musicItem.isLike = 0;
 					uni.showToast({
 						duration: 2000,
 						position: 'center',
-						title: '取消收藏成功'
+						title: '取消点赞成功'
 					})
 				}
 
 			}).finally(() => loading = false)
 		} else {
-			insertMusicFavoriteService(store.musicItem.id).then(res => {
+			insertMusicLikeService(store.musicItem.id).then(res => {
 				if (res.data > 0) {
-					store.musicItem.isFavorite = 1;
+					store.musicItem.isLike = 1;
 					uni.showToast({
 						duration: 2000,
 						position: 'center',
-						title: '添加收藏成功'
+						title: '点赞成功'
 					})
 				}
 			}).finally(() => loading = false)
@@ -267,7 +276,7 @@
 	 * @date: 2024-05-17 22:54
 	 * @author wuwenqiang
 	 */
-	 store.audio.onEnded(()=>{
+	store.audio.onEnded(()=>{
 		switch (store.loop){
 			case LoopMode.REPEAT:
 				store.audio.play()
@@ -280,6 +289,24 @@
 		}
 	});
 
+	/**
+	 * @description: 查询音乐是否收藏
+	 * @date: 2024-06-25 22:08
+	 * @author wuwenqiang
+	 */
+	const useIsMusicFavorite = () => {
+		isFavorite.value = false;
+		isMusicFavoriteService(store.musicItem.id).then(res => isFavorite.value = Boolean(res.data));
+	} 
+
+	/**
+	 * @description: 音乐搜查
+	 * @date: 2024-06-25 22:08
+	 * @author wuwenqiang
+	 */
+	const useMusicFavorite = () => {
+
+	}
 
 	store.audio.onTimeUpdate(useRotate);
 
@@ -288,11 +315,13 @@
 			if(!isActivePage)return;// 如果是进入缓存页面，不查询歌词和收藏
 			musicModel = newVal;
 			useLyric();
+			useIsMusicFavorite();
         }
 	);
 
 	onMounted(() => {
 		useLyric();
+		useIsMusicFavorite();
 	})
 
 	onUnmounted(() => {

@@ -108,8 +108,8 @@ export const insertMusicRecordService = (musicModel:types.MusicType):Promise<MyA
  * @date: 2024-05-12 12:21
  * @author wuwenqiang
  */
-export const insertMusicFavoriteService = (musicId:number):Promise<MyAwesomeData<number>> => {
-    return httpRequest.post<number>(api.insertMusicFavorite + musicId);
+export const insertMusicLikeService = (musicId:number):Promise<MyAwesomeData<number>> => {
+    return httpRequest.post<number>(api.insertMusicLike + musicId);
 }
 
 /**
@@ -117,8 +117,8 @@ export const insertMusicFavoriteService = (musicId:number):Promise<MyAwesomeData
  * @date: 2024-05-12 12:21
  * @author wuwenqiang
  */
-export const deleteMusicFavoriteService = (musicId:number):Promise<MyAwesomeData<number>> => {
-    return httpRequest.delete<number>(api.deleteMusicFavorite + musicId);
+export const deleteMusicLikeService = (musicId:number):Promise<MyAwesomeData<number>> => {
+    return httpRequest.delete<number>(api.deleteMusicLike + musicId);
 }
 
 /**
@@ -147,3 +147,12 @@ export const getCommentCountService = (relationId:number,type:CommentEnum):Promi
 export const insertCommentService = (commentItem:types.CommentType):Promise<MyAwesomeData<types.CommentType>> => {
   return httpRequest.post<types.CommentType>(api.insertComment,commentItem);
 }
+
+/**
+ * @description: 查询音乐是否已经收藏
+ * @date: 2024-06-25 22:02
+ * @author wuwenqiang
+ */
+export const isMusicFavoriteService = (musicId:number):Promise<MyAwesomeData<number>> => {
+    return httpRequest.get<number>(api.isMusicFavorite + musicId);
+  }

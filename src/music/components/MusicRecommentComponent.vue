@@ -13,7 +13,7 @@
 					<text class="music-author">{{item.authorName}}</text>
 				</view>
 				<image class="icon-operatation" src="../../../static/icon_music_play.png" />
-				<image class="icon-operatation" v-if="item.isFavorite" src="../../../static/icon_like_active.png" />
+				<image class="icon-operatation" v-if="item.isLike" src="../../../static/icon_like_active.png" />
 				<image class="icon-operatation" v-else src="../../../static/icon_like.png" />
 				<image class="icon-operatation" src="../../../static/icon_music_menu.png" />
 			</view>

@@ -45,7 +45,7 @@
 	import { ref,onMounted,reactive,onActivated,onDeactivated,onUnmounted } from 'vue';
 	import {HOST, LoopMode} from '../../config/constant';
 	import type { MusicClassifyType } from '../types';
-	
+
 	const angle = ref<number>(0);// 旋转的角度
 	const store = useStore();
 	const activeIndex = ref<number>(0)
@@ -54,7 +54,7 @@
 		activeIndex.value = index;
 		!isInitComponent[index] && isInitComponent.splice(index,1,true)
 	}
-	
+
 	/**
 	 * @description: 头像旋转
 	 * @date: 2024-05-10 22:10
@@ -64,7 +64,7 @@
 		angle.value += 10
 		angle.value = angle.value === 360 ? 0 : angle.value;
 	}
-	
+
 	/**
 	 * @description: 跳转播放器页面
 	 * @date: 2024-05-10 22:10
@@ -75,7 +75,7 @@
 			url: `../pages/MusicPlayerPage`
 		})
 	}
-	
+
 	onMounted(()=>{
 		store.audio.onTimeUpdate(useRotate);
 		uni.getStorage({key:'music',
@@ -85,7 +85,7 @@
 			}
 		  },
 		});
-		
+
 		uni.getStorage({key:'musicClassify',
 			success: (res) => {
 			if(res.data !== '' && res.data !== null){
@@ -102,17 +102,17 @@
 			}
 		  },
 		});
-	})
-	
+	});
+
 	onActivated(() => store.audio.onTimeUpdate(useRotate));// 从缓存中激活
-	
+
 	/**
 	 * @description: 移除监听事件
 	 * @date: 2024-05-10 22:10
 	 * @author wuwenqiang
 	 */
 	onDeactivated(() => store.audio.offTimeUpdate(useRotate));// 进入缓存
-	
+
 	onUnmounted(() => store.audio.offTimeUpdate(useRotate));// 销毁
 </script>
 
@@ -146,13 +146,14 @@
 			.mini-player-wrapper{
 				position: absolute;
 				left: 50%;
-				top:-30%;
+				top:-50%;
 				transform: translateX(-50%);
 				width: @mini-music-player-size;
 				height: @mini-music-player-size;
 				border-radius: 50%;
 				overflow: hidden;
-				background-color: @page-background-color;
+				border: @mini-player-border-size solid @page-background-color;
+				background-color: @white-background-color;
 				display: flex;
 				justify-content: center;
 				align-items: center;

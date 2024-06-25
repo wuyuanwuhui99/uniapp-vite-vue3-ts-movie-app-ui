@@ -8,8 +8,8 @@ export default {
   getMySinger: '/service/myMusic-getway/getMySinger',// 获取我关注的歌手
   getMusicRecord: '/service/myMusic-getway/getMusicRecord',// 获取播放记录
   insertMusicRecord: '/service/myMusic-getway/insertMusicRecord',// 记录播放日志
-  insertMusicFavorite: '/service/myMusic-getway/insertMusicFavorite/',// 插入收藏
-  deleteMusicFavorite: '/service/myMusic-getway/deleteMusicFavorite/',// 删除收藏
+  insertMusicLike: '/service/myMusic-getway/insertMusicLike/',// 插入收藏
+  deleteMusicLike: '/service/myMusic-getway/deleteMusicLike/',// 删除收藏
   queryMusicFavorite: '/service/myMusic-getway/queryMusicFavorite',// 查询收藏列表
   searchMusic: '/service/myMusic/searchMusic',// 音乐搜索
   getSingerCategory:'/service/myMusic/getSingerCategory',// 获取歌手分类
@@ -17,5 +17,6 @@ export default {
   deleteLike:'/service/social-getway/deleteLike',// 删除点赞
   insertComment:'/service/social-getway/insertComment',// 新增评论
   getTopCommentList:'/service/social/getTopCommentList',// 获取一级评论列表
-  getCommentCount: '/service/social/getCommentCount'// 获取评论总数
+  getCommentCount: '/service/social/getCommentCount',// 获取评论总数
+  isMusicFavorite:'/service/myMusic-getway/isMusicFavorite/' // 查询音乐是否收藏
 };
