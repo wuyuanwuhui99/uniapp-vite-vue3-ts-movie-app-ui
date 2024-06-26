@@ -141,3 +141,14 @@ export type MuiscPlayMenuType = {
   createTime:string;// 创建时间
   updateTime:string;// 更新时间
 }
+
+// 音乐收藏夹类型
+export type FavoriteDirectoryType = {
+	id:number,//主键
+	userId:string;// 用户id
+	name:string,// 用户名称
+	active:number,// 当前这首歌曲是否在这个收藏夹内
+	total:number;// 歌单里面的歌曲总数
+	createTime:string;// 创建时间
+	updateTime:string;// 更新时间
+  }

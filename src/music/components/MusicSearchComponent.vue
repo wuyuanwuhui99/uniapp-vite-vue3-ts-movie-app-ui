@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 	import AvaterComponent from '../../movie/components/AvaterComponent';
-	import { onMounted, ref } from 'vue';
+	import { ref } from 'vue';
 	import {getKeyWordMusicService} from '../service';
 	const keyword = ref<string>('');
 	

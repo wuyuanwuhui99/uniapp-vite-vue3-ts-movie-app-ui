@@ -18,5 +18,6 @@ export default {
   insertComment:'/service/social-getway/insertComment',// 新增评论
   getTopCommentList:'/service/social/getTopCommentList',// 获取一级评论列表
   getCommentCount: '/service/social/getCommentCount',// 获取评论总数
-  isMusicFavorite:'/service/myMusic-getway/isMusicFavorite/' // 查询音乐是否收藏
+  isMusicFavorite:'/service/myMusic-getway/isMusicFavorite/', // 查询音乐是否收藏
+  getFavoriteDirectory:'/service/myMusic-getway/getFavoriteDirectory'// 查询收藏夹
 };

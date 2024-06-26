@@ -155,4 +155,13 @@ export const insertCommentService = (commentItem:types.CommentType):Promise<MyAw
  */
 export const isMusicFavoriteService = (musicId:number):Promise<MyAwesomeData<number>> => {
     return httpRequest.get<number>(api.isMusicFavorite + musicId);
-  }
+}
+
+/**
+ * @description: 查询音乐是否已经收藏
+ * @date: 2024-06-25 22:02
+ * @author wuwenqiang
+ */
+export const getFavoriteDirectoryService = (musicId:number):Promise<MyAwesomeData<Array<types.FavoriteDirectoryType>>> => {
+    return httpRequest.get<Array<types.FavoriteDirectoryType>>(`${api.getFavoriteDirectory}?musicId=` + musicId);
+}

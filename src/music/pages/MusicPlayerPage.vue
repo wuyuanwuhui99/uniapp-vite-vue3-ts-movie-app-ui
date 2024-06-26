@@ -64,8 +64,12 @@
 		</DialogComponent>
 
 		<DialogComponent @onClose="showFavoriteDialog = false" v-if="showFavoriteDialog">
-			<template #header><text class="comment-header">收藏夹</text></template>
-			// <template #content><CommentComponent @onSend="useUpdateTotal" :isShowInput="true" :relationId="store.musicItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
+			<template #header>
+				<text class="comment-header">收藏夹</text>
+			</template>
+			<template #content>
+				<FavoriteDirectoryComponent :musicId="store.musicItem.id"/>
+			</template>		
 		</DialogComponent>
 	</view>
 </template>
@@ -90,6 +94,7 @@
 	import randomImg from '../../../static/icon_music_random.png';
 	import DialogComponent from '../components/DialogComponent.vue';
 	import CommentComponent from '../components/CommentComponent.vue';
+	import FavoriteDirectoryComponent from '../components/FavoriteDirectoryComponent.vue';
 
 	const angle = ref<number>(0);// 旋转的角度
 	const percent = ref<number>(0);// 播放进度
@@ -535,7 +540,6 @@
 				}
 			}
 		}
-
 		.comment-header{
 			width: 100%;
 			height: 100%;
@@ -543,5 +547,6 @@
 			justify-content: center;
 			align-items: center;
 		}
+		
 	}
 </style>
