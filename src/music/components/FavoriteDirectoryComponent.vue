@@ -7,7 +7,7 @@
             <text>新建收藏夹</text>
         </view>
         <scroll-view class="favorite-directory" scroll-y show-scrollbar="false">
-            <checkbox-group>
+            <checkbox-group @change="useCheckChange">
                 <label class="checkbox-item"  v-for="item in favoriteDirectoryList" :key="item.id">
                     <image class="rectangle" v-if="item.cover" :src="HOST + item.cover"/>
                     <view v-else class="rectangle">
@@ -15,30 +15,68 @@
                     </view>
                     <view class="checkbox-name">
                         <text>{{item.name}}</text>
-                        <text class="favorite-total">{{ item.total }}</text>
+                        <text class="favorite-total">{{ item.total }}首</text>
                     </view>
                     
-                    <checkbox value="cb" :checked="item.checked" />
+                    <checkbox :value="item.id" :checked="item.checked" />
                 </label>
             </checkbox-group>
         </scroll-view>
+        <button @click="userAddFavorite" class="btn-add-favorite">{{isFavorite && checkboxValue.length == 0 ? '取消收藏': '添加'}}{{checkboxValue.length > 0 ? `（已选${checkboxValue.length}个）` : ''}}</button>
     </view>
 </template>
 
 <script setup lang="ts">
     import { HOST } from '../../config/constant';
-    import {reactive,defineProps,type PropType} from 'vue';
-    import type {FavoriteDirectoryType} from '../types';
-    import {getFavoriteDirectoryService} from '../service';
+    import {reactive,defineProps,type PropType,defineEmits} from 'vue';
+    import type {FavoriteDirectoryType,FavoriteMusicType} from '../types';
+    import {getFavoriteDirectoryService,insertMusicFavoriteService} from '../service';
     const favoriteDirectoryList = reactive<Array<FavoriteDirectoryType>>([]);
-    const { musicId } = defineProps({
+    const checkboxValue = reactive<Array<number>>([]);
+    const { musicId,isFavorite } = defineProps({
+        isFavorite:{
+            type: Boolean as PropType<boolean>,
+			reqiure: true,
+			default: false
+        },
 		musicId: {
 			type: Number as PropType<number>,
 			reqiure: true,
-			default: {}
+			default: -1
 		}
 	});
-    getFavoriteDirectoryService(musicId).then(res => favoriteDirectoryList.push(...res.data));
+    
+    const emit = defineEmits(['useFavorite']);
+
+    const useCheckChange = (e:EventHandler) => {
+        checkboxValue.length = 0;
+        checkboxValue.push(...e.detail.value);
+    }
+
+    const userAddFavorite = () => {
+        const favoriteList:Array<FavoriteMusicType> = checkboxValue.map(item=>{
+            return {favoriteId:item} as FavoriteMusicType
+        });
+        insertMusicFavoriteService(musicId,favoriteList).then(res => {
+            if(res.data > 0){
+                uni.showToast({
+                    duration:2000,
+                    position:'center',
+                    title:favoriteList.length == 0 ? '取消收藏成功' :'添加收藏成功'
+                });
+            }
+            emit('useFavorite',favoriteList.length != 0);
+        })
+    }
+
+    getFavoriteDirectoryService(musicId).then(res => {
+        res.data.forEach(item => {
+            if(item.checked){
+                checkboxValue.push(item.id);
+            }
+            favoriteDirectoryList.push(item);
+        })
+    });
 </script>
 
 
@@ -92,6 +130,15 @@
                 }
             }
         }
+    }
+    .btn-add-favorite{
+        border: none;
+        display: block;
+        width: 100%;
+        margin-top: @page-padding;
+        background-color: @warn-color;
+        color: @module-background-color;
+        border-radius: @big-border-radius;
     }
 }
 </style>

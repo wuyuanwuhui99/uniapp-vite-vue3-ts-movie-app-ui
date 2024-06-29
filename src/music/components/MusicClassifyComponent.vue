@@ -52,9 +52,9 @@
 				store.setMusicClassify({...classifyItem});
 			}
 		}
-		 uni.navigateTo({
-		 	url: `../pages/MusicPlayerPage`
-		 })
+		uni.navigateTo({
+			url: `../pages/MusicPlayerPage`
+		});
 	}
 	
 	const classifyMusicList = reactive<Array<MusicType>>([]);

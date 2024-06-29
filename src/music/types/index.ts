@@ -152,4 +152,13 @@ export type FavoriteDirectoryType = {
 	createTime:string;// 创建时间
 	updateTime:string;// 更新时间
 	cover:string;// 封面
+}
+
+// 音乐收藏夹音乐类型,只在提交时用到
+export type FavoriteMusicType = {
+	id?:number,//主键
+	favoriteId:number;// 用户id
+	musicId?:number,// 用户名称
+	createTime?:string;// 创建时间
+	updateTime?:string;// 更新时间
   }

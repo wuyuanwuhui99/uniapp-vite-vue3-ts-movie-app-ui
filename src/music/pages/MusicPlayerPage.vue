@@ -68,7 +68,7 @@
 				<text class="comment-header">收藏夹</text>
 			</template>
 			<template #content>
-				<FavoriteDirectoryComponent :musicId="store.musicItem.id"/>
+				<FavoriteDirectoryComponent @useFavorite="useMusicFavorite" :isFavorite="isFavorite" :musicId="store.musicItem.id"/>
 			</template>		
 		</DialogComponent>
 	</view>
@@ -305,18 +305,19 @@
 	} 
 
 	/**
-	 * @description: 音乐搜查
+	 * @description: 音乐收藏
 	 * @date: 2024-06-25 22:08
 	 * @author wuwenqiang
 	 */
-	const useMusicFavorite = () => {
-
+	const useMusicFavorite = (isMusicFavorite:boolean) => {
+		isFavorite.value = isMusicFavorite;
+		showFavoriteDialog.value = false
 	}
 
 	store.audio.onTimeUpdate(useRotate);
 
 	watch(() => store.musicItem, 
-		(newVal, oldVal) => {
+		(newVal) => {
 			if(!isActivePage)return;// 如果是进入缓存页面，不查询歌词和收藏
 			musicModel = newVal;
 			useLyric();

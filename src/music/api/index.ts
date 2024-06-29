@@ -19,5 +19,6 @@ export default {
   getTopCommentList:'/service/social/getTopCommentList',// 获取一级评论列表
   getCommentCount: '/service/social/getCommentCount',// 获取评论总数
   isMusicFavorite:'/service/myMusic-getway/isMusicFavorite/', // 查询音乐是否收藏
-  getFavoriteDirectory:'/service/myMusic-getway/getFavoriteDirectory'// 查询收藏夹
+  getFavoriteDirectory:'/service/myMusic-getway/getFavoriteDirectory',// 查询收藏夹
+  insertMusicFavorite:'/service/myMusic-getway/insertMusicFavorite/'// 查询收藏夹
 };

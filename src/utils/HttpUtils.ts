@@ -116,7 +116,7 @@ class HttpRequest {
 						resolve(data as MyAwesomeData<T>)
 					} else if (code === 401) {
 						// 未授权
-						!requestConfig.noShowMsg && wx.showModal({
+						!requestConfig.noShowMsg && uni.showModal({
 							title: "登录失效",
 							content: "登录失效，请重新登录",
 						}).then(resModa => {
@@ -155,7 +155,7 @@ class HttpRequest {
 	 * @param {RequestConfig} OtherConfig request其他配置
 	 * @return {*}
 	 */
-	public post<T>(url: string, data?: Object, OtherConfig?: RequestConfig) {
+	public post<T>(url: string, data?: Object|Array<any>, OtherConfig?: RequestConfig) {
 		return this.request<T>({ method: HttpMethod.POST, url, data, ...OtherConfig })
 	}
 
@@ -177,7 +177,7 @@ class HttpRequest {
 	 * @param {RequestConfig} OtherConfig request其他配置
 	 * @return {*}
 	 */
-	public put<T>(url: string, data?: Object, OtherConfig?: RequestConfig):Promise<MyAwesomeData<T>> {
+	public put<T>(url: string, data?: Object|Array<any>, OtherConfig?: RequestConfig):Promise<MyAwesomeData<T>> {
 		return this.request<T>({ method: HttpMethod.PUT, url, data, ...OtherConfig })
 	}
 }
