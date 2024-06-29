@@ -174,3 +174,12 @@ export const getFavoriteDirectoryService = (musicId:number):Promise<MyAwesomeDat
 export const insertMusicFavoriteService = (musicId:number,favoriteList:Array<types.FavoriteMusicType>):Promise<MyAwesomeData<number>> => {
     return httpRequest.post<number>(api.insertMusicFavorite+ musicId,favoriteList);
 }
+
+/**
+ * @description: 添加音乐收藏
+ * @date: 2024-06-29 11:26
+ * @author wuwenqiang
+ */
+export const insertFavoriteDirectoryService = (favoriteDirectory:types.FavoriteDirectoryType):Promise<MyAwesomeData<types.FavoriteDirectoryType>> => {
+    return httpRequest.post<types.FavoriteDirectoryType>(api.insertFavoriteDirectory,favoriteDirectory);
+}

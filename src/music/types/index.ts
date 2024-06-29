@@ -145,13 +145,13 @@ export type MuiscPlayMenuType = {
 // 音乐收藏夹类型
 export type FavoriteDirectoryType = {
 	id:number,//主键
-	userId:string;// 用户id
+	userId?:string;// 用户id
 	name:string,// 用户名称
-	checked:number,// 当前这首歌曲是否在这个收藏夹内
-	total:number;// 歌单里面的歌曲总数
-	createTime:string;// 创建时间
-	updateTime:string;// 更新时间
-	cover:string;// 封面
+	checked?:number,// 当前这首歌曲是否在这个收藏夹内
+	total?:number;// 歌单里面的歌曲总数
+	createTime?:string;// 创建时间
+	updateTime?:string;// 更新时间
+	cover?:string;// 封面
 }
 
 // 音乐收藏夹音乐类型,只在提交时用到

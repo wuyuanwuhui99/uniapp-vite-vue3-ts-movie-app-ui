@@ -20,5 +20,6 @@ export default {
   getCommentCount: '/service/social/getCommentCount',// 获取评论总数
   isMusicFavorite:'/service/myMusic-getway/isMusicFavorite/', // 查询音乐是否收藏
   getFavoriteDirectory:'/service/myMusic-getway/getFavoriteDirectory',// 查询收藏夹
-  insertMusicFavorite:'/service/myMusic-getway/insertMusicFavorite/'// 查询收藏夹
+  insertMusicFavorite:'/service/myMusic-getway/insertMusicFavorite/',// 查询收藏夹
+  insertFavoriteDirectory:'/service/myMusic-getway/insertFavoriteDirectory'// 创建收藏夹
 };
