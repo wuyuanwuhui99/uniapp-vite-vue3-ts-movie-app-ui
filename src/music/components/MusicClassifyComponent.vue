@@ -10,7 +10,7 @@
 				</view>
 				<image v-if="store.isPlaying && store.musicItem.id === item.id" @click="store.usePlay(false)" class="icon-play" src="../../../static/icon_music_playing_grey.png"/>
 				<image v-else @click="usePlayMusic(item)" class="icon-play" src="../../../static/icon_music_play.png"/>
-				<text class="icon-add">+</text>
+				<image class="icon-play" :src="item.isLike ? isLikeActiveIcon : isLikeIcon"/>
 				<image class="icon-play" src="../../../static/icon_music_menu.png" />
 			</view>
 		</view>
@@ -24,7 +24,8 @@
 	import { HOST } from "../../config/constant";
 	import MusicTitleComponent from './MusicTitleComponent';
 	import { useStore } from "../../stores/useStore"; 
-	
+	import isLikeIcon from '../../../static/icon_like.png';
+	import isLikeActiveIcon from '../../../static/icon_like_active.png';
 	const store = useStore();
 	
 	const { classifyItem } = defineProps({
@@ -113,14 +114,7 @@
 			.icon-play {
 				width: @small-icon-size;
 				height: @small-icon-size;
-
-			}
-
-			.icon-add {
-				padding-right: @page-padding;
-				padding-left: @page-padding;
-				color: @disable-text-color;
-				font-size: 60rpx;
+				margin-left: @page-padding;
 			}
 		}
 	}

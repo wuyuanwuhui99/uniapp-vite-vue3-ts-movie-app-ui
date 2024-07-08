@@ -10,16 +10,16 @@
 
 		<template v-if="searching">
 			<scroll-view v-if="!loading" class="module-block module-block-last scroll-list" scroll-y show-scrollbar="false">
-				<View>
-					<view v-for="item in searchMusicList" :key="item.id" class="scroll-view-item">
-						<Image class="song-cover" :src="/http[s]?:\/\//.test(item.cover) ? item.cover.replace('{size}', '480') : HOST + item.cover"/>
-						<view class="name-wrapper">
-							<text>{{ item.songName }}</text>
-							<text class="author-name">{{ item.authorName }}</text>
-						</view>
+				<view v-for="item in searchMusicList" :key="item.id" class="scroll-view-item">
+					<image class="song-cover" :src="/http[s]?:\/\//.test(item.cover) ? item.cover.replace('{size}', '480') : HOST + item.cover"/>
+					<view class="name-wrapper">
+						<text class="song-name">{{ item.songName }}</text>
+						<text class="author-name">{{ item.authorName }}</text>
 					</view>
-				</View>
-				
+					<image @click="store.usePlay(false)" class="icon-play" :src=" store.isPlaying && store.musicItem.id === item.id ? playingIcon : pauseIcon"/>
+					<image class="icon-play" :src="item.isLike ? isLikeActiveIcon : isLikeIcon"/>
+					<image class="icon-play" src="../../../static/icon_music_menu.png" />
+				</view>
 			</scroll-view>
 		</template>
 		<template v-else>
@@ -43,16 +43,26 @@
 	import {HOST,MUSIC_SEARCH_STORAGE_KEY} from '../../config/constant';
 	import TitleComponent from '../../movie/components/TitleComponent.vue';
 	import {searchMusicService} from '../service';
+	import { useStore } from "../../stores/useStore"; 
+	import pauseIcon from '../../../static/icon_music_play.png';
+	import playingIcon from '../../../static/icon_music_playing_grey.png';
+	import isLikeIcon from '../../../static/icon_like.png';
+	import isLikeActiveIcon from '../../../static/icon_like_active.png';
+
+	const store = useStore();
+	const route = useRoute();
 
 	const searchRecordList = reactive<Array<string>>([]);
-	const route = useRoute();
 	const placeholder:string = decodeURIComponent(route.query.keyword as string);
+
 	const searchMusicList = reactive<Array<MusicType>>([]);
 	const searching = ref<boolean>(false);
 	const loading = ref<boolean>(false);
 	const keyword = ref<string>("");
 	const pageNum = ref<number>(1);
 	const pageSize = ref<number>(20);
+
+	
 	
 	uni.getStorage({key:MUSIC_SEARCH_STORAGE_KEY}).then(res=>{
 		if(res){
@@ -183,11 +193,13 @@
 		flex:1;
 		padding: @page-padding;
 		box-sizing: border-box;
+		height: 0;
 		.scroll-view-item{
 			display: flex;
 			margin-top: @page-padding;
 			padding-bottom: @page-padding;
 			border-bottom:1rpx solid @search-input-color;
+			align-items: center;
 			&:first-child{
 				margin-top:0;
 			}
@@ -203,10 +215,22 @@
 			.name-wrapper{
 				display: flex;
 				flex-direction: column;
-				gap: @page-padding;
+				gap: @small-margin;
+				flex:1;
+				width: 0;
+				.song-name{
+					text-overflow:ellipsis;
+					white-space: nowrap;
+					overflow: hidden;
+				}
 				.author-name{
 					color:@sub-title-color;
 				}
+			}
+			.icon-play {
+				margin-left: @page-padding;
+				width: @small-icon-size;
+				height: @small-icon-size;
 			}
 		}
 	}
