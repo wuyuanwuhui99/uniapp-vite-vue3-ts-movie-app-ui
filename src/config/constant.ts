@@ -18,3 +18,5 @@ export enum CommentEnum {
     MOVIE="MOVIE",
     MOVIE_CIRCLE="MOVIE_CIRCLE"
 }
+
+export const MUSIC_SEARCH_STORAGE_KEY = 'MUSIC_SEARCH_STORAGE_KEY';

@@ -21,7 +21,7 @@
 	 */
 	const useNavigateToSearchPage = () => {
 		uni.navigateTo({
-			url: `../pages/MusicSearchPage`
+			url: `../pages/MusicSearchPage?keyword=`+encodeURIComponent(keyword.value),
 		})
 	}
 

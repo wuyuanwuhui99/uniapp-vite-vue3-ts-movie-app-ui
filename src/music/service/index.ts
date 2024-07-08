@@ -183,3 +183,12 @@ export const insertMusicFavoriteService = (musicId:number,favoriteList:Array<typ
 export const insertFavoriteDirectoryService = (favoriteDirectory:types.FavoriteDirectoryType):Promise<MyAwesomeData<types.FavoriteDirectoryType>> => {
     return httpRequest.post<types.FavoriteDirectoryType>(api.insertFavoriteDirectory,favoriteDirectory);
 }
+
+/**
+ * @description: 音乐搜索
+ * @date: 2024-07-08 23:05
+ * @author wuwenqiang
+ */
+export const searchMusicService = (keyword:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicType>>> => {
+    return httpRequest.get<Array<types.MusicType>>(`${api.searchMusic}?keyword=${keyword}&pageNum=${pageNum}&pageSize=${pageSize}`);
+}
