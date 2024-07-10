@@ -21,7 +21,7 @@
 			<view class="play-operate-wrapper">
 				<image class="icon-operate" @click.stop="useLike"
 					:src="store.musicItem.isLike ? likeActiveIcon : likeIcon" />
-				<image class="icon-operate" src="../../../static/icon_music_down.png" />
+				<image class="icon-operate" @click="useShare" src="../../../static/icon_share_music.png" />
 				<image @click.stop="useComment" class="icon-operate" src="../../../static/icon_music_comments.png" />
 				<image class="icon-operate" @click="showFavoriteDialog = true" :src="isFavorite ? favoriteActiveIcon: favoriteIcon" />
 			</view>
@@ -312,6 +312,17 @@
 	const useMusicFavorite = (isMusicFavorite:boolean) => {
 		isFavorite.value = isMusicFavorite;
 		showFavoriteDialog.value = false
+	}
+
+	/**
+	 * @description: 分享到音乐圈
+	 * @date: 2024-06-25 22:08
+	 * @author wuwenqiang
+	 */
+	const useShare = () => {
+		uni.navigateTo({
+			url: `../pages/MusicSharePage?musicItem=${encodeURIComponent(JSON.stringify(store.musicItem))}`
+		});
 	}
 
 	store.audio.onTimeUpdate(useRotate);

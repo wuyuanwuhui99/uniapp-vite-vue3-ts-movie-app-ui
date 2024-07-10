@@ -73,7 +73,7 @@ class HttpRequest {
 		if (statusCode === 502 || statusCode === 503) {
 			msg = "服务器开小差了~"
 		}
-		!requestConfig.noShowMsg && wx.showToast({
+		!requestConfig.noShowMsg && uni.showToast({
 			title: `${msg}，错误码：${statusCode}`,
 			icon: "none"
 		})
