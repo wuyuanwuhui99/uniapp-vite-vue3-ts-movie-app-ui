@@ -2,7 +2,7 @@ import {httpRequest} from '../../utils/HttpUtils';
 import type {MyAwesomeData} from '../../utils/HttpUtils';
 import api from '../api';
 import type * as types from '../types';
-import type {CommentEnum} from '../../config/constant';
+import type {CommentEnum,CircleEnum} from '../../config/constant';
 
 /**
  * @description: 获取推荐的音乐
@@ -45,7 +45,7 @@ export const getSingerListService = (category:string,pageNum:number,pageSize:num
  * @date: 2024-03-03 18:23
  * @author wuwenqiang
  */
-export const getCircleListByTypeService = (type:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.CircleType>>> => {
+export const getCircleListByTypeService = (type:CircleEnum,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.CircleType>>> => {
     return httpRequest.get<Array<types.CircleType>>(`${api.getCircleListByType}?type=${type}&pageNum=${pageNum}&pageSize=${pageSize}`);
 }
 

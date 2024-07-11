@@ -17,21 +17,47 @@
                 <image class="icon-arrow" src="../../../static/icon_arrow.png"/>
             </view>
         </view>
+        <OptionsDialog ref="sexOptionsDialog" @onCheck= "usePermission" :options="['公开','私密']"/>
 	</view>
 </template>
 
 <script setup lang="ts">
 	import { reactive,ref,onMounted } from 'vue';
 	import { useRoute } from "vue-router";
-	import type { MusicType} from '../types';
+	import type { MusicType,CircleType} from '../types';
 	import {searchMusicService} from '../service';
-    import {HOST} from '../../config/constant';
+    import {HOST,CircleEnum} from '../../config/constant';
 	import { useStore } from "../../stores/useStore"; 
+    import OptionsDialog from '../../movie/components/OptionsDialog.vue';
+    const content = ref<string>('');
+    const sexOptionsDialog = ref<null | InstanceType<typeof OptionsDialog>>(null);
 
 	const store = useStore();
 	const route = useRoute();
 
-	const musicItem:MusicType = JSON.parse(decodeURIComponent(route.query.musicItem as string)) as MusicType;
+    const musicItem:MusicType = JSON.parse(decodeURIComponent(route.query.musicItem as string)) as MusicType;
+    const permissionMap = {
+        '公开':1,
+        '私密':0
+    }
+    
+    const params:CircleType = {
+        permission:1,
+        type:CircleEnum.MUSIC,
+        relationId:musicItem.id,// 关联音乐audio_id或者电影movie_id
+        content:content.value,// 朋友圈内容
+    }
+
+    /**
+	 * @description: 下载权限
+	 * @date: 2024-07-11 23:00
+	 * @author wuwenqiang
+	 */
+    const usePermission = (value:string) => {
+
+    }
+
+	
     
 </script>
 
