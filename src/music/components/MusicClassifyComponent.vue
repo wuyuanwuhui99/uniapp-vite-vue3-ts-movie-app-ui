@@ -3,7 +3,7 @@
 		<MusicTitleComponent :classifyItem="classifyItem" />
 		<view class="classify-music-list">
 			<view class="classify-music-item" :key="classifyItem.id + '_' + item.id" v-for="item in classifyMusicList">
-				<image class="song-cover" :src="HOST + item.cover" />
+				<image class="music-cover" :src="HOST + item.cover" />
 				<view class="song-info">
 					<text class="song-name">{{item.songName}}</text>
 					<text class="song-desc">{{`${item.authorName} - ${item.albumName}`}}</text>
@@ -81,13 +81,6 @@
 			display: flex;
 			margin-top: @page-padding;
 			align-items: center;
-
-			.song-cover {
-				width: @middle-avater;
-				height: @middle-avater;
-				border-radius: 50%;
-				margin-right: @page-padding;
-			}
 
 			.song-info {
 				display: flex;

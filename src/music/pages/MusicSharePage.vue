@@ -5,7 +5,17 @@
             <text class="page-btn btn-publish">发布</text>
         </view>
         <view class="page-body">
-            <textarea class="textarea"></textarea>
+            <textarea class="textarea" placeholder="这一刻的想法"></textarea>
+            <view class="module-block module-block-row">
+                <image class="music-cover" :src="/http[s]?:\/\//.test(musicItem.cover) ? musicItem.cover.replace('{size}','480') : HOST + musicItem.cover" />
+                <text>{{ musicItem.authorName }} - {{ musicItem.songName }}</text>
+            </view>
+            <view class="module-block module-block-row">
+                <image class="icon-permission" src="../../../static/icon_permission.png"/>
+                <text class="permission-text">谁可以看</text>
+                <text>公开</text>
+                <image class="icon-arrow" src="../../../static/icon_arrow.png"/>
+            </view>
         </view>
 	</view>
 </template>
@@ -15,6 +25,7 @@
 	import { useRoute } from "vue-router";
 	import type { MusicType} from '../types';
 	import {searchMusicService} from '../service';
+    import {HOST} from '../../config/constant';
 	import { useStore } from "../../stores/useStore"; 
 
 	const store = useStore();
@@ -59,11 +70,27 @@
         overflow: hidden;
         padding: @page-padding;
         .textarea{
-            background: @disable-text-color;
+            background: @search-input-placehold;
             width: 100%;
             padding: @page-padding;
             border-radius: @module-border-radius;
             box-sizing: border-box;
+        }
+        .module-block{
+            gap: @page-padding;
+            align-items: center;
+            .icon-permission{
+                width: @middle-icon-size;
+                height: @middle-icon-size;
+            }
+            .permission-text{
+                flex: 1;
+            }
+            .icon-arrow{
+                opacity: 0.5;
+                width: @small-icon-size;
+                height: @small-icon-size;
+            }
         }
     }
 }
