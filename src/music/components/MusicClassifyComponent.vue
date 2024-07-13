@@ -3,7 +3,7 @@
 		<MusicTitleComponent :classifyItem="classifyItem" />
 		<view class="classify-music-list">
 			<view class="classify-music-item" :key="classifyItem.id + '_' + item.id" v-for="item in classifyMusicList">
-				<image class="music-cover" :src="HOST + item.cover" />
+				<image class="music-cover" :src="getMusicCover(item.cover)" />
 				<view class="song-info">
 					<text class="song-name">{{item.songName}}</text>
 					<text class="song-desc">{{`${item.authorName} - ${item.albumName}`}}</text>
@@ -21,7 +21,7 @@
 	import { defineProps, reactive, type PropType } from 'vue';
 	import type { MusicClassifyType, MusicType } from "../types";
 	import { getMusicListByClassifyIdService } from '../service';
-	import { HOST } from "../../common/constant";
+	import { getMusicCover } from '../../utils/util';
 	import MusicTitleComponent from './MusicTitleComponent';
 	import { useStore } from "../../stores/useStore";
 	import isLikeIcon from '../../../static/icon_like.png';

@@ -11,7 +11,7 @@
 		<template v-if="searching">
 			<scroll-view v-if="!loading" class="module-block module-block-last scroll-list" scroll-y show-scrollbar="false">
 				<view v-for="item in searchMusicList" :key="item.id" class="scroll-view-item">
-					<image class="song-cover" :src="/http[s]?:\/\//.test(item.cover) ? item.cover.replace('{size}', '480') : HOST + item.cover"/>
+					<image class="song-cover" :src="getMusicCover(item.cover)"/>
 					<view class="name-wrapper">
 						<text class="song-name">{{ item.songName }}</text>
 						<text class="author-name">{{ item.authorName }}</text>
@@ -48,7 +48,7 @@
 	import playingIcon from '../../../static/icon_music_playing_grey.png';
 	import isLikeIcon from '../../../static/icon_like.png';
 	import isLikeActiveIcon from '../../../static/icon_like_active.png';
-
+	import {getMusicCover} from '../../utils/util';
 	const store = useStore();
 	const route = useRoute();
 

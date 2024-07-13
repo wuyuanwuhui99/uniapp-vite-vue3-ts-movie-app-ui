@@ -8,7 +8,7 @@
 				<text class="user-name">{{item.username}}</text>
 				<text class="content">{{item.content}}</text>
 				<view class="music-wrapper">
-					<image class="music-cover" :src="HOST + item.musicCover" />
+					<image class="music-cover" :src="getMusicCover(item.musicCover)" />
 					<view class="music-info">
 						<text class="music-name">{{item.musicSongName}} - {{item.musicAuthorName}}</text>
 					</view>
@@ -32,15 +32,15 @@
 					</view>
 
 				</view>
-				<view class="social-wrapper">
-					<view class="like-wrapper">
+				<view class="social-wrapper" v-if="item.circleLikes?.length > 0 || item.circleComments?.length > 0">
+					<view class="like-wrapper" v-if="item.circleLikes?.length > 0">
 						<image class="icon-like" src="../../../static/icon_music_like.png" />
 						<template v-for="aItem,aIndex in item.circleLikes" :key="aItem.id">
 							<text class="like-user">{{aItem.username}}</text>
 							<text v-if="aIndex !== item.circleLikes.length - 1">、</text>
 						</template>
 					</view>
-					<CommentComponent ref="commentRefs" :relationId="item.id" :category='CommentEnum.MUSIC_CIRCLE'
+					<CommentComponent v-if="item.circleComments?.length > 0" ref="commentRefs" :relationId="item.id" :category='CommentEnum.MUSIC_CIRCLE'
 						:commentList="item.circleComments"></CommentComponent>
 				</view>
 			</view>
@@ -59,7 +59,8 @@
 	import { formatTime } from '../../utils/util';
 	import { useStore } from '../../stores/useStore';
 	import CommentComponent from './CommentComponent.vue';
-	import { CommentEnum } from '../../common/enum';
+	import { CommentEnum,CircleEnum } from '../../common/enum';
+	import {getMusicCover} from '../../utils/util';
 	const circleIndex = ref<number>(-1);// 朋友圈动态的id
 	const circleList = reactive<Array<CircleType>>([]);
 	const pageNum = ref<number>(1);
@@ -75,7 +76,7 @@
 	 * @date: 2024-03-12 22:09
 	 * @author wuwenqiang
 	 */
-	getCircleListByTypeService("music", pageNum.value, pageSize).then((res) => {
+	getCircleListByTypeService(CircleEnum.MUSIC, pageNum.value, pageSize).then((res) => {
 		circleList.push(...res.data);
 		total.value = res.total;
 	})
@@ -136,7 +137,7 @@
 	const onScrolltolower = () => {
 		if (pageNum.value * pageSize >= total.value) return;
 		pageNum.value++;
-		getCircleListByTypeService("music", pageNum.value, pageSize).then((res) => {
+		getCircleListByTypeService(CircleEnum.MUSIC, pageNum.value, pageSize).then((res) => {
 			circleList.push(...res.data);
 		});
 	}
@@ -184,10 +185,7 @@
 				display: flex;
 				flex: 1;
 				flex-direction: column;
-
-				.content {
-					padding: @page-padding 0;
-				}
+				gap: @page-padding;
 
 				.music-wrapper {
 					display: flex;
@@ -222,7 +220,6 @@
 				.operate-wrapper {
 					display: flex;
 					align-items: center;
-					margin-top: @page-padding;
 
 					.create-time {
 						flex: 1;
@@ -271,7 +268,6 @@
 				.social-wrapper {
 					background: @page-background-color;
 					border-radius: @module-border-radius;
-					margin-top: @page-padding;
 
 					.like-wrapper {
 						display: flex;

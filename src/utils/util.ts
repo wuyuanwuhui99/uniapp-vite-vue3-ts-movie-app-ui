@@ -1,3 +1,4 @@
+import { HOST } from "../common/constant";
 export const zerofull=(value:number):string|number=>{
     return value < 9 ? "0"+value:value
 }
@@ -33,3 +34,5 @@ export const formatSecond=(value:number,showHour:boolean = false):string => {
 		return `${zerofull(Math.floor(value / 60))}:${zerofull(Math.floor(value % 60))}`
 	}
 };
+
+export const getMusicCover = (cover:string) => /http[s]?:\/\//.test(cover) ? cover.replace('{size}', '480') : HOST + cover

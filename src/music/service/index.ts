@@ -192,3 +192,12 @@ export const insertFavoriteDirectoryService = (favoriteDirectory:types.FavoriteD
 export const searchMusicService = (keyword:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicType>>> => {
     return httpRequest.get<Array<types.MusicType>>(`${api.searchMusic}?keyword=${keyword}&pageNum=${pageNum}&pageSize=${pageSize}`);
 }
+
+/**
+ * @description: 插入一条说说
+ * @date: 2024-07-08 23:05
+ * @author wuwenqiang
+ */
+export const saveCircleService = (circle:types.CircleType):Promise<MyAwesomeData<Array<number>>> => {
+    return httpRequest.post<Array<number>>(api.insertCircle,circle);
+}

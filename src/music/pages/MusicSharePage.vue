@@ -1,11 +1,11 @@
 <template>
 	<view class="page-wrapper" scroll-y show-scrollbar="false">
 		<view class="page-header">
-            <text class="page-btn btn-cancle">取消</text>
-            <text class="page-btn btn-publish">发布</text>
+            <text class="page-btn btn-cancle" @click="useCancle">取消</text>
+            <text class="page-btn btn-publish" @click="useSave">发布</text>
         </view>
         <view class="page-body">
-            <textarea class="textarea" placeholder="这一刻的想法"></textarea>
+            <textarea class="textarea" v-model="content" placeholder="这一刻的想法"></textarea>
             <view class="module-block module-block-row">
                 <image class="music-cover" :src="/http[s]?:\/\//.test(musicItem.cover) ? musicItem.cover.replace('{size}','480') : HOST + musicItem.cover" />
                 <text>{{ musicItem.authorName }} - {{ musicItem.songName }}</text>
@@ -22,13 +22,13 @@
 </template>
 
 <script setup lang="ts">
-	import { reactive,ref,onMounted } from 'vue';
+	import { ref } from 'vue';
 	import { useRoute } from "vue-router";
-	import type { MusicType,CircleType} from '../types';
-	import {searchMusicService} from '../service';
-    import {HOST} from '../../common/constant';
-    import {CircleEnum} from '../../common/enum';
-    import {PermissionMap} from '../../common/config';
+	import type { MusicType, CircleType } from '../types';
+	import { saveCircleService } from '../service';
+    import { HOST } from '../../common/constant';
+    import { CircleEnum } from '../../common/enum';
+    import { PermissionMap } from '../../common/config';
 	import { useStore } from "../../stores/useStore";
     import OptionsDialog from '../../movie/components/OptionsDialog.vue';
     const content = ref<string>('');
@@ -39,13 +39,6 @@
 	const route = useRoute();
 
     const musicItem:MusicType = JSON.parse(decodeURIComponent(route.query.musicItem as string)) as MusicType;
-
-    const params:CircleType = {
-        permission:1,
-        type:CircleEnum.MUSIC,
-        relationId:musicItem.id,// 关联音乐audio_id或者电影movie_id
-        content:content.value,// 朋友圈内容
-    }
 
 
     /**
@@ -64,7 +57,39 @@
 	 * @author wuwenqiang
 	 */
     const onCheckPermission = (vlaue:number) => {
-        permission.value = params.permission = vlaue;
+        permission.value = vlaue;
+    }
+
+     /**
+	 * @description: 取消说说
+	 * @date: 2024-07-13 13:50
+	 * @author wuwenqiang
+	 */
+    const useCancle = () => {
+        uni.navigateBack();
+    }
+
+     /**
+	 * @description: 保存说说
+	 * @date: 2024-07-13 14:50
+	 * @author wuwenqiang
+	 */
+    const useSave = () => {
+        const params:CircleType = {
+            permission:permission.value,
+            type:CircleEnum.MUSIC,
+            relationId:musicItem.id,// 关联音乐audio_id或者电影movie_id
+            content:content.value,// 朋友圈内容
+        }        
+        saveCircleService(params).then(()=>{
+            uni.showToast({
+				duration:2000,
+				position:'center',
+				title:'发布成功'
+			})
+            uni.navigateBack();
+        })
+        
     }
 </script>
 
