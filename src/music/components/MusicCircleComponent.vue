@@ -100,7 +100,7 @@
 		loading = true;
 		const index : number = circleItem.circleLikes.findIndex((dItem) => dItem.userId === store.userData.userId);
 		if (index !== -1) {// 取消点赞
-			deleteLikeService(circleItem.id, "music_circle").then((res) => {
+			deleteLikeService(circleItem.id, CommentEnum.MUSIC_CIRCLE).then((res) => {
 				if (res.data > 0) {
 					circleItem.circleLikes.splice(index, 1)
 				}
@@ -110,7 +110,7 @@
 			})
 		} else {// 新增点赞
 			const likeItem : LikeType = {
-				type: "music_circle",
+				type: CommentEnum.MUSIC_CIRCLE,
 				relationId: circleItem.id
 			}
 			saveLikeService(likeItem).then((res) => {
