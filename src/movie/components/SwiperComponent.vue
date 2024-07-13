@@ -9,7 +9,7 @@
 <script setup lang="ts">
 	import { ref,onMounted,reactive,defineProps } from 'vue';
 	import {getCategoryListService} from '../service/index';
-	import {HOST} from '../../config/constant';
+	import {HOST} from '../../common/constant';
 	import type { MovieType } from '../types';
 	const prop = defineProps({
 		classify:{
@@ -19,13 +19,13 @@
 		}
 	})
 	const movieList = reactive<Array<MovieType>>([]);
-	
+
 	onMounted(()=>{
 		getCategoryListService({classify:prop.classify,category:'轮播'}).then((res)=>{
 			movieList.push(...res.data.slice(0,5))
 		})
 	})
-	
+
 </script>
 
 <style lang="less" scoped>

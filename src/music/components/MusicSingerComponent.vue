@@ -17,8 +17,8 @@
 	import { getSingerListService } from '../service';
 	import type { MusicAuthorType } from "../types";
 	import MusicTitleComponent from './MusicTitleComponent';
-	import { HOST } from '../../config/constant';
-	
+	import { HOST } from '../../common/constant';
+
 	const singerList = reactive<Array<MusicAuthorType>>([]);
 	const { classifyItem } = defineProps({
 		classifyItem: {
@@ -27,7 +27,7 @@
 			default: {}
 		}
 	});
-	
+
 	/**
 	 * @description: 获取前四个歌手列表
 	 * @date: 2024-03-03 18:23

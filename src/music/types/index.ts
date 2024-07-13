@@ -1,5 +1,5 @@
 import { type } from "os"
-import {CircleEnum} from '../../config/constant';
+import type {CircleEnum} from '../../common/enum';
 
 // 歌曲字段
 export type MusicType = {

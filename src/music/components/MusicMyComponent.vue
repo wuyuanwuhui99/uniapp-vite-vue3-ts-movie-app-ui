@@ -7,7 +7,7 @@
 				<text class="sign">{{store.userData.sign}}</text>
 			</view>
 		</view>
-		
+
 		<view class="module-block">
 			<MusicTitleComponent :classifyItem="{classifyName:'我的歌单',category:''}">
 				<text class="icon-add">+</text>
@@ -24,7 +24,7 @@
 				<image class="icon-operate" src="../../../static/icon_music_menu.png"/>
 			</view>
 		</view>
-		
+
 		<view class="module-block">
 			<MusicTitleComponent :classifyItem="{classifyName:'我关注的歌手',category:''}"/>
 			<view v-for="item in mySingerList" class="singer-list">
@@ -39,7 +39,7 @@
 				<image class="icon-operate" src="../../../static/icon_music_menu.png"/>
 			</view>
 		</view>
-		
+
 		<view class="module-block">
 			<MusicTitleComponent :classifyItem="{classifyName:'我发布的歌曲',category:''}"/>
 			<view v-for="item in myPublishList" class="singer-list">
@@ -53,7 +53,7 @@
 				<image class="icon-operate" src="../../../static/icon_music_menu.png"/>
 			</view>
 		</view>
-		
+
 		<view class="module-block module-block-last">
 			<MusicTitleComponent :classifyItem="{classifyName:'我听过的歌曲',category:''}"/>
 			<view v-for="item in recordMusicList" class="singer-list">
@@ -77,14 +77,14 @@
 	import MusicTitleComponent from "./MusicTitleComponent";
 	import {getMusicPlayMenuService,getMySingerService,getMusicRecordService} from "../service";
 	import {reactive} from 'vue';
-	import {HOST} from '../../config/constant';
+	import {HOST} from '../../common/constant';
 	import {formatTime} from '../../utils/util';
 	const store = useStore();
 	const musicPlayMenu = reactive<Array<MuiscPlayMenuType>>([]);
 	const mySingerList = reactive<Array<MusicAuthorType>>([]);
 	const recordMusicList = reactive<Array<MusicType>>([]);
 	const myPublishList = reactive<Array<MusicType>>([]);
- 	
+
 	/**
 	 * @description: 获取用户歌单
 	 * @date: 2024-03-16 23:25
@@ -93,7 +93,7 @@
 	getMusicPlayMenuService().then((res)=>{
 		musicPlayMenu.push(...res.data);
 	});
-	
+
 	/**
 	 * @description: 获取我关注的歌手
 	 * @date: 2024-03-17 22:12
@@ -102,7 +102,7 @@
 	getMySingerService(1,5).then((res)=>{
 		mySingerList.push(...res.data);
 	});
-	
+
 	/**
 	 * @description: 获取播放记录
 	 * @date: 2024-03-17 22:12
@@ -168,5 +168,5 @@
 				margin-left: @page-padding;
 			}
 		}
-	}		
+	}
 </style>

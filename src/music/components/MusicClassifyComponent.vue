@@ -21,13 +21,13 @@
 	import { defineProps, reactive, type PropType } from 'vue';
 	import type { MusicClassifyType, MusicType } from "../types";
 	import { getMusicListByClassifyIdService } from '../service';
-	import { HOST } from "../../config/constant";
+	import { HOST } from "../../common/constant";
 	import MusicTitleComponent from './MusicTitleComponent';
-	import { useStore } from "../../stores/useStore"; 
+	import { useStore } from "../../stores/useStore";
 	import isLikeIcon from '../../../static/icon_like.png';
 	import isLikeActiveIcon from '../../../static/icon_like_active.png';
 	const store = useStore();
-	
+
 	const { classifyItem } = defineProps({
 		classifyItem: {
 			type: Object as PropType<MusicClassifyType>,
@@ -35,7 +35,7 @@
 			default: {}
 		}
 	});
-	
+
 	/**
 	 * @description: 播放音乐
 	 * @date: 2024-05-07 22:56
@@ -57,14 +57,14 @@
 			url: `../pages/MusicPlayerPage`
 		});
 	}
-	
+
 	const classifyMusicList = reactive<Array<MusicType>>([]);
-	
+
 	getMusicListByClassifyIdService(classifyItem.id, 1, 3).then((res) => {
 		classifyMusicList.push(...res.data);
 	});
-	
-	
+
+
 </script>
 
 <style lang="less">
@@ -81,11 +81,13 @@
 			display: flex;
 			margin-top: @page-padding;
 			align-items: center;
+			gap: @page-padding;
 
 			.song-info {
 				display: flex;
 				flex-direction: column;
 				flex: 1;
+				width: 0;
 
 				.song-name {
 					font-weight: bold;
@@ -107,7 +109,6 @@
 			.icon-play {
 				width: @small-icon-size;
 				height: @small-icon-size;
-				margin-left: @page-padding;
 			}
 		}
 	}

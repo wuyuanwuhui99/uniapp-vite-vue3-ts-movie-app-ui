@@ -2,7 +2,7 @@ import {httpRequest} from '../../utils/HttpUtils';
 import type {MyAwesomeData} from '../../utils/HttpUtils';
 import api from '../api';
 import type * as types from '../types';
-import type {CommentEnum,CircleEnum} from '../../config/constant';
+import type {CommentEnum,CircleEnum} from '../../common/enum';
 
 /**
  * @description: 获取推荐的音乐

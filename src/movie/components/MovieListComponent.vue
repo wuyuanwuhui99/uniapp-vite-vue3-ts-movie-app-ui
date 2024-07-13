@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 	import { defineProps } from 'vue';
-	import {HOST} from '../../config/constant';
+	import {HOST} from '../../common/constant';
 	import type { MovieType,ClassifyType } from '../types';
 	const { list } = defineProps({
 		list:{
@@ -78,7 +78,7 @@
 				}
 			}
 		}
-		
+
 	}
 	.grid-wrapper{
 		display: grid;

@@ -21,7 +21,7 @@
 					<text class="no-data">暂无搜索记录</text>
 				</view>
 			</view>
-			
+
 			<view class="module-block">
 				<TitleComponent title="推荐"/>
 				<MovieListComponent direction="vertical" :list="recommentList"/>
@@ -34,7 +34,7 @@
 	import { reactive,ref,onMounted } from 'vue';
 	import { useRoute } from "vue-router";
 	import type { MovieType} from '../types';
-	import {HOST} from '../../config/constant';
+	import {HOST} from '../../common/constant';
 	import TitleComponent from '../components/TitleComponent.vue';
 	import MovieListComponent from '../components/MovieListComponent.vue';
 	import {getRecommendService,getSearchService} from '../service';
@@ -49,13 +49,13 @@
 	const keyword = ref<string>("");
 	const pageNum = ref<number>(1);
 	const pageSize = ref<number>(20);
-	
+
 	uni.getStorage({key:"historyMovieLabels"}).then(res=>{
 		if(res){
 			searchRecordList.push(...res.data.split(","))
 		}
-	}) 
-	
+	})
+
 	/**
 	 * @description: 获取推荐的电影
 	 * @date: 2024-01-30 22:24
@@ -64,7 +64,7 @@
 	getRecommendService(route.query.classify as string).then((res)=>{
 		recommentList.push(...res.data);
 	})
-	
+
 	/**
 	 * @description: 搜索
 	 * @date: 2024-01-30 22:24
@@ -88,7 +88,7 @@
 			loading.value = false
 		})
 	}
-	
+
 	/**
 	 * @description: 清除搜索
 	 * @date: 2024-01-30 22:24
@@ -99,7 +99,7 @@
 		searching.value = false;
 		keyword.value = '';
 	}
-	
+
 	/**
 	 * @description: 点击历史搜索记录进行搜索
 	 * @date: 2024-01-30 22:24

@@ -35,15 +35,15 @@
 				<view class="play-menu-item">
 					<image @click.stop="useShowMenu" class="icon-loop" :src="loopMap[store.loop]" />
 					<view class="loop-menu" v-show="showLoopMenu">
-						<view class="loop-item" @click="useToggleLoopMenu(LoopMode.ORDER)">
+						<view class="loop-item" @click="useToggleLoopMenu(LoopModeEnum.ORDER)">
 							<image class="icon-loop" src="../../../static/icon_music_order.png" />
 							<text class="loop-name">顺序播放</text>
 						</view>
-						<view class="loop-item" @click="useToggleLoopMenu(LoopMode.REPEAT)">
+						<view class="loop-item" @click="useToggleLoopMenu(LoopModeEnum.REPEAT)">
 							<image class="icon-loop" src="../../../static/icon_music_loop.png" />
 							<text class="loop-name">单曲循环</text>
 						</view>
-						<view class="loop-item" @click="useToggleLoopMenu(LoopMode.RANDOM)">
+						<view class="loop-item" @click="useToggleLoopMenu(LoopModeEnum.RANDOM)">
 							<image class="icon-loop" src="../../../static/icon_music_random.png" />
 							<text class="loop-name">随机播放</text>
 						</view>
@@ -69,7 +69,7 @@
 			</template>
 			<template #content>
 				<FavoriteDirectoryComponent @useFavorite="useMusicFavorite" :isFavorite="isFavorite" :musicId="store.musicItem.id"/>
-			</template>		
+			</template>
 		</DialogComponent>
 	</view>
 </template>
@@ -79,7 +79,8 @@
 	import Lyric from 'lyric-parser';
 
 	import { useStore } from "../../stores/useStore";
-	import { HOST, LoopMode,CommentEnum,TabEnum } from '../../config/constant';
+	import { HOST } from '../../common/constant';
+	import {LoopModeEnum,CommentEnum,TabEnum} from '../../common/enum';
 	import { formatSecond } from '../../utils/util';
 	import playingIcon from '../../../static/icon_music_playing.png';
 	import pauseIcon from '../../../static/icon_music_play_white.png';
@@ -103,9 +104,9 @@
 	const currentLineNum = ref<number>(0);// 歌词播放的当前行
 	const showLoopMenu = ref<boolean>(false);// 显示循环播放选择菜单
 	const showCommentDialog = ref<boolean>(false);// 显示评论弹窗
-	const commentList = reactive<Array<CommentType>>([]);// 
+	const commentList = reactive<Array<CommentType>>([]);//
 	const pageNum = ref<number>(1);// 评论分页
-	const commentTotal = ref<number>(0);// 评论总数 
+	const commentTotal = ref<number>(0);// 评论总数
 	const isFavorite = ref<boolean>(false);// 是否已经收藏
 	const showFavoriteDialog = ref<boolean>(false);// 显示音乐收藏弹窗
 	const pageSize = 20;
@@ -117,9 +118,9 @@
 
 	// 循环模式
 	const loopMap = {
-		[LoopMode.ORDER]: orderImg,
-		[LoopMode.REPEAT]: repeatImg,
-		[LoopMode.RANDOM]: randomImg,
+		[LoopModeEnum.ORDER]: orderImg,
+		[LoopModeEnum.REPEAT]: repeatImg,
+		[LoopModeEnum.RANDOM]: randomImg,
 	};
 
 	/**
@@ -149,7 +150,7 @@
 	 * @date: 2024-05-17 22:54
 	 * @author wuwenqiang
 	 */
-	const useToggleLoopMenu = (loop : LoopMode) => {
+	const useToggleLoopMenu = (loop : LoopModeEnum) => {
 		showLoopMenu.value = false;
 		store.setLoop(loop);
 	}
@@ -171,7 +172,7 @@
 	 * @author wuwenqiang
 	 */
 	const onTabMusic = (direct:TabEnum) => {
-		if(store.loop === LoopMode.ORDER || store.loop === LoopMode.REPEAT){
+		if(store.loop === LoopModeEnum.ORDER || store.loop === LoopModeEnum.REPEAT){
 			useTabMusic(direct);
 		}else {
 			useRandomTabMusic();
@@ -283,10 +284,10 @@
 	 */
 	store.audio.onEnded(()=>{
 		switch (store.loop){
-			case LoopMode.REPEAT:
+			case LoopModeEnum.REPEAT:
 				store.audio.play()
 				break;
-			case LoopMode.RANDOM:
+			case LoopModeEnum.RANDOM:
 				useRandomTabMusic();
 				break;
 			default:
@@ -302,7 +303,7 @@
 	const useIsMusicFavorite = () => {
 		isFavorite.value = false;
 		isMusicFavoriteService(store.musicItem.id).then(res => isFavorite.value = Boolean(res.data));
-	} 
+	}
 
 	/**
 	 * @description: 音乐收藏
@@ -327,7 +328,7 @@
 
 	store.audio.onTimeUpdate(useRotate);
 
-	watch(() => store.musicItem, 
+	watch(() => store.musicItem,
 		(newVal) => {
 			if(!isActivePage)return;// 如果是进入缓存页面，不查询歌词和收藏
 			musicModel = newVal;
@@ -559,6 +560,6 @@
 			justify-content: center;
 			align-items: center;
 		}
-		
+
 	}
 </style>

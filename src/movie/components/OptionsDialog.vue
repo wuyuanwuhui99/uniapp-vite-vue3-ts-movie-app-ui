@@ -1,9 +1,13 @@
 <template>
 	<uni-popup ref="popup" class="popup-wrapper"  type="dialog">
 		<view class="dialog-wrapper sex-dialog-wrapper">
-			<view class="option-wrapper">
-				<text class="option-item" :key="item + '' + index" v-for="item,index in options" @click="useCheck(item)">{{item}}</text>
-			</view>
+				<view class="option-wrapper">
+					<text class="option-item" :key="item + '' + index" v-for="item,index in options" @click="useCheck(item.value)">
+						<slot :name="index">
+							{{item.text}}
+						</slot>
+					</text>
+				</view>			
 			<view class="option-btn" @click="useCloseDialog">取消</view>
 		</view>
 	</uni-popup>
@@ -14,17 +18,22 @@
 	import { defineProps, defineEmits, ref} from 'vue';
 	
 	const popup= ref<null | InstanceType<typeof uniPopup>>(null);
-	const emits = defineEmits(['onCheck'])
+	const emits = defineEmits(['onCheck']);
+
+	type OptionType = {
+		text:string,
+		value:string | number
+	}
 
 	const {options} = defineProps({
 		options:{
-			type:Array,
+			type:Array<OptionType>,
 			reqiure:true,
 			default:[]
 		}
 	});
 	
-	const useCheck = (item:string) => {
+	const useCheck = (item:string|number) => {
 		popup.value?.close()
 		emits('onCheck',item)
 	}

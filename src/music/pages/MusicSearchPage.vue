@@ -40,10 +40,10 @@
 	import { reactive,ref,onMounted } from 'vue';
 	import { useRoute } from "vue-router";
 	import type { MusicType} from '../types';
-	import {HOST,MUSIC_SEARCH_STORAGE_KEY} from '../../config/constant';
+	import {HOST,MUSIC_SEARCH_STORAGE_KEY} from '../../common/constant';
 	import TitleComponent from '../../movie/components/TitleComponent.vue';
 	import {searchMusicService} from '../service';
-	import { useStore } from "../../stores/useStore"; 
+	import { useStore } from "../../stores/useStore";
 	import pauseIcon from '../../../static/icon_music_play.png';
 	import playingIcon from '../../../static/icon_music_playing_grey.png';
 	import isLikeIcon from '../../../static/icon_like.png';
@@ -62,15 +62,15 @@
 	const pageNum = ref<number>(1);
 	const pageSize = ref<number>(20);
 
-	
-	
+
+
 	uni.getStorage({key:MUSIC_SEARCH_STORAGE_KEY}).then(res=>{
 		if(res){
 			searchRecordList.push(...res.data.split(","))
 		}
-	}) 
-	
-	
+	})
+
+
 	/**
 	 * @description: 搜索
 	 * @date: 2024-01-30 22:24
@@ -94,7 +94,7 @@
 			loading.value = false
 		})
 	}
-	
+
 	/**
 	 * @description: 清除搜索
 	 * @date: 2024-07-08 23:08
@@ -105,7 +105,7 @@
 		searching.value = false;
 		keyword.value = '';
 	}
-	
+
 	/**
 	 * @description: 点击历史搜索记录进行搜索
 	 * @date: 2024-01-30 22:24

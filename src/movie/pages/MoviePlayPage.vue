@@ -53,9 +53,10 @@
 	import MuiPlayer from 'mui-player'
 	// 要播放m3u8的视频就必须要引入hls.js
 	import Hls from 'hls.js'
-	
+
 	import { reactive,onMounted,ref,onUnmounted } from 'vue';
-	import { HOST, LoopMode,CommentEnum } from '../../config/constant';
+	import { HOST } from '../../common/constant';
+	import { CommentEnum,LoopModeEnum } from '../../common/enum';
 	import { useRoute } from "vue-router";
 	import type { MovieType,MovieUrlType } from '../types';
 	import TitleComponent from '../components/TitleComponent.vue';
@@ -74,7 +75,7 @@
 	const movieUrlGroup = reactive<Array<Array<MovieUrlType>>>([]);//电影分组
 	const currentUrlGroup = ref<number>(0);// 播放的分组
 	const recommentList = reactive<Array<MovieType>>([]);// 推荐电影
-	const commentList = reactive<Array<CommentType>>([]);// 
+	const commentList = reactive<Array<CommentType>>([]);//
 	const showCommentDialog = ref<boolean>(false);// 是否评论展示弹窗
 	let mp:MuiPlayer;
 
@@ -164,11 +165,11 @@
 		getTopCommentListService(movieItem.id,CommentEnum.MOVIE,1,20).then(res => {
 			commentList.splice(0,commentList.length,...res.data)
 			showCommentDialog.value = true;
-		})	
+		})
 	}
 
 	savePlayRecordService(movieItem);
-	
+
 	onMounted(()=>{
 		if(/\.m3u8/.test(currentUrl.value)){
 			mp = new MuiPlayer({
@@ -177,14 +178,14 @@
 				parse:{
 					type:'hls',
 					loader:Hls,
-					config:{ 
+					config:{
 						cors:true
 					},
 				},
 			});
 		}
 	})
-	
+
 	onUnmounted(()=>{
 		mp?.destroy();
 	})

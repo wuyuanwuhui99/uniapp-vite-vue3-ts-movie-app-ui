@@ -26,8 +26,9 @@
 	import { useRoute } from "vue-router";
 	import type { MusicType,CircleType} from '../types';
 	import {searchMusicService} from '../service';
-    import {HOST,CircleEnum} from '../../config/constant';
-	import { useStore } from "../../stores/useStore"; 
+    import {HOST} from '../../common/constant';
+    import {CircleEnum} from '../../common/enum';
+	import { useStore } from "../../stores/useStore";
     import OptionsDialog from '../../movie/components/OptionsDialog.vue';
     const content = ref<string>('');
     const sexOptionsDialog = ref<null | InstanceType<typeof OptionsDialog>>(null);
@@ -40,7 +41,7 @@
         '公开':1,
         '私密':0
     }
-    
+
     const params:CircleType = {
         permission:1,
         type:CircleEnum.MUSIC,
@@ -57,8 +58,8 @@
 
     }
 
-	
-    
+
+
 </script>
 
 <style lang="less" scoped>

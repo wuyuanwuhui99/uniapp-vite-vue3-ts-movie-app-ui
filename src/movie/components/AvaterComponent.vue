@@ -5,7 +5,7 @@
 <script setup lang="ts">
 	import { defineProps } from 'vue';
 	import { useStore } from '../../stores/useStore';
-	import {HOST} from '../../config/constant';
+	import {HOST} from '../../common/constant';
 	import defaulAvater from '../../../static/default_avater.png';
 	const store = useStore();
 	const sizeMap = {
@@ -19,14 +19,14 @@
 			default:'middle'
 		}
 	})
-	
+
 	const useNavigateTo = () => {
 		uni.navigateTo({
 			url: `../pages/MovieUserPage`
 		})
 	}
-	
-	
+
+
 </script>
 
 <style lang="less">

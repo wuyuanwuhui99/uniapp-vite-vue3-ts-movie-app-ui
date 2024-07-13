@@ -36,7 +36,7 @@
 				<text>{{store.userData.region}}</text>
 				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
 			</view>
-			<view class="row last-row" @click="useEditUserData('个性签名','sign')"> 
+			<view class="row last-row" @click="useEditUserData('个性签名','sign')">
 				<text class="text">个性签名</text>
 				<text>{{store.userData.sign}}</text>
 				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
@@ -66,19 +66,19 @@
 	import uniPopup from '@dcloudio/uni-ui/lib/uni-popup/uni-popup.vue';
 	import { useStore } from '../../stores/useStore';
 	import OptionsDialog from '../components/OptionsDialog';
-	import {HOST} from '../../config/constant';
+	import {HOST} from '../../common/constant';
 	import { ref } from 'vue';
 	import type { UserDataType } from '../types';
 	import {updateUserDataService} from '../service';
 	import defaulAvater from '../../../static/default_avater.png';
-	
+
 	const title = ref<string>('');
 	const field = ref<string>('');
 	const popup1= ref<null | InstanceType<typeof uniPopup>>(null);
 	const sexOptionsDialog = ref<null | InstanceType<typeof OptionsDialog>>(null);
 	const inputValue = ref<string>('');
-	const store = useStore();	
-	
+	const store = useStore();
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 编辑用户信息
@@ -90,7 +90,7 @@
 		inputValue.value = store.userData[mField];
 		popup1.value?.open('top')
 	}
-	
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 关闭用户信息编辑对话框
@@ -99,8 +99,8 @@
 	const useCloseDialog = () => {
 		popup1.value?.close()
 	}
-	
-	
+
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 性别选择
@@ -114,8 +114,8 @@
 			popup2.value?.close();
 		})
 	}
-	
-	
+
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 退出登录
@@ -137,7 +137,7 @@
 		    }
 		})
 	}
-	
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 确定修改用户信息
@@ -150,9 +150,9 @@
 			store.setUserData(mUserData)
 			popup1.value?.close()
 		})
-		
+
 	}
-	
+
 	const useEditSex = () => {
 		sexOptionsDialog.value?.$refs.popup.open('top')
 	}
@@ -247,7 +247,7 @@
 				.dialog-box{
 					width: 80%;
 					left: 50%;
-					top: 50%;		
+					top: 50%;
 					border-radius: @module-border-radius;
 					background-color: @white-background-color;
 					.dialog-header{

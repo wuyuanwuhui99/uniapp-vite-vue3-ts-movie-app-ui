@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 import type {UserDataType} from '../movie/types/index';
 import type {MusicType,MusicClassifyType} from '../music/types/index';
-import {HOST,LoopMode} from '../config/constant';
+import {HOST} from '../common/constant';
+import {LoopModeEnum} from '../common/enum';
 import {insertMusicRecordService} from '../music/service';
 export const useStore = defineStore("myStore", {
-    state:() => { 
+    state:() => {
         return {
 			userData:{} as UserDataType,
 			token: '',
@@ -16,18 +17,18 @@ export const useStore = defineStore("myStore", {
 			musicClassify: {} as MusicClassifyType,// 播放的类型
 			playIndex: -1 as number,// 播放的下标
 			total: 0,
-			loop: LoopMode.ORDER,// 默认顺序播放
+			loop: LoopModeEnum.ORDER,// 默认顺序播放
 		}
     },
     actions: {
 		setUserData(userData:UserDataType){
 			this.userData = userData;
 		},
-		
+
 		setToken(token:string){
 			this.token = token
 		},
-		
+
 		/**
 		 * @description: 播放音乐
 		 * @date: 2024-05-08 21:51
@@ -44,7 +45,7 @@ export const useStore = defineStore("myStore", {
 			uni.setStorage({key:'music',data:JSON.stringify(musicItem)});
 			isPlaying && insertMusicRecordService(musicItem);
 		},
-		
+
 		/**
 		 * @description: 设置播放音乐的类型
 		 * @date: 2024-05-08 21:51
@@ -83,9 +84,9 @@ export const useStore = defineStore("myStore", {
 		 */
 		removePlayMusic(){
 			const index = this.playList.findIndex(item => item.id === this.musicItem.id);
-			if(index !== -1)this.playList.splice(index,1);	
+			if(index !== -1)this.playList.splice(index,1);
 		},
-		
+
 		/**
 		 * @description: 播放或者暂停音乐
 		 * @date: 2024-05-12 11:45
@@ -111,7 +112,7 @@ export const useStore = defineStore("myStore", {
 		 * @date: 2024-05-17 23:09
 		 * @author wuwenqiang
 		 */
-		setLoop(loop:LoopMode){
+		setLoop(loop:LoopModeEnum){
 			this.loop = loop;
 		}
     }

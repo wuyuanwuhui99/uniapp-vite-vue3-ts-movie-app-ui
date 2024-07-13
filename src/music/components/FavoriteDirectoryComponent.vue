@@ -25,7 +25,7 @@
                 </view>
                 <text>新建收藏夹</text>
             </view>
-            
+
             <scroll-view  class="favorite-directory" scroll-y show-scrollbar="false">
                 <checkbox-group @change="useCheckChange">
                     <label class="checkbox-item"  v-for="item in favoriteDirectoryList" :key="item.id">
@@ -43,12 +43,12 @@
             </scroll-view>
             <button @click="userAddFavorite" class="btn-add-favorite">{{isFavorite && checkboxValue.length == 0 ? '取消收藏': '添加'}}{{checkboxValue.length > 0 ? `（已选${checkboxValue.length}个）` : ''}}</button>
         </template>
-        
+
     </view>
 </template>
 
 <script setup lang="ts">
-    import { HOST } from '../../config/constant';
+    import { HOST } from '../../common/constant';
     import {reactive,defineProps,type PropType,defineEmits,ref,watch} from 'vue';
     import type {FavoriteDirectoryType,FavoriteMusicType} from '../types';
     import {getFavoriteDirectoryService,insertMusicFavoriteService,insertFavoriteDirectoryService} from '../service';
@@ -70,7 +70,7 @@
 			default: -1
 		}
 	});
-    
+
     const emit = defineEmits(['useFavorite']);
 
      /**
@@ -123,11 +123,11 @@
                     title:'收藏夹已存在'
                 });
             }
-            
+
         });
     }
 
-    watch(() => favoriteName.value, 
+    watch(() => favoriteName.value,
 		(newVal) => {
 			isEnableCreate.value = Boolean(newVal)
         }
@@ -218,7 +218,7 @@
             }
         }
     }
-    
+
     .favorite-directory{
         flex: 1;
         height: 0;

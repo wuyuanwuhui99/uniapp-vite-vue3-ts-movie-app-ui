@@ -8,7 +8,7 @@
 <script setup lang="ts">
 	import { onMounted,reactive,defineProps, ref } from 'vue';
 	import {getCategoryListService} from '../service/index';
-	import {HOST} from '../../config/constant';
+	import {HOST} from '../../common/constant';
 	import type { MovieType,ClassifyType } from '../types';
 	import TitleComponent from './TitleComponent';
 	import MovieListComponent from './MovieListComponent';

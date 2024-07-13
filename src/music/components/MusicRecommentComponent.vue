@@ -27,7 +27,7 @@
 	import { getMusicListByClassifyIdService } from '../service';
 	import { ref, reactive } from 'vue';
 	import type { MusicType } from '../types';
-	import { HOST } from '../../config/constant';
+	import { HOST } from '../../common/constant';
 
 	const pageSize = ref<number>(20);
 	let loadding : boolean = false;

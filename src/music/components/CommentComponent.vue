@@ -32,7 +32,7 @@
     import type { CommentType} from "../types";
     import { formatTime } from '../../utils/util';
     import { insertCommentService } from "../service";
-    import {HOST} from '../../config/constant';
+    import {HOST} from '../../common/constant';
     const { commentList,relationId,isShowInput, category} = defineProps({
 		commentList: {
 			type: Object as PropType<Array<CommentType>>,
@@ -59,10 +59,10 @@
 
 
     const myCommentList = reactive<Array<CommentType>>([]);
-    const showInput = ref<Boolean>(false);//是否显示评论 
+    const showInput = ref<Boolean>(false);//是否显示评论
     const placeholder = ref<string>("评论");// 评论框提示语
     const inputValue = ref<string>("");// 评论框的值
-        
+
     let firstComment : CommentType | null;// 一级评论
 	let replyComment : CommentType | null;// 二级评论，即回复的内容
     let timer : number = 0;// 输入框隐藏的定时器
@@ -167,7 +167,7 @@
         showInput.value = true;
     }
 
-    
+
     defineExpose({
         useShowInput,
     });
@@ -222,7 +222,7 @@
             }
         }
     }
-    
+
     .input-wrapper {
         width: 100%;
         position: fixed;

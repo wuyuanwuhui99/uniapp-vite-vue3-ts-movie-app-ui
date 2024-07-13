@@ -43,7 +43,8 @@
 	import MusicMyComponent from '../components/MusicMyComponent.vue';
 	import { useStore } from "../../stores/useStore";
 	import { ref,onMounted,reactive,onActivated,onDeactivated,onUnmounted } from 'vue';
-	import {HOST, LoopMode} from '../../config/constant';
+	import {HOST} from '../../common/constant';
+	import {LoopModeEnum} from '../../common/enum';
 	import type { MusicClassifyType } from '../types';
 
 	const angle = ref<number>(0);// 旋转的角度
@@ -98,7 +99,7 @@
 		uni.getStorage({key:'loop',
 			success: (res) => {
 			if(res.data !== '' && res.data !== null){
-				store.setLoop(res.data as LoopMode)
+				store.setLoop(res.data as LoopModeEnum)
 			}
 		  },
 		});

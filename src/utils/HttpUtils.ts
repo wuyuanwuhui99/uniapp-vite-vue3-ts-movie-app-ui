@@ -1,4 +1,4 @@
-import {HOST} from '../config/constant';
+import {HOST} from '../common/constant';
 /**
  * @description: HTTP请求方法枚举
  */

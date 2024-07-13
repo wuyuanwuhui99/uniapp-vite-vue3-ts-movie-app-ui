@@ -52,14 +52,14 @@
 </template>
 
 <script setup lang="ts">
-	import { HOST } from "../../config/constant";
+	import { HOST } from "../../common/constant";
 	import { getCircleListByTypeService, saveLikeService, deleteLikeService } from "../service";
 	import { reactive, ref } from "vue";
 	import type { CircleType, LikeType } from '../types';
 	import { formatTime } from '../../utils/util';
 	import { useStore } from '../../stores/useStore';
 	import CommentComponent from './CommentComponent.vue';
-	import { CommentEnum } from '../../config/constant';
+	import { CommentEnum } from '../../common/enum';
 	const circleIndex = ref<number>(-1);// 朋友圈动态的id
 	const circleList = reactive<Array<CircleType>>([]);
 	const pageNum = ref<number>(1);

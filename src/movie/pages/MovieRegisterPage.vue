@@ -69,7 +69,7 @@
 		
 		<view class="login-btn" @click="useRegister">注册</view>
 		
-		<OptionsDialog ref="sexOptionsDialog" @onCheck= "useCheckSex" :options="['男','女']"/>
+		<OptionsDialog ref="sexOptionsDialog" @onCheck= "useCheckSex" :options="[{value:'0',text:'男'},{value:'1',text:'女'}]"/>
 		
 		
 	</view>
