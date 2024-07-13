@@ -133,8 +133,6 @@
 	  display: none;
 	}
 	.module-block-row{
-		display: flex;
-		flex-direction: row;
 		.search-input-wrapper{
 			flex: 1;
 			background-color: @page-background-color;

@@ -182,7 +182,7 @@
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 0 @page-padding @page-padding;
+    padding: 0 @page-padding;
     /deep/.uni-scroll-view::-webkit-scrollbar {
         display: none;
     }

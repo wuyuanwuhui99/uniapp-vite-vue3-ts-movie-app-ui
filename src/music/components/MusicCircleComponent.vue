@@ -1,7 +1,7 @@
 <template>
 	<scroll-view class="page-wrapper" @click="useHideMenu" scroll-y @scrolltolower="onScrolltolower"
 		show-scrollbar="false">
-		<view class="module-block" :key="item.id" v-for="item,index in circleList">
+		<view class="module-block module-block-row" :key="item.id" v-for="item,index in circleList">
 			<image class="user-avater" v-if="item.useravater" :src="HOST + item.useravater" />
 			<image class="user-avater" v-else src="../../../static/default_avater.png" />
 			<view class="content-wrapper">
@@ -167,8 +167,6 @@
 		}
 
 		.module-block {
-			display: flex;
-
 			.user-avater {
 				width: @middle-avater;
 				height: @middle-avater;
@@ -268,7 +266,7 @@
 				.social-wrapper {
 					background: @page-background-color;
 					border-radius: @module-border-radius;
-
+					padding-bottom:  @page-padding;
 					.like-wrapper {
 						display: flex;
 						flex-wrap: wrap;

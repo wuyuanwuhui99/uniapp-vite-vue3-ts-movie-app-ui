@@ -1,6 +1,6 @@
 <template>
 	<view class="page-wrapper">
-		<view class="module-block">
+		<view class="module-block module-block-column">
 			<view class="row">
 				<view class="title">
 					<text class="require">*</text>
@@ -66,12 +66,12 @@
 				<input class="input" v-model="userData.sign" placeholder="请输入个性签名"/>
 			</view>
 		</view>
-		
+
 		<view class="login-btn" @click="useRegister">注册</view>
-		
+
 		<OptionsDialog ref="sexOptionsDialog" @onCheck= "useCheckSex" :options="[{value:0,text:'男'},{value:1,text:'女'}]"/>
-		
-		
+
+
 	</view>
 </template>
 
@@ -82,9 +82,9 @@
 	import { registerService, getUserByIdService } from '../service';
 	import OptionsDialog from '../components/OptionsDialog';
 	import { SexMap } from '../../common/config';
-	
+
 	let loading:boolean = false;
-	
+
 	const sexOptionsDialog = ref<null | InstanceType<typeof OptionsDialog>>(null);
 	// 用户信息
 	const userData = reactive<UserDataType>({
@@ -108,7 +108,7 @@
 	const useEditSex = () => {
 		sexOptionsDialog.value?.$refs.popup.open('top')
 	}
-	
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 性别选择
@@ -117,7 +117,7 @@
 	const useCheckSex = (sex:number) => {
 		userData.sex = sex
 	}
-	
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 校验账号和密码
@@ -135,7 +135,7 @@
 			return true;
 		});
 	}
-	
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 校验账号和密码
@@ -146,7 +146,7 @@
 		loading = true;
 		useCheckUserId().finally(()=>loading = false);
 	}
-	
+
 	/**
 	 * @author: wuwenqiang
 	 * @description: 注册
@@ -207,8 +207,6 @@
 		padding: 0 @page-padding @page-padding;
 		background-color: @page-background-color;
 		.module-block{
-			display: flex;
-			flex-direction: column;
 			align-items: center;
 			.row{
 				width: 100%;

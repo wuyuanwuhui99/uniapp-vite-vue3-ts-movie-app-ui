@@ -1,19 +1,19 @@
 <template>
 	<view class="page-wrapper">
-		<view class="module-block">
+		<view class="module-block module-block-column">
 			<image src="../../../static/icon_logo.png" class="icon-logo"/>
 			<view class="login-input-wrapper">
 				<image src="../../../static/icon_user_active.png" class="icon-login"/>
 				<input v-model="userId" class="login-input" placeholder="请输入账号"/>
 			</view>
-			
+
 			<view class="login-input-wrapper">
 				<image src="../../../static/icon_user_active.png" class="icon-login"/>
 				<input type="password" v-model="password" class="login-input" placeholder="请输入密码"/>
 			</view>
-			
+
 			<view class="login-btn" @click="useLogin">登录</view>
-			
+
 			<view class="register-btn" @click="useRegister">注册</view>
 		</view>
 	</view>
@@ -24,16 +24,16 @@
 	import type { UserDataType } from '../types';
 	import {loginService} from '../service';
 	import { useStore } from '../../stores/useStore';
-	
+
 	const userId = ref<string>('');
 	const password = ref<string>('');
-	
+
 	const store = useStore();
 	userId.value = store.userData.userId;
 	uni.getStorage({key:userId.value}).then(res=>{
 		password.value = res.data || ''
 	});
-	
+
 	const useLogin = () => {
 		if(!userId.value.trim()){
 			uni.showToast({
@@ -68,7 +68,7 @@
 			})
 		}
 	}
-	
+
 	const useRegister = () => {
 		uni.navigateTo({
 			url: `../pages/MovieRegisterPage`
@@ -89,8 +89,6 @@
 		background-color: @page-background-color;
 		.module-block{
 			height: 100%;
-			display: flex;
-			flex-direction: column;
 			align-items: center;
 			.icon-logo{
 				width: @big-avater;
@@ -115,7 +113,7 @@
 					margin-left: @page-padding;
 				}
 			}
-			
+
 			.login-btn{
 				text-align: center;
 				width: 100%;
@@ -127,7 +125,7 @@
 				color: @module-background-color;
 				display: inline-block;
 			}
-			
+
 			.register-btn{
 				text-align: center;
 				width: 100%;
