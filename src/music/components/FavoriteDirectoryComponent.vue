@@ -31,7 +31,7 @@
                     <label class="checkbox-item"  v-for="item in favoriteDirectoryList" :key="item.id">
                         <image class="rectangle" v-if="item.cover" :src="HOST + item.cover"/>
                         <view v-else class="rectangle">
-                            <image class="icon-favorite-add" src="../../../static/icon_music_default_cover.png"/>
+                            <text>{{ item.name.slice(0,1) }}</text>
                         </view>
                         <view class="checkbox-name">
                             <text>{{item.name}}</text>

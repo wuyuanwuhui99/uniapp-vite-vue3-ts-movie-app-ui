@@ -134,16 +134,6 @@ export type CircleType = {
   circleComments?: Array<CommentType> ,
 }
 
-export type MuiscPlayMenuType = {
-  id:number,//主键
-  name:string,// 歌单名称
-  userId:string;// 用户id
-  total:number;// 歌单里面的歌曲总数
-  cover:string;// 歌单封面
-  createTime:string;// 创建时间
-  updateTime:string;// 更新时间
-}
-
 // 音乐收藏夹类型
 export type FavoriteDirectoryType = {
 	id:number,//主键
