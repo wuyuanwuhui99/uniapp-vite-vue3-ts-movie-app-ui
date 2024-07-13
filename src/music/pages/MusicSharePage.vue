@@ -10,14 +10,14 @@
                 <image class="music-cover" :src="/http[s]?:\/\//.test(musicItem.cover) ? musicItem.cover.replace('{size}','480') : HOST + musicItem.cover" />
                 <text>{{ musicItem.authorName }} - {{ musicItem.songName }}</text>
             </view>
-            <view class="module-block module-block-row">
+            <view class="module-block module-block-row" @click="usePermission">
                 <image class="icon-permission" src="../../../static/icon_permission.png"/>
                 <text class="permission-text">谁可以看</text>
-                <text>公开</text>
+                <text>{{PermissionMap[permission]}}</text>
                 <image class="icon-arrow" src="../../../static/icon_arrow.png"/>
             </view>
         </view>
-        <OptionsDialog ref="sexOptionsDialog" @onCheck= "usePermission" :options="['公开','私密']"/>
+        <OptionsDialog ref="permissionOptionsDialog" @onCheck= "onCheckPermission" :options="[{text:'公开',value:1},{text:'私密',value:0}]"/>
 	</view>
 </template>
 
@@ -28,19 +28,17 @@
 	import {searchMusicService} from '../service';
     import {HOST} from '../../common/constant';
     import {CircleEnum} from '../../common/enum';
+    import {PermissionMap} from '../../common/config';
 	import { useStore } from "../../stores/useStore";
     import OptionsDialog from '../../movie/components/OptionsDialog.vue';
     const content = ref<string>('');
-    const sexOptionsDialog = ref<null | InstanceType<typeof OptionsDialog>>(null);
+    const permission = ref<number>(1);
+    const permissionOptionsDialog = ref<null | InstanceType<typeof OptionsDialog>>(null);
 
 	const store = useStore();
 	const route = useRoute();
 
     const musicItem:MusicType = JSON.parse(decodeURIComponent(route.query.musicItem as string)) as MusicType;
-    const permissionMap = {
-        '公开':1,
-        '私密':0
-    }
 
     const params:CircleType = {
         permission:1,
@@ -49,17 +47,25 @@
         content:content.value,// 朋友圈内容
     }
 
+
     /**
 	 * @description: 下载权限
 	 * @date: 2024-07-11 23:00
 	 * @author wuwenqiang
 	 */
-    const usePermission = (value:string) => {
-
+    const usePermission = (value:number) => {
+        permissionOptionsDialog.value?.$refs.popup.open('top');
     }
 
 
-
+    /**
+	 * @description: 选中权限
+	 * @date: 2024-07-13 13:50
+	 * @author wuwenqiang
+	 */
+    const onCheckPermission = (vlaue:number) => {
+        permission.value = params.permission = vlaue;
+    }
 </script>
 
 <style lang="less" scoped>

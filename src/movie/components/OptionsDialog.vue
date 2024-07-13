@@ -33,9 +33,9 @@
 		}
 	});
 	
-	const useCheck = (item:string|number) => {
+	const useCheck = (value:string|number) => {
 		popup.value?.close()
-		emits('onCheck',item)
+		emits('onCheck',value)
 	}
 	
 	const useCloseDialog = () => {

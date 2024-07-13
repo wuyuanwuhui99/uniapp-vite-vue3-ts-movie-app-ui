@@ -13,7 +13,7 @@
 			</view>
 			<view class="row" @click="useEditSex">
 				<text class="text">性别</text>
-				<text>{{store.userData.sex}}</text>
+				<text>{{SexMap[store.userData.sex] || ''}}</text>
 				<image class="icon-arrow" src="../../../static/icon_arrow.png"/>
 			</view>
 			<view class="row" @click="useEditUserData('电话','telephone')">
@@ -58,7 +58,7 @@
 				</view>
 			</view>
 		</uni-popup>
-		<OptionsDialog ref="sexOptionsDialog" @onCheck= "useCheckSex" :options="['男','女']"/>
+		<OptionsDialog ref="sexOptionsDialog" @onCheck= "useCheckSex" :options="[{value:0,text:'男'},{value:1,text:'女'}]"/>
 	</view>
 </template>
 
@@ -71,6 +71,7 @@
 	import type { UserDataType } from '../types';
 	import {updateUserDataService} from '../service';
 	import defaulAvater from '../../../static/default_avater.png';
+	import { SexMap } from '../../common/config';
 
 	const title = ref<string>('');
 	const field = ref<string>('');
@@ -106,12 +107,11 @@
 	 * @description: 性别选择
 	 * @date: 2024-01-16 22:49
 	 */
-	const useCheckSex = (sex:string) => {
+	const useCheckSex = (sex:number) => {
 		const mUserData:UserDataType = {...store.userData};
-		mUserData.sex = sex
+		mUserData.sex = sex;
 		updateUserDataService(mUserData).then(res=>{
-			store.setUserData(mUserData)
-			popup2.value?.close();
+			store.setUserData(mUserData);
 		})
 	}
 

@@ -33,7 +33,7 @@
 				<view class="title">
 					<text>性别</text>
 				</view>
-				<input class="input" disabled @click="useEditSex" v-model="userData.sex" placeholder="请选择性别"/>
+				<input class="input" disabled @click="useEditSex" v-model="SexMap[userData.sex]" placeholder="请选择性别"/>
 			</view>
 			<view class="row">
 				<view class="title">
@@ -69,7 +69,7 @@
 		
 		<view class="login-btn" @click="useRegister">注册</view>
 		
-		<OptionsDialog ref="sexOptionsDialog" @onCheck= "useCheckSex" :options="[{value:'0',text:'男'},{value:'1',text:'女'}]"/>
+		<OptionsDialog ref="sexOptionsDialog" @onCheck= "useCheckSex" :options="[{value:0,text:'男'},{value:1,text:'女'}]"/>
 		
 		
 	</view>
@@ -81,6 +81,7 @@
 	import type { UserDataType } from '../types';
 	import { registerService, getUserByIdService } from '../service';
 	import OptionsDialog from '../components/OptionsDialog';
+	import { SexMap } from '../../common/config';
 	
 	let loading:boolean = false;
 	
@@ -92,7 +93,7 @@
 		telephone: '',
 		email: '',
 		birthday: '',
-		sex: '',
+		sex: 0,
 		password: '',
 		sign: '',
 		region: ''
@@ -113,7 +114,7 @@
 	 * @description: 性别选择
 	 * @date: 2024-01-16 22:49
 	 */
-	const useCheckSex = (sex:string) => {
+	const useCheckSex = (sex:number) => {
 		userData.sex = sex
 	}
 	
