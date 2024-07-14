@@ -12,8 +12,8 @@
 			<MusicTitleComponent :classifyItem="{classifyName:'我的歌单',category:''}">
 				<text class="icon-add">+</text>
 			</MusicTitleComponent>
-			<view v-for="item in musicPlayMenu" class="singer-list">
-				<image v-if="item.cover" class="music-cover" :src="/http[s]?:\/\//.test(item.cover) ? item.cover.replace('{size}','480') : HOST + item.cover" />
+			<view v-for="item in musicPlayMenu" class="singer-list" :key="item.id">
+				<image v-if="item.cover" class="music-cover" :src="getMusicCover(item.cover)"  />
 				<text class="music-cover" v-else>{{item.name.slice(0,1)}}</text>
 				<view class="songname-wrapper">
 					<text>{{item.name}}</text>
@@ -27,9 +27,9 @@
 
 		<view class="module-block">
 			<MusicTitleComponent :classifyItem="{classifyName:'我关注的歌手',category:''}"/>
-			<view v-for="item in mySingerList" class="singer-list">
-				<image v-if="item.avatar" class="music-cover" :src="/http[s]?:\/\//.test(item.avatar) ? item.avatar.replace('{size}','480') : HOST + item.avatar" />
-				<text class="music-cover" v-else>{{item.name.slice(0,1)}}</text>
+			<view v-for="item in mySingerList" class="singer-list" :key="item.id">
+				<image v-if="item.avatar" class="music-cover" :src="getMusicCover(item.avatar)" />
+				<text class="music-cover" v-else>{{item.authorName.slice(0,1)}}</text>
 				<view class="songname-wrapper">
 					<text>{{item.authorName}}</text>
 					<text class="total">{{item.total}}首</text>
@@ -42,11 +42,11 @@
 
 		<view class="module-block">
 			<MusicTitleComponent :classifyItem="{classifyName:'我发布的歌曲',category:''}"/>
-			<view v-for="item in myPublishList" class="singer-list">
-				<image class="music-cover" :src="/http[s]?:\/\//.test(item.avatar) ? item.avatar.replace('{size}','480') : HOST + item.avatar" />
+			<view v-for="item in myPublishList" :key="item.id" class="singer-list">
+				<image class="music-cover" :src="getMusicCover(item.cover)" />
 				<view class="songname-wrapper">
 					<text>{{item.authorName}}</text>
-					<text class="total">{{item.total}}首</text>
+					<text class="total">听过{{item.times}}次</text>
 				</view>
 				<image class="icon-operate" src="../../../static/icon_music_play.png"/>
 				<image class="icon-operate" src="../../../static/icon_delete.png"/>
@@ -56,8 +56,8 @@
 
 		<view class="module-block module-block-last">
 			<MusicTitleComponent :classifyItem="{classifyName:'我听过的歌曲',category:''}"/>
-			<view v-for="item in recordMusicList" class="singer-list">
-				<image class="music-cover" :src="/http[s]?:\/\//.test(item.cover) ? item.cover.replace('{size}','480') : HOST + item.cover" />
+			<view v-for="item in recordMusicList" class="singer-list" :key="item.id">
+				<image class="music-cover" :src="getMusicCover(item.cover)" />
 				<view class="songname-wrapper">
 					<text>{{item.songName}}</text>
 					<text class="total">{{formatTime(item.createTime)}}</text>
@@ -71,16 +71,15 @@
 </template>
 
 <script setup lang="ts">
-	import type { ClassifyType, MuiscPlayMenuType,MusicAuthorType,MusicType} from "../types";
+	import type { ClassifyType, FavoriteDirectoryType, MuiscPlayMenuType,MusicAuthorType,MusicType} from "../types";
 	import AvaterComponent from "../../movie/components/AvaterComponent";
 	import { useStore } from "../../stores/useStore";
 	import MusicTitleComponent from "./MusicTitleComponent";
-	import {getMusicPlayMenuService,getMySingerService,getMusicRecordService} from "../service";
+	import {getMySingerService,getMusicRecordService,getFavoriteDirectoryService} from "../service";
 	import {reactive} from 'vue';
-	import {HOST} from '../../common/constant';
-	import {formatTime} from '../../utils/util';
+	import {formatTime,getMusicCover} from '../../utils/util';
 	const store = useStore();
-	const musicPlayMenu = reactive<Array<MuiscPlayMenuType>>([]);
+	const musicPlayMenu = reactive<Array<FavoriteDirectoryType>>([]);
 	const mySingerList = reactive<Array<MusicAuthorType>>([]);
 	const recordMusicList = reactive<Array<MusicType>>([]);
 	const myPublishList = reactive<Array<MusicType>>([]);
@@ -90,7 +89,7 @@
 	 * @date: 2024-03-16 23:25
 	 * @author wuwenqiang
 	 */
-	getMusicPlayMenuService().then((res)=>{
+	getFavoriteDirectoryService(0).then((res)=>{
 		musicPlayMenu.push(...res.data);
 	});
 
@@ -145,6 +144,8 @@
 		.singer-list{
 			display: flex;
 			margin-top: @page-padding;
+			align-items: center;
+			gap:@page-padding;
 			.music-cover{
 				background-color: @page-background-color;
 				border-radius: 50%;
@@ -156,7 +157,6 @@
 			.songname-wrapper{
 				display: flex;
 				flex-direction: column;
-				margin-left: @page-padding;
 				flex: 1;
 				.total{
 					color: @disable-text-color;
@@ -165,7 +165,6 @@
 			.icon-operate{
 				width: @small-icon-size;
 				height: @small-icon-size;
-				margin-left: @page-padding;
 			}
 		}
 	}
