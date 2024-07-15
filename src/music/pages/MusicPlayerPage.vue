@@ -23,7 +23,8 @@
 					:src="store.musicItem.isLike ? likeActiveIcon : likeIcon" />
 				<image class="icon-operate" @click="useShare" src="../../../static/icon_share_music.png" />
 				<image @click.stop="useComment" class="icon-operate" src="../../../static/icon_music_comments.png" />
-				<image class="icon-operate" @click="showFavoriteDialog = true" :src="isFavorite ? favoriteActiveIcon: favoriteIcon" />
+				<image class="icon-operate" @click="showFavoriteDialog = true"
+					:src="isFavorite ? favoriteActiveIcon: favoriteIcon" />
 			</view>
 			<view class="play-progress-wrapper">
 				<text class="play-time">{{currentTime}}</text>
@@ -54,13 +55,17 @@
 				<view @click.stop="store.usePlay(!store.isPlaying)" class="play-circle">
 					<image class="play-menu-item" :src="store.isPlaying ? playingIcon : pauseIcon" />
 				</view>
-				<image class="play-menu-item" @click.stop="onTabMusic(TabEnum.NEXT)" src="../../../static/icon_music_next.png" />
+				<image class="play-menu-item" @click.stop="onTabMusic(TabEnum.NEXT)"
+					src="../../../static/icon_music_next.png" />
 				<image class="play-menu-item" src="../../../static/icon_music_play_menu.png" />
 			</view>
 		</view>
 		<DialogComponent @onClose="showCommentDialog = false" v-if="showCommentDialog">
 			<template #header><text class="comment-header">{{commentTotal}}条评论</text></template>
-			<template #content><CommentComponent @onSend="useUpdateTotal" :isShowInput="true" :relationId="store.musicItem.id" :category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent></template>
+			<template #content>
+				<CommentComponent @onSend="useUpdateTotal" :isShowInput="true" :relationId="store.musicItem.id"
+					:category='CommentEnum.MUSIC' :commentList="commentList"></CommentComponent>
+			</template>
 		</DialogComponent>
 
 		<DialogComponent @onClose="showFavoriteDialog = false" v-if="showFavoriteDialog">
@@ -68,19 +73,20 @@
 				<text class="comment-header">收藏夹</text>
 			</template>
 			<template #content>
-				<FavoriteDirectoryComponent @useFavorite="useMusicFavorite" :isFavorite="isFavorite" :musicId="store.musicItem.id"/>
+				<FavoriteDirectoryComponent @useFavorite="useMusicFavorite" :isFavorite="isFavorite"
+					:musicId="store.musicItem.id" />
 			</template>
 		</DialogComponent>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted, onUnmounted, reactive, onActivated,onDeactivated,watch } from 'vue';
+	import { ref, onMounted, onUnmounted, reactive, onActivated, onDeactivated, watch } from 'vue';
 	import Lyric from 'lyric-parser';
 
 	import { useStore } from "../../stores/useStore";
 	import { HOST } from '../../common/constant';
-	import {LoopModeEnum,CommentEnum,TabEnum} from '../../common/enum';
+	import { LoopModeEnum, CommentEnum, TabEnum } from '../../common/enum';
 	import { formatSecond } from '../../utils/util';
 	import playingIcon from '../../../static/icon_music_playing.png';
 	import pauseIcon from '../../../static/icon_music_play_white.png';
@@ -88,8 +94,8 @@
 	import likeActiveIcon from '../../../static/icon_collection_active.png';
 	import favoriteIcon from '../../../static/icon_favorite.png';
 	import favoriteActiveIcon from '../../../static/icon_full_star.png';
-	import type {CommentType,MusicType} from '../types';
-	import { insertMusicLikeService, deleteMusicLikeService, getTopCommentListService, getCommentCountService,isMusicFavoriteService} from '../service';
+	import type { CommentType, MusicType } from '../types';
+	import { insertMusicLikeService, deleteMusicLikeService, getTopCommentListService, getCommentCountService, isMusicFavoriteService } from '../service';
 	import orderImg from '../../../static/icon_music_order.png';
 	import repeatImg from '../../../static/icon_music_loop.png';
 	import randomImg from '../../../static/icon_music_random.png';
@@ -111,8 +117,8 @@
 	const showFavoriteDialog = ref<boolean>(false);// 显示音乐收藏弹窗
 	const pageSize = 20;
 	const store = useStore();
-	let musicModel:MusicType | null = null;// 当前歌曲
-	let isActivePage:boolean = true;// 页面是否激活
+	let musicModel : MusicType | null = null;// 当前歌曲
+	let isActivePage : boolean = true;// 页面是否激活
 
 	let loading = false;
 
@@ -171,10 +177,10 @@
 	 * @date: 2024-06-15 00:24
 	 * @author wuwenqiang
 	 */
-	const onTabMusic = (direct:TabEnum) => {
-		if(store.loop === LoopModeEnum.ORDER || store.loop === LoopModeEnum.REPEAT){
+	const onTabMusic = (direct : TabEnum) => {
+		if (store.loop === LoopModeEnum.ORDER || store.loop === LoopModeEnum.REPEAT) {
 			useTabMusic(direct);
-		}else {
+		} else {
 			useRandomTabMusic();
 		}
 	}
@@ -206,18 +212,18 @@
 	 * @author wuwenqiang
 	 */
 	const useTabMusic = (direct : TabEnum) => {
-		let {playIndex,musicList} = store;
+		let { playIndex, musicList } = store;
 		if (direct === TabEnum.PREV) {// 切换上一首
 			if (playIndex === 0) {
 				store.resetPlayList();
 				playIndex = musicList.length - 1;
-			}else{
+			} else {
 				playIndex--;
 			}
-		} else if (store.playIndex === store.musicList.length - 1){
+		} else if (store.playIndex === store.musicList.length - 1) {
 			store.resetPlayList();
 			playIndex = 0;
-		}else{
+		} else {
 			playIndex++;
 		}
 		store.setMusicPlayIndex(playIndex);
@@ -263,9 +269,9 @@
 	 * @author wuwenqiang
 	 */
 	const useComment = () => {
-		getTopCommentListService(store.musicItem.id,CommentEnum.MUSIC,pageNum.value,pageSize).then(res => {
+		getTopCommentListService(store.musicItem.id, CommentEnum.MUSIC, pageNum.value, pageSize).then(res => {
 			commentTotal.value = res.total;
-			commentList.splice(0,commentList.length,...res.data);
+			commentList.splice(0, commentList.length, ...res.data);
 			showCommentDialog.value = true;
 		});
 	}
@@ -275,15 +281,15 @@
 	 * @date: 2024-05-12 11:45
 	 * @author wuwenqiang
 	 */
-	const useUpdateTotal = () => getCommentCountService(store.musicItem.id,CommentEnum.MUSIC).then(res => commentTotal.value = res.data)
+	const useUpdateTotal = () => getCommentCountService(store.musicItem.id, CommentEnum.MUSIC).then(res => commentTotal.value = res.data)
 
 	/**
 	 * @description: 歌曲播放完成之后切换歌曲
 	 * @date: 2024-05-17 22:54
 	 * @author wuwenqiang
 	 */
-	store.audio.onEnded(()=>{
-		switch (store.loop){
+	store.audio.onEnded(() => {
+		switch (store.loop) {
 			case LoopModeEnum.REPEAT:
 				store.audio.play()
 				break;
@@ -310,7 +316,7 @@
 	 * @date: 2024-06-25 22:08
 	 * @author wuwenqiang
 	 */
-	const useMusicFavorite = (isMusicFavorite:boolean) => {
+	const useMusicFavorite = (isMusicFavorite : boolean) => {
 		isFavorite.value = isMusicFavorite;
 		showFavoriteDialog.value = false
 	}
@@ -330,11 +336,11 @@
 
 	watch(() => store.musicItem,
 		(newVal) => {
-			if(!isActivePage)return;// 如果是进入缓存页面，不查询歌词和收藏
+			if (!isActivePage) return;// 如果是进入缓存页面，不查询歌词和收藏
 			musicModel = newVal;
 			useLyric();
 			useIsMusicFavorite();
-        }
+		}
 	);
 
 	onMounted(() => {
@@ -346,20 +352,18 @@
 		store.audio.offTimeUpdate(useRotate);
 	})
 
-	onActivated(()=>{
+	onActivated(() => {
 		isActivePage = true;
-		if(musicModel !== store.musicItem){// 从缓存中唤醒
+		if (musicModel !== store.musicItem) {// 从缓存中唤醒
 			useLyric();
 		}
 		store.audio.onTimeUpdate(useRotate);
 	})
 
-	onDeactivated(()=>{
+	onDeactivated(() => {
 		isActivePage = false;// 进入缓存
 		store.audio.offTimeUpdate(useRotate);// 移除监听
 	});
-
-
 </script>
 
 <style lang="less">
@@ -553,7 +557,8 @@
 				}
 			}
 		}
-		.comment-header{
+
+		.comment-header {
 			width: 100%;
 			height: 100%;
 			display: flex;
