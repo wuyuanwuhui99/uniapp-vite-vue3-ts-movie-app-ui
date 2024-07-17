@@ -45,9 +45,9 @@
 	import MusicMyComponent from '../components/MusicMyComponent.vue';
 	import { useStore } from "../../stores/useStore";
 	import { ref, onMounted, reactive, onActivated, onDeactivated, onUnmounted } from 'vue';
-	import { HOST } from '../../common/constant';
+	import { HOST, MUSIC_STORAGE_KEY, MUSIC_LIST_STORAGE_KEY, LOOP_STORAGE_KEY} from '../../common/constant';
 	import { LoopModeEnum } from '../../common/enum';
-	import type { MusicClassifyType } from '../types';
+	import type { MusicType } from '../types';
 
 	const angle = ref<number>(0);// 旋转的角度
 	const store = useStore();
@@ -81,27 +81,30 @@
 
 	onMounted(() => {
 		store.audio.onTimeUpdate(useRotate);
-		uni.getStorage({
-			key: 'music',
+		uni.getStorage({
+			key: MUSIC_STORAGE_KEY,
 			success: (res) => {
 				if (res.data !== '' && res.data !== null) {
-					store.setMusic(JSON.parse(res.data), false)
+					const musicItem:MusicType = JSON.parse(res.data) as MusicType;
+					store.setMusic(musicItem, false);
+					store.setMusicPlayIndex(store.musicList.findIndex((item)=>item.id === musicItem.id));
 				}
 			},
 		});
 
-		uni.getStorage({
-			key: 'musicClassify',
+		uni.getStorage({
+			key: MUSIC_LIST_STORAGE_KEY,
 			success: (res) => {
 				if (res.data !== '' && res.data !== null) {
-					const musicClassify : MusicClassifyType = JSON.parse(res.data) as MusicClassifyType;
-					store.setMusicClassify(musicClassify)
+					const musicList: Array<MusicType> = JSON.parse(res.data) as Array<MusicType>;
+					store.setMusicList(musicList);
+					store.setMusicPlayIndex(musicList.findIndex((item)=>item.id === store.musicItem.id));
 				}
 			},
 		});
 
-		uni.getStorage({
-			key: 'loop',
+		uni.getStorage({
+			key: LOOP_STORAGE_KEY,
 			success: (res) => {
 				if (res.data !== '' && res.data !== null) {
 					store.setLoop(res.data as LoopModeEnum)

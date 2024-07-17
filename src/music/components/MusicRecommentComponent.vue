@@ -6,13 +6,12 @@
 				<image v-if="index === 1" src="../../../static/icon_no2.png" class="music-rank" />
 				<image v-if="index === 2" src="../../../static/icon_no3.png" class="music-rank" />
 				<text v-if="index > 2" class="music-rank">{{index + 1}}</text>
-				<image class="music-cover"
-					:src="/http[s]?:\/\//.test(item.cover) ? item.cover.replace('{size}','480') : HOST + item.cover" />
+				<image class="music-cover" :src="getMusicCover(item.cover)" />
 				<view class="music-info">
 					<text>{{item.songName}}</text>
 					<text class="music-author">{{item.authorName}}</text>
 				</view>
-				<image class="icon-operatation" src="../../../static/icon_music_play.png" />
+				<image class="icon-operatation" @click="usePlayMusicList(item,index)" :src="store.isPlaying && store.musicItem?.id === item.id ? pauseIcon : playingIcon" />
 				<image class="icon-operatation" v-if="item.isLike" src="../../../static/icon_like_active.png" />
 				<image class="icon-operatation" v-else src="../../../static/icon_like.png" />
 				<image class="icon-operatation" src="../../../static/icon_music_menu.png" />
@@ -27,8 +26,12 @@
 	import { getMusicListByClassifyIdService } from '../service';
 	import { ref, reactive } from 'vue';
 	import type { MusicType } from '../types';
-	import { HOST } from '../../common/constant';
+	import {getMusicCover} from '../../utils/util';
+	import { useStore } from "../../stores/useStore";
+	import playingIcon from '../../../static/icon_music_play.png';
+	import pauseIcon from '../../../static/icon_music_playing_grey.png';
 
+	const store = useStore()
 	const pageSize = ref<number>(20);
 	let loadding : boolean = false;
 
@@ -63,6 +66,16 @@
 			pageNum.value++;
 			useMusicList();
 		}
+	}
+
+	const usePlayMusicList =async (musicModel:MusicType) => {
+		if(store.musicItem?.id !== musicModel.id){
+			store.setMusic(musicModel);
+			if(store.classifyName !== "推荐歌曲"){
+				await getMusicListByClassifyIdService(1, 1, 500).then((res) => store.setMusicList(res.data));
+			}
+		}
+		uni.navigateTo({url: `../pages/MusicPlayerPage`});
 	}
 
 	useMusicList()

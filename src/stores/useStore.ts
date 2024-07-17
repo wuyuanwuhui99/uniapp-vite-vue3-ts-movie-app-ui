@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type {UserDataType} from '../movie/types/index';
-import type {MusicType,MusicClassifyType} from '../music/types/index';
-import {HOST} from '../common/constant';
+import type {MusicType} from '../music/types/index';
+import { HOST, MUSIC_STORAGE_KEY, MUSIC_LIST_STORAGE_KEY, LOOP_STORAGE_KEY} from '../common/constant';
 import {LoopModeEnum} from '../common/enum';
 import {insertMusicRecordService} from '../music/service';
 export const useStore = defineStore("myStore", {
@@ -14,7 +14,7 @@ export const useStore = defineStore("myStore", {
 			isPlaying: false,
 			playList: [] as  Array<MusicType>,// 待播放的歌曲
 			musicList: [] as Array<MusicType>,
-			musicClassify: {} as MusicClassifyType,// 播放的类型
+			classifyName: '' as string,// 播放的类型
 			playIndex: -1 as number,// 播放的下标
 			total: 0,
 			loop: LoopModeEnum.ORDER,// 默认顺序播放
@@ -42,24 +42,10 @@ export const useStore = defineStore("myStore", {
 				this.isPlaying = true;
 			}
 			this.removePlayMusic();
-			uni.setStorage({key:'music',data:JSON.stringify(musicItem)});
+			uni.setStorage({key:MUSIC_STORAGE_KEY,data:JSON.stringify(musicItem)});
 			isPlaying && insertMusicRecordService(musicItem);
 		},
 
-		/**
-		 * @description: 设置播放音乐的类型
-		 * @date: 2024-05-08 21:51
-		 * @author wuwenqiang
-		 */
-		setMusicClassify(musicClassify:MusicClassifyType){
-			!musicClassify.pageNum && (musicClassify.pageNum = 1);
-			!musicClassify.pageSize && (musicClassify.pageSize = 50);
-			this.musicClassify = musicClassify;
-			uni.setStorage({
-				key: 'musicClassify',
-				data: JSON.stringify(musicClassify)
-			})
-		},
 
 		/**
 		 * @description: 设置播放的歌曲列表
@@ -69,6 +55,7 @@ export const useStore = defineStore("myStore", {
 		setMusicList(musicList:Array<MusicType>){
 			this.musicList = musicList;
 			this.playList = [...musicList];
+			uni.setStorage({key:MUSIC_LIST_STORAGE_KEY,data:JSON.stringify(musicList)});
 			this.playIndex = this.musicList.findIndex(item => item.id === this.musicItem.id);
 			this.removePlayMusic()
 		},
@@ -113,6 +100,7 @@ export const useStore = defineStore("myStore", {
 		 * @author wuwenqiang
 		 */
 		setLoop(loop:LoopModeEnum){
+			uni.setStorage({key:LOOP_STORAGE_KEY,data:loop});
 			this.loop = loop;
 		}
     }

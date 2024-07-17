@@ -17,8 +17,7 @@
 						<text class="song-name">{{ item.songName }}</text>
 						<text class="author-name">{{ item.authorName }}</text>
 					</view>
-					<image @click="store.usePlay(false)" class="icon-play"
-						:src=" store.isPlaying && store.musicItem.id === item.id ? playingIcon : pauseIcon" />
+					<image @click="usePlayMusic(item)" class="icon-play" :src=" store.isPlaying && store.musicItem.id === item.id ? playingIcon : pauseIcon" />
 					<image class="icon-play" :src="item.isLike ? isLikeActiveIcon : isLikeIcon" />
 					<image class="icon-play" src="../../../static/icon_music_menu.png" />
 				</view>
@@ -65,14 +64,23 @@
 	const pageNum = ref<number>(1);
 	const pageSize = ref<number>(20);
 
-
-
 	uni.getStorage({ key: MUSIC_SEARCH_STORAGE_KEY }).then(res => {
 		if (res) {
 			searchRecordList.push(...res.data.split(","))
 		}
 	})
 
+	/**
+	 * @description: 插入一首歌曲
+	 * @date: 2024-01-30 22:24
+	 * @author wuwenqiang
+	 */
+	const usePlayMusic = (musicModel:MusicType)=>{
+		if(store.musicItem?.id === musicModel.id){
+			store.setMusic(musicModel);
+		}
+		uni.navigateTo({url: `../pages/MusicPlayerPage`});
+	}
 
 	/**
 	 * @description: 搜索

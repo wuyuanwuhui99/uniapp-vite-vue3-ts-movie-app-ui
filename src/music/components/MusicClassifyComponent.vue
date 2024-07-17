@@ -8,8 +8,7 @@
 					<text class="song-name">{{item.songName}}</text>
 					<text class="song-desc">{{`${item.authorName} - ${item.albumName}`}}</text>
 				</view>
-				<image v-if="store.isPlaying && store.musicItem.id === item.id" @click="store.usePlay(false)" class="icon-play" src="../../../static/icon_music_playing_grey.png"/>
-				<image v-else @click="usePlayMusic(item)" class="icon-play" src="../../../static/icon_music_play.png"/>
+				<image  @click="usePlayMusic(item)" class="icon-play" :src="store.isPlaying && store.musicItem?.id === item.id ? pauseIcon : playingIcon"/>
 				<image class="icon-play" :src="item.isLike ? isLikeActiveIcon : isLikeIcon"/>
 				<image class="icon-play" src="../../../static/icon_music_menu.png" />
 			</view>
@@ -26,6 +25,8 @@
 	import { useStore } from "../../stores/useStore";
 	import isLikeIcon from '../../../static/icon_like.png';
 	import isLikeActiveIcon from '../../../static/icon_like_active.png';
+	import playingIcon from '../../../static/icon_music_play.png';
+	import pauseIcon from '../../../static/icon_music_playing_grey.png';
 	const store = useStore();
 
 	const { classifyItem } = defineProps({
@@ -41,21 +42,14 @@
 	 * @date: 2024-05-07 22:56
 	 * @author wuwenqiang
 	 */
-	const usePlayMusic = (musicItem:MusicType) => {
-		if(store.musicItem?.id === musicItem.id && store.musicList.length !== 0){
-			store.usePlay(true)
-		}else{
-			store.setMusic(musicItem);
-			if(store.musicClassify.id !== classifyItem.id || store.musicList.length === 0){
-				getMusicListByClassifyIdService(classifyItem.id,1,500).then((res)=>{
-					store.setMusicList(res.data);
-				});
-				store.setMusicClassify({...classifyItem});
+	const usePlayMusic =async (musicModel:MusicType) => {
+		if(store.musicItem?.id !== musicModel.id){
+			store.setMusic(musicModel);
+			if(store.classifyName !== classifyItem.classifyName){
+				await getMusicListByClassifyIdService(classifyItem.id,1,500).then((res)=>store.setMusicList(res.data));
 			}
 		}
-		uni.navigateTo({
-			url: `../pages/MusicPlayerPage`
-		});
+		uni.navigateTo({url: `../pages/MusicPlayerPage`});
 	}
 
 	const classifyMusicList = reactive<Array<MusicType>>([]);
