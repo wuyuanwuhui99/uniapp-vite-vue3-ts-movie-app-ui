@@ -42,7 +42,7 @@
 	import { reactive, ref, onMounted } from 'vue';
 	import { useRoute } from "vue-router";
 	import type { MusicType } from '../types';
-	import { HOST, MUSIC_SEARCH_STORAGE_KEY } from '../../common/constant';
+	import { MUSIC_SEARCH_STORAGE_KEY } from '../../common/constant';
 	import TitleComponent from '../../movie/components/TitleComponent.vue';
 	import { searchMusicService } from '../service';
 	import { useStore } from "../../stores/useStore";

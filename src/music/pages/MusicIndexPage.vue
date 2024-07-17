@@ -20,8 +20,7 @@
 			<view class="mini-player-empty"></view>
 			<view class="mini-player-wrapper" @click="useNavigateTo"
 				:style="{transform:'translateX(-50%) rotate(' + angle + 'deg)'}">
-				<image class="music-img-cover" v-if="store.musicItem.id"
-					:src="/http[s]?:\/\//.test(store.musicItem.cover) ? store.musicItem.cover.replace('{size}','480') : HOST + store.musicItem.cover" />
+				<image class="music-img-cover" v-if="store.musicItem?.id" :src="getMusicCover(store.musicItem?.cover)" />
 				<image v-else class="music-img-default" src="../../../static/icon_music.png" alt="" />
 			</view>
 			<view class="tab-item" @click="useTab(2)">
@@ -45,9 +44,10 @@
 	import MusicMyComponent from '../components/MusicMyComponent.vue';
 	import { useStore } from "../../stores/useStore";
 	import { ref, onMounted, reactive, onActivated, onDeactivated, onUnmounted } from 'vue';
-	import { HOST, MUSIC_STORAGE_KEY, MUSIC_LIST_STORAGE_KEY, LOOP_STORAGE_KEY} from '../../common/constant';
+	import { MUSIC_STORAGE_KEY, MUSIC_LIST_STORAGE_KEY, LOOP_STORAGE_KEY} from '../../common/constant';
 	import { LoopModeEnum } from '../../common/enum';
 	import type { MusicType } from '../types';
+	import {getMusicCover} from '../../utils/util'
 
 	const angle = ref<number>(0);// 旋转的角度
 	const store = useStore();
@@ -87,7 +87,6 @@
 				if (res.data !== '' && res.data !== null) {
 					const musicItem:MusicType = JSON.parse(res.data) as MusicType;
 					store.setMusic(musicItem, false);
-					store.setMusicPlayIndex(store.musicList.findIndex((item)=>item.id === musicItem.id));
 				}
 			},
 		});
@@ -98,7 +97,6 @@
 				if (res.data !== '' && res.data !== null) {
 					const musicList: Array<MusicType> = JSON.parse(res.data) as Array<MusicType>;
 					store.setMusicList(musicList);
-					store.setMusicPlayIndex(musicList.findIndex((item)=>item.id === store.musicItem.id));
 				}
 			},
 		});

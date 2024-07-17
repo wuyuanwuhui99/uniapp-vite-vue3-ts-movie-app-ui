@@ -91,7 +91,7 @@ export const useStore = defineStore("myStore", {
 		 */
 		setMusicPlayIndex(playIndex:number){
 			this.playIndex = playIndex;
-			this.setMusic(this.musicList[playIndex]);
+			if(this.musicList[playIndex])this.setMusic(this.musicList[playIndex]);
 		},
 
 		/**
