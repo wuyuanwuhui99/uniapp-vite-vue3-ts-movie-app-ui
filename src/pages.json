@@ -88,7 +88,16 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "music/pages/MusicFavoriteListPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
+		
 	],
 	"globalStyle": {
 		"navigationStyle": "custom",

@@ -12,7 +12,7 @@
 			<MusicTitleComponent :classifyItem="{classifyName:'我的歌单',category:''}">
 				<text class="icon-add">+</text>
 			</MusicTitleComponent>
-			<view v-for="item in musicPlayMenu" class="singer-list" :key="item.id">
+			<view v-for="item in musicPlayMenu" class="singer-list" :key="item.id" @click="useRouter(item)">
 				<image v-if="item.cover" class="music-cover" :src="getMusicCover(item.cover)"  />
 				<text class="music-cover" v-else>{{item.name.slice(0,1)}}</text>
 				<view class="songname-wrapper">
@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-	import type { ClassifyType, FavoriteDirectoryType, MuiscPlayMenuType,MusicAuthorType,MusicType} from "../types";
+	import type { FavoriteDirectoryType,MusicAuthorType,MusicType} from "../types";
 	import AvaterComponent from "../../movie/components/AvaterComponent";
 	import { useStore } from "../../stores/useStore";
 	import MusicTitleComponent from "./MusicTitleComponent";
@@ -110,6 +110,15 @@
 	getMusicRecordService(1,5).then((res)=>{
 		recordMusicList.push(...res.data);
 	});
+
+	/**
+	 * @description: 跳转到收藏夹列表
+	 * @date: 2024-03-17 22:12
+	 * @author wuwenqiang
+	 */
+	const useRouter = (item:FavoriteDirectoryType) => {
+		uni.navigateTo({url: `../pages/MusicFavoriteListPage?data=${encodeURIComponent(JSON.stringify(item))}`});
+	}
 </script>
 
 <style lang="less">

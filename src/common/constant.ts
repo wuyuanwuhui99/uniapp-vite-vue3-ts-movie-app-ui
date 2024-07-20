@@ -8,3 +8,9 @@ export const LOOP_STORAGE_KEY = 'LOOP_STORAGE_KEY'; // 音乐循环播放模式
 export const MUSIC_STORAGE_KEY = 'MUSIC_STORAGE_KEY'; // 当前播放的音乐
 
 export const MUSIC_LIST_STORAGE_KEY = 'MUSIC_LIST_STORAGE_KEY'; // 音乐列表
+
+export const MUSIC_CLASSIFY_NAME_STORAGE_KEY = 'MUSIC_CLASSIFY_NAME_STORAGE_KEY'; // 音乐分类的名称
+
+export const MUSIC_FAVORITE_NAME_STORAGE_KEY = 'MUSIC_FAVORITE_NAME_STORAGE_KEY'; // 音乐收藏夹名称
+
+export const MAX_FAVORITE_NUMBER = 500; // 收藏夹最大歌曲数量

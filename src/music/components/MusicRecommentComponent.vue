@@ -28,6 +28,7 @@
 	import type { MusicType } from '../types';
 	import {getMusicCover} from '../../utils/util';
 	import { useStore } from "../../stores/useStore";
+	import {MAX_FAVORITE_NUMBER} from '../../common/constant';
 	import playingIcon from '../../../static/icon_music_play.png';
 	import pauseIcon from '../../../static/icon_music_playing_grey.png';
 
@@ -72,7 +73,7 @@
 		if(store.musicItem?.id !== musicModel.id){
 			store.setMusic(musicModel);
 			if(store.classifyName !== "推荐歌曲"){
-				await getMusicListByClassifyIdService(1, 1, 500).then((res) => store.setMusicList(res.data));
+				await getMusicListByClassifyIdService(1, 1, MAX_FAVORITE_NUMBER).then((res) => store.setMusicList(res.data));
 			}
 		}
 		uni.navigateTo({url: `../pages/MusicPlayerPage`});

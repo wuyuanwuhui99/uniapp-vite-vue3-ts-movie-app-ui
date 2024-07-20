@@ -23,6 +23,7 @@
 	import { getMusicCover } from '../../utils/util';
 	import MusicTitleComponent from './MusicTitleComponent';
 	import { useStore } from "../../stores/useStore";
+	import {MAX_FAVORITE_NUMBER} from '../../common/constant';
 	import isLikeIcon from '../../../static/icon_like.png';
 	import isLikeActiveIcon from '../../../static/icon_like_active.png';
 	import playingIcon from '../../../static/icon_music_play.png';
@@ -44,9 +45,9 @@
 	 */
 	const usePlayMusic =async (musicModel:MusicType) => {
 		if(store.musicItem?.id !== musicModel.id){
-			store.setMusic(musicModel);
+			store.setMusic(musicModel,true);
 			if(store.classifyName !== classifyItem.classifyName){
-				await getMusicListByClassifyIdService(classifyItem.id,1,500).then((res)=>store.setMusicList(res.data));
+				await getMusicListByClassifyIdService(classifyItem.id,1,MAX_FAVORITE_NUMBER).then((res)=>store.setMusicList(res.data));
 			}
 		}
 		uni.navigateTo({url: `../pages/MusicPlayerPage`});

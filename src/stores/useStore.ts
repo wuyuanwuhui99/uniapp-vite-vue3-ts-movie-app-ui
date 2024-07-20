@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import type {UserDataType} from '../movie/types/index';
 import type {MusicType} from '../music/types/index';
-import { HOST, MUSIC_STORAGE_KEY, MUSIC_LIST_STORAGE_KEY, LOOP_STORAGE_KEY} from '../common/constant';
+import { HOST, MUSIC_STORAGE_KEY, MUSIC_LIST_STORAGE_KEY, LOOP_STORAGE_KEY,MUSIC_CLASSIFY_NAME_STORAGE_KEY} from '../common/constant';
 import {LoopModeEnum} from '../common/enum';
 import {insertMusicRecordService} from '../music/service';
 export const useStore = defineStore("myStore", {
@@ -12,8 +12,9 @@ export const useStore = defineStore("myStore", {
 			musicItem: {} as MusicType,
 			audio: uni.createInnerAudioContext(),
 			isPlaying: false,
-			playList: [] as  Array<MusicType>,// 待播放的歌曲
-			musicList: [] as Array<MusicType>,
+			playMusicList: [] as  Array<MusicType>,// 已播放的歌曲
+			musicList: [] as Array<MusicType>,// 所有歌曲
+			unPlayMusicList:[] as Array<MusicType>,// 未播放歌曲
 			classifyName: '' as string,// 播放的类型
 			playIndex: -1 as number,// 播放的下标
 			total: 0,
@@ -46,6 +47,27 @@ export const useStore = defineStore("myStore", {
 			isPlaying && insertMusicRecordService(musicItem);
 		},
 
+		
+		/**
+		 * @description: 
+		 * @date: 2024-05-08 21:51
+		 * @author wuwenqiang
+		 */
+		setClassifyMusic(musicList:Array<MusicType>,musicItem:MusicType,index:number,classifyName:string){
+			this.musicItem = musicList[index];
+			this.musicList = musicList;
+			this.classifyName = classifyName;
+			this.playMusicList = [];
+			this.unPlayMusicList =  [...musicList];
+			this.isPlaying = true;
+			uni.setStorage({key:MUSIC_STORAGE_KEY,data:JSON.stringify(musicItem)});
+			uni.setStorage({key:MUSIC_LIST_STORAGE_KEY,data:JSON.stringify(musicList)});
+			uni.setStorage({key:MUSIC_CLASSIFY_NAME_STORAGE_KEY,data:JSON.stringify(classifyName)});
+			this.audio.src = HOST + musicItem.localPlayUrl;
+			this.audio.play();			
+			insertMusicRecordService(musicItem);
+		},
+
 
 		/**
 		 * @description: 设置播放的歌曲列表
@@ -54,14 +76,14 @@ export const useStore = defineStore("myStore", {
 		 */
 		setMusicList(musicList:Array<MusicType>){
 			this.musicList = musicList;
-			this.playList = [...musicList];
+			this.playMusicList = [...musicList];
 			uni.setStorage({key:MUSIC_LIST_STORAGE_KEY,data:JSON.stringify(musicList)});
 			this.playIndex = this.musicList.findIndex(item => item.id === this.musicItem.id);
 			this.removePlayMusic()
 		},
 
-		resetPlayList(){
-			this.playList = [...this.musicList];
+		resetplayMusicList(){
+			this.playMusicList = [...this.musicList];
 		},
 
 		/**
@@ -70,8 +92,8 @@ export const useStore = defineStore("myStore", {
 		 * @author wuwenqiang
 		 */
 		removePlayMusic(){
-			const index = this.playList.findIndex(item => item.id === this.musicItem.id);
-			if(index !== -1)this.playList.splice(index,1);
+			const index = this.playMusicList.findIndex(item => item.id === this.musicItem.id);
+			if(index !== -1)this.playMusicList.splice(index,1);
 		},
 
 		/**

@@ -19,11 +19,11 @@
 			</scroll-view>
 			<text class="singer">{{store.musicItem.authorName}}</text>
 			<view class="play-operate-wrapper">
-				<image class="icon-operate" @click.stop="useLike"
+				<image class="icon-middle" @click.stop="useLike"
 					:src="store.musicItem.isLike ? likeActiveIcon : likeIcon" />
-				<image class="icon-operate" @click="useShare" src="../../../static/icon_share_music.png" />
-				<image @click.stop="useComment" class="icon-operate" src="../../../static/icon_music_comments.png" />
-				<image class="icon-operate" @click="showFavoriteDialog = true"
+				<image class="icon-middle" @click="useShare" src="../../../static/icon_share_music.png" />
+				<image @click.stop="useComment" class="icon-middle" src="../../../static/icon_music_comments.png" />
+				<image class="icon-middle" @click="showFavoriteDialog = true"
 					:src="isFavorite ? favoriteActiveIcon: favoriteIcon" />
 			</view>
 			<view class="play-progress-wrapper">
@@ -81,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, onMounted, onUnmounted, reactive, onActivated, onDeactivated, watch } from 'vue';
+	import { ref,onMounted, onUnmounted, reactive, onActivated, onDeactivated, watch } from 'vue';
 	import Lyric from 'lyric-parser';
 
 	import { useStore } from "../../stores/useStore";
@@ -191,7 +191,7 @@
 	 * @author wuwenqiang
 	 */
 	const useLyric = () => {
-		if (!store.musicItem.lyrics) return currentLyric.value = null;
+		if (!store.musicItem?.lyrics) return currentLyric.value = null;
 		currentLyric.value = new Lyric(store.musicItem.lyrics, ({ lineNum = 0 }) => {
 			currentLineNum.value = lineNum;
 		});
@@ -308,7 +308,7 @@
 	 */
 	const useIsMusicFavorite = () => {
 		isFavorite.value = false;
-		isMusicFavoriteService(store.musicItem.id).then(res => isFavorite.value = Boolean(res.data));
+		isMusicFavoriteService(store.musicItem.id).then(res => isFavorite.value = res.data > 0);
 	}
 
 	/**
@@ -343,10 +343,11 @@
 		}
 	);
 
-	onMounted(() => {
+	onMounted(()=>{
 		useLyric();
 		useIsMusicFavorite();
-	})
+	});
+	
 
 	onUnmounted(() => {
 		store.audio.offTimeUpdate(useRotate);
@@ -482,7 +483,7 @@
 				justify-content: space-between;
 				padding-top: @page-padding;
 
-				.icon-operate {
+				.icon-middle {
 					width: @middle-icon-size;
 					height: @middle-icon-size;
 				}

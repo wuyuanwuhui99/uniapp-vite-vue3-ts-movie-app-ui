@@ -201,3 +201,12 @@ export const searchMusicService = (keyword:string,pageNum:number,pageSize:number
 export const saveCircleService = (circle:types.CircleType):Promise<MyAwesomeData<Array<number>>> => {
     return httpRequest.post<Array<number>>(api.insertCircle,circle);
 }
+
+/**
+ * @description: 根据收藏夹id查询音乐列表
+ * @date: 2024-07-16 23:39
+ * @author wuwenqiang
+ */
+export const getMusicListByFavoriteIdService = (favoriteId:number,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicType>>> => {
+    return httpRequest.get<Array<types.MusicType>>(`${api.getMusicListByFavoriteId}?favoriteId=${favoriteId}&pageNum=${pageNum}&pageSize=${pageSize}`);
+  }
