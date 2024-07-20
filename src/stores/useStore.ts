@@ -109,7 +109,7 @@ export const useStore = defineStore("myStore", {
 				musicItem = this.musicList[this.musicList.length - 1];
 			}
 			this.setMusic(musicItem,true);
-		}
+		},
 
 		/**
 		 * @description: 播放或者暂停音乐
