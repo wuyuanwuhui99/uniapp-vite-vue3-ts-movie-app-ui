@@ -76,14 +76,14 @@ export const useStore = defineStore("myStore", {
 		 */
 		setMusicList(musicList:Array<MusicType>){
 			this.musicList = musicList;
-			this.playMusicList = [...musicList];
+			this.unPlayMusicList = [...musicList];
 			uni.setStorage({key:MUSIC_LIST_STORAGE_KEY,data:JSON.stringify(musicList)});
 			this.playIndex = this.musicList.findIndex(item => item.id === this.musicItem.id);
 			this.removePlayMusic()
 		},
 
 		resetplayMusicList(){
-			this.playMusicList = [...this.musicList];
+			this.unPlayMusicList = [...this.musicList];
 		},
 
 		/**
@@ -92,9 +92,24 @@ export const useStore = defineStore("myStore", {
 		 * @author wuwenqiang
 		 */
 		removePlayMusic(){
-			const index = this.playMusicList.findIndex(item => item.id === this.musicItem.id);
-			if(index !== -1)this.playMusicList.splice(index,1);
+			const index = this.unPlayMusicList.findIndex(item => item.id === this.musicItem.id);
+			if(index !== -1)this.unPlayMusicList.splice(index,1);
 		},
+
+		/**
+		 * @description: 随机切换上一首
+		 * @date: 2024-06-12 23:38
+		 * @author wuwenqiang
+		 */
+		randomTabPrev(){
+			let musicItem:MusicType = this.playMusicList[this.playMusicList.length - 1];
+			if(musicItem){
+				this.playMusicList.pop()
+			}else{
+				musicItem = this.musicList[this.musicList.length - 1];
+			}
+			this.setMusic(musicItem,true);
+		}
 
 		/**
 		 * @description: 播放或者暂停音乐

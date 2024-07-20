@@ -166,9 +166,13 @@
 	 * @date: 2024-06-15 00:33
 	 * @author wuwenqiang
 	 */
-	const useRandomTabMusic = () => {
-		const randomIndex = Math.floor(Math.random() * store.playList.length);
-		store.setMusic(store.playList[randomIndex]);
+	const useRandomTabMusic = (direct : TabEnum) => {
+		if(direct === TabEnum.NEXT){
+			const randomIndex = Math.floor(Math.random() * store.unPlayMusicList.length);
+			store.setMusic(store.unPlayMusicList[randomIndex]);
+		}else{
+			store.randomTabPrev();
+		}
 		useLyric();
 	}
 
@@ -181,7 +185,7 @@
 		if (store.loop === LoopModeEnum.ORDER || store.loop === LoopModeEnum.REPEAT) {
 			useTabMusic(direct);
 		} else {
-			useRandomTabMusic();
+			useRandomTabMusic(direct);
 		}
 	}
 
@@ -215,13 +219,13 @@
 		let { playIndex, musicList } = store;
 		if (direct === TabEnum.PREV) {// 切换上一首
 			if (playIndex === 0) {
-				store.resetPlayList();
+				store.resetplayMusicList();
 				playIndex = musicList.length - 1;
 			} else {
 				playIndex--;
 			}
 		} else if (store.playIndex === store.musicList.length - 1) {
-			store.resetPlayList();
+			store.resetplayMusicList();
 			playIndex = 0;
 		} else {
 			playIndex++;
