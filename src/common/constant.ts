@@ -13,4 +13,6 @@ export const MUSIC_CLASSIFY_NAME_STORAGE_KEY = 'MUSIC_CLASSIFY_NAME_STORAGE_KEY'
 
 export const MUSIC_FAVORITE_NAME_STORAGE_KEY = 'MUSIC_FAVORITE_NAME_STORAGE_KEY'; // 音乐收藏夹名称
 
-export const MAX_FAVORITE_NUMBER = 500; // 收藏夹最大歌曲数量
+export const MAX_FAVORITE_NUMBER:number = 500; // 收藏夹最大歌曲数量
+
+export const PAGE_SIZE:number = 20;// 每页的数量

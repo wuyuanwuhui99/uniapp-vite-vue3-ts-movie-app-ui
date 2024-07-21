@@ -3,13 +3,13 @@
 		<image class="icon-classify-arrow" src="../../../static/icon_down.png" />
 		<text class="classify-name">{{classifyItem.classifyName}}</text>
 		<slot>
-			<text>更多</text>
+			<text @click="useMore">更多</text>
 		</slot>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import { defineProps, reactive } from 'vue';
+	import { defineProps, defineEmits } from 'vue';
 	const { classifyItem } = defineProps({
 		classifyItem: {
 			type: Object,
@@ -17,6 +17,16 @@
 			default: {}
 		}
 	});
+	const emits = defineEmits(['useMore']);
+
+	/**
+	 * @description: 点击更多
+	 * @date: 2024-07-21 14:45
+	 * @author wuwenqiang
+	 */
+	const useMore = ()=>{
+		emits('useMore');
+	}
 </script>
 
 <style lang="less">
