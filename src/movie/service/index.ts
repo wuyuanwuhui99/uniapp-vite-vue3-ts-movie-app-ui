@@ -172,9 +172,9 @@ export const updateUserDataService = (userData:types.UserDataType):Promise<MyAwe
  * @date: 2024-01-15 21:32
  * @author wuwenqiang
  */
-export const loginService = (userId:string,password:string):Promise<MyAwesomeData<number>>=>{
+export const loginService = (userId:string,password:string):Promise<MyAwesomeData<types.UserDataType>>=>{
 	password = md5(password);
-	return httpRequest.post<number>(api.login,{userId,password})
+	return httpRequest.post<types.UserDataType>(api.login,{userId,password})
 };
 
 /**
@@ -182,9 +182,9 @@ export const loginService = (userId:string,password:string):Promise<MyAwesomeDat
  * @date: 2024-01-19 23:51
  * @author wuwenqiang
  */
-export const registerService = (userData:types.UserDataType):Promise<MyAwesomeData<number>>=>{
+export const registerService = (userData:types.UserDataType):Promise<MyAwesomeData<types.UserDataType>>=>{
 	userData.password = md5(userData.password);
-	return httpRequest.put<number>(api.register,userData)
+	return httpRequest.put<types.UserDataType>(api.register,userData)
 };
 
 /**

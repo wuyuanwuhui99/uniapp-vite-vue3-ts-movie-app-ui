@@ -82,7 +82,10 @@
 	import { registerService, getUserByIdService } from '../service';
 	import OptionsDialog from '../components/OptionsDialog';
 	import { SexMap } from '../../common/config';
+	import { useStore } from '../../stores/useStore'
+	import {httpRequest} from '../../utils/HttpUtils';
 
+	const store = useStore();
 	let loading:boolean = false;
 
 	const sexOptionsDialog = ref<null | InstanceType<typeof OptionsDialog>>(null);
@@ -184,9 +187,15 @@
 			const verify = await useCheckUserId();
 			if(verify){
 				await registerService({...userData}).then((res)=>{
-					uni.setStorageSync('token',res.token);
-					uni.redirectTo({
-						url: `../pages/IndexPage`
+					store.setUserData(res.data)
+					store.setToken(res.token)
+					uni.setStorage({key:'token',data:res.token});
+					httpRequest.setToken(res.token);
+					uni.redirectTo({url: '../pages/IndexPage'})
+					uni.showToast({
+						duration:2000,
+						position:'center',
+						title:'注册成功'
 					})
 				})
 			}

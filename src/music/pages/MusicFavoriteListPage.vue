@@ -7,7 +7,7 @@
 		</view>
 		<scroll-view  scroll-y show-scrollbar="false" class="page-body">
 			<view class="module-block module-block-row">
-				<image class="favorite-cover" :src="getMusicCover(favoriteDirectory.cover)"/>
+				<image class="favorite-cover" :src="getMusicCover(favoriteDirectory.cover||'')"/>
 				<view class="favorite-name-wrapper">
 					<text>{{ favoriteDirectory.name }}</text>
 					<text class="favorite-total">{{ favoriteDirectory.total }}首</text>
@@ -15,31 +15,20 @@
 				<image class="icon-middle" src="../../../static/icon_edit.png"/>
 			</view>
 
-			<view class="module-block module-block-column">
-				<view class="music-row" v-for="item,index in musicList" :key="item.id" @click="usePlayMusic(item,index)">
-					<image class="music-cover" :src="getMusicCover(item.cover)"/>
-					<text class="music-name">{{ item.authorName }} - {{ item.songName }}</text>
-					<image class="icon-small" :src="store.musicItem?.id == item.id && store.playing && store.classifyName === classifyName? playingIcon : pauseIcon"/>
-					<image class="icon-small" :src="store.musicItem?.isLike ? likeActiveIcon : likeIcon"/>
-					<image class="icon-small" src="../../../static/icon_music_menu.png"/>
-				</view>
-			</view>
+			<MusicClassifyListComponent @on-play-music="usePlayMusic" :music-list="musicList" :classify-name="classifyName"/>
 		</scroll-view>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import { ref,defineProps, reactive } from 'vue';
+	import { ref, reactive } from 'vue';
 	import { useRoute } from "vue-router";
 	import type { MusicType,FavoriteDirectoryType } from '../types';
 	import { getMusicListByFavoriteIdService } from '../service';
-	import { HOST,MUSIC_CLASSIFY_NAME_STORAGE_KEY,MUSIC_FAVORITE_NAME_STORAGE_KEY,MAX_FAVORITE_NUMBER } from '../../common/constant';
+	import {MUSIC_FAVORITE_NAME_STORAGE_KEY,MAX_FAVORITE_NUMBER } from '../../common/constant';
 	import { useStore } from "../../stores/useStore";
-	import likeIcon from '../../../static/icon_like.png';
-	import likeActiveIcon from '../../../static/icon_like_active.png';
-	import pauseIcon from '../../../static/icon_music_play.png';
-	import playingIcon from '../../../static/icon_music_playing_grey.png';
 	import {getMusicCover} from '../../utils/util';
+	import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
 	const store = useStore();
 	const route = useRoute();
 	const pageSize:number = 20;
@@ -47,6 +36,7 @@
 	const favoriteDirectory:FavoriteDirectoryType = JSON.parse(decodeURIComponent(route.query.data as string)) as FavoriteDirectoryType; // 获取URL上的查询参数并反序列化
 	const musicList = reactive<Array<MusicType>>([]);
 	const classifyName = MUSIC_FAVORITE_NAME_STORAGE_KEY + favoriteDirectory.name;
+
 	getMusicListByFavoriteIdService(favoriteDirectory.id,pageNum.value,pageSize).then((res)=>{
 		musicList.push(...res.data);
 	})

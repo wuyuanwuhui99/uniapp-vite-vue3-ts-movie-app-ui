@@ -21,17 +21,17 @@
 
 <script setup lang="ts">
 	import { ref } from 'vue';
-	import type { UserDataType } from '../types';
 	import {loginService} from '../service';
 	import { useStore } from '../../stores/useStore';
+	import {httpRequest} from '../../utils/HttpUtils';
 
 	const userId = ref<string>('');
 	const password = ref<string>('');
 
 	const store = useStore();
-	userId.value = store.userData.userId;
+	userId.value = store.userData.userId || '吴时吴刻';
 	uni.getStorage({key:userId.value}).then(res=>{
-		password.value = res.data || ''
+		password.value = res.data || '123456'
 	});
 
 	const useLogin = () => {
@@ -49,8 +49,12 @@
 			})
 		}else{
 			loginService(userId.value,password.value).then((res)=>{
-				uni.setStorageSync('token',res.token);
 				uni.setStorage({key:userId.value,data:password.value});
+				store.setUserData(res.data)
+				store.setToken(res.token)
+				uni.setStorage({key:'token',data:res.token});
+				httpRequest.setToken(res.token);
+				uni.navigateTo({url: '../pages/IndexPage'})
 				uni.reLaunch({
 					url: `../pages/IndexPage`
 				})

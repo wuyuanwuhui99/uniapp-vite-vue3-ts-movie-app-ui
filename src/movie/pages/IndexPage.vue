@@ -1,5 +1,5 @@
 <template>
-  <view class="index-wrapper" v-if="isInitPage">
+  <view class="index-wrapper">
       <view class="page-container">
           <HomeComponent :style="{display:activeIndex === 0 ? 'block': 'none'}"/>
 		  <MovieComponent v-if="isInitComponent[1]" :style="{display:activeIndex === 1 ? 'block': 'none'}"/>
@@ -36,31 +36,14 @@ import HomeComponent from '../components/HomeComponent.vue';
 import MovieComponent from '../components/MovieComponent.vue';
 import TVComponent from '../components/TVComponent.vue';
 import MyComponent from '../components/MyComponent.vue';
-import { useStore } from '../../stores/useStore'
-import { ref,onMounted,reactive } from 'vue'
-import {getUserDataService} from '../service';
-import {httpRequest} from '../../utils/HttpUtils';
-
+import { ref,reactive } from 'vue'
 
 const activeIndex = ref<number>(0)
-const isInitPage = ref<boolean>(false)
 const isInitComponent = reactive<Array<boolean>>([true,false,false,false])
 const useTab = (index:number) =>{
 	activeIndex.value = index;
 	!isInitComponent[index] && isInitComponent.splice(index,1,true)
 }
-onMounted(()=>{
-	const token:string = uni.getStorageSync('token');
-	getUserDataService(token).then((res)=>{
-		const store = useStore()
-		store.setUserData(res.data)
-		store.setToken(res.token)
-		uni.setStorage({key:'token',data:res.token});
-		httpRequest.setToken(res.token);
-		isInitPage.value = true;
-	})
-	
-})
 </script>
 
 <style lang="less" scoped>

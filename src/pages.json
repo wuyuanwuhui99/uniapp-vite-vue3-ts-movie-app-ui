@@ -1,5 +1,13 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
+		{
+			"path" : "movie/pages/LaunchPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
 		{
 			"path": "movie/pages/IndexPage",
 			"style": {

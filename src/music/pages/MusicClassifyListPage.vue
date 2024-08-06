@@ -6,15 +6,7 @@
 			<view class="icon-back"/>
 		</view>
 		<scroll-view  scroll-y show-scrollbar="false" class="page-body">
-			<view class="module-block module-block-column">
-				<view class="music-row" v-for="item,index in musicList" :key="item.id" @click="usePlayMusic(item,index)">
-					<image class="music-cover" :src="getMusicCover(item.cover)"/>
-					<text class="music-name">{{ item.authorName }} - {{ item.songName }}</text>
-					<image class="icon-small" :src="store.musicItem?.id == item.id && store.playing && store.classifyName === classifyName? playingIcon : pauseIcon"/>
-					<image class="icon-small" :src="store.musicItem?.isLike ? likeActiveIcon : likeIcon"/>
-					<image class="icon-small" src="../../../static/icon_music_menu.png"/>
-				</view>
-			</view>
+			<MusicClassifyListComponent @on-play-music="usePlayMusic" :music-list="musicList" :classify-name="musicClassify.classifyName"/>
 
 			<text class="footer">{{ total > pageNum * PAGE_SIZE ? '正在加载更多' : '已经到底了'}}</text>
 		</scroll-view>
@@ -26,13 +18,9 @@
 	import { useRoute } from "vue-router";
 	import type { MusicType,MusicClassifyType } from '../types';
 	import { getMusicListByClassifyIdService } from '../service';
-	import { HOST,MUSIC_CLASSIFY_NAME_STORAGE_KEY,MUSIC_FAVORITE_NAME_STORAGE_KEY,MAX_FAVORITE_NUMBER,PAGE_SIZE } from '../../common/constant';
-	import { useStore } from "../../stores/useStore";
-	import likeIcon from '../../../static/icon_like.png';
-	import likeActiveIcon from '../../../static/icon_like_active.png';
-	import pauseIcon from '../../../static/icon_music_play.png';
-	import playingIcon from '../../../static/icon_music_playing_grey.png';
-	import {getMusicCover} from '../../utils/util';
+	import { MAX_FAVORITE_NUMBER,PAGE_SIZE } from '../../common/constant';
+	import { useStore } from "../../stores/useStore";;
+	import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
 
 	const store = useStore();
 	const route = useRoute();
@@ -82,7 +70,6 @@
 	 * @author wuwenqiang
 	 */
 	const onScrolltolower = ()=>{
-		console.log(1)
 		if (loadding) return;
 		if (total.value > PAGE_SIZE * pageNum.value) {
 			pageNum.value++;
