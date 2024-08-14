@@ -3,7 +3,7 @@
 		<image class="icon-classify-arrow" src="../../../static/icon_down.png" />
 		<text class="classify-name">{{classifyItem.classifyName}}</text>
 		<slot>
-			<text @click="useMore">更多</text>
+			<text class="classify-more" @click="useMore">更多</text>
 		</slot>
 	</view>
 </template>
@@ -31,7 +31,7 @@
 
 <style lang="less">
 	@import '../../theme/size.less';
-
+	@import '../../theme/color.less';
 	.classify-title-wrapper {
 		display: flex;
 
@@ -43,6 +43,11 @@
 		.classify-name {
 			padding-left: @page-padding;
 			flex: 1;
+		}
+		
+		.classify-more{
+			color: @sub-title-color;
+			text-decoration: underline;
 		}
 	}
 </style>

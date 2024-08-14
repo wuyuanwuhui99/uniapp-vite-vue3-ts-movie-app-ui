@@ -1,4 +1,11 @@
 import {HOST} from '../common/constant';
+
+enum StatusEnum {
+    FAIL="FAIL",
+    SUCCESS="SUCCESS",
+}
+
+
 /**
  * @description: HTTP请求方法枚举
  */
@@ -109,11 +116,11 @@ class HttpRequest {
 				dataType: !requestConfig.dataType ? "json" : "其他",
 				success:  (res) => {
 					// console.log("发送返回:", res) //res:{cookies, data, header, statusCode}
-					const code = res.statusCode || -404
-					const data = res.data
+					const code = res.statusCode || -404;
+					const respond:MyAwesomeData<T> = res.data as MyAwesomeData<T>;
 					/** 接口请求成功*/
-					if (code == 200) {
-						resolve(data as MyAwesomeData<T>)
+					if (code == 200 && respond.status === StatusEnum.SUCCESS) {
+						resolve(respond)
 					} else if (code === 401) {
 						// 未授权
 						!requestConfig.noShowMsg && uni.showModal({
@@ -122,11 +129,11 @@ class HttpRequest {
 						}).then(resModa => {
 							if (resModa.confirm) { }
 						})
-						reject({ code, msg: "未登录", data: data })
+						reject({ code, msg: "未登录", data: res.data })
 					} else {
 						//非200及401状态码-数据处理
 						const errMsg = this.handerErrorStatus(code, requestConfig)
-						reject({ code, msg: errMsg, data })
+						reject({ code, msg: errMsg || res.errMsg, data:res.data })
 					}
 				},
 				fail: err => {
