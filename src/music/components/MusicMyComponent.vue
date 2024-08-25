@@ -75,7 +75,7 @@
 	import AvaterComponent from "../../movie/components/AvaterComponent";
 	import { useStore } from "../../stores/useStore";
 	import MusicTitleComponent from "./MusicTitleComponent";
-	import {getMySingerService,getMusicRecordService,getFavoriteDirectoryService} from "../service";
+	import {getMyLikeMusicAuthorService,getMusicRecordService,getFavoriteDirectoryService} from "../service";
 	import {reactive} from 'vue';
 	import {formatTime,getMusicCover} from '../../utils/util';
 	const store = useStore();
@@ -98,7 +98,7 @@
 	 * @date: 2024-03-17 22:12
 	 * @author wuwenqiang
 	 */
-	getMySingerService(1,5).then((res)=>{
+	getMyLikeMusicAuthorService(1,5).then((res)=>{
 		mySingerList.push(...res.data);
 	});
 

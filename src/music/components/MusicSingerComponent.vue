@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 	import { ref, reactive, defineProps } from "vue";
-	import { getSingerListService } from '../service';
+	import { getMusicAuthorListService } from '../service';
 	import type { MusicAuthorType } from "../types";
 	import MusicTitleComponent from './MusicTitleComponent';
 	import { HOST } from '../../common/constant';
@@ -33,7 +33,7 @@
 	 * @date: 2024-03-03 18:23
 	 * @author wuwenqiang
 	 */
-	getSingerListService("", 1, 4).then((res) => {
+	getMusicAuthorListService(0, 1, 4).then((res) => {
 		singerList.push(...res.data);
 	})
 </script>

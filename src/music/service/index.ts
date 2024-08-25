@@ -36,8 +36,8 @@ export const getMusicListByClassifyIdService = (classifyId:number,pageNum:number
  * @date: 2024-03-03 18:23
  * @author wuwenqiang
  */
-export const getSingerListService = (category:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorType>>> => {
-    return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getSingerList}?${category != '' && category != null ? "category=" + category + "&" : ""}pageNum=${pageNum}&pageSize=${pageSize}`);
+export const getMusicAuthorListService = (categoryId:number,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorType>>> => {
+    return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getMusicAuthorList}?categoryId=${categoryId}&pageNum=${pageNum}&pageSize=${pageSize}`);
 }
 
 /**
@@ -81,8 +81,8 @@ export const getMusicPlayMenuService = ():Promise<MyAwesomeData<Array<types.Muis
  * @date: 2024-03-17 22:12
  * @author wuwenqiang
  */
-export const getMySingerService = (pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorType>>> => {
-    return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getMySinger}?pageNum=${pageNum}&pageSize=${pageSize}`);
+export const getMyLikeMusicAuthorService = (pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorType>>> => {
+    return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getMyLikeMusicAuthor}?pageNum=${pageNum}&pageSize=${pageSize}`);
 }
 
 /**
