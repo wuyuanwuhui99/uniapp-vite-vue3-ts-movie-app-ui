@@ -1,25 +1,25 @@
 <template>
 	<view class="module-block">
-		<MusicTitleComponent :classifyItem="classifyItem" />
-		<view class="singer-list">
-			<view class="singer-item" :key="item.id" v-for="item in singerList">
-				<image v-if="item.avatar" class="singer-avatar"
+		<MusicTitleComponent :classifyItem="classifyItem" @useMore="useMore"/>
+		<view class="author-list">
+			<view class="author-item" :key="item.id" v-for="item in authorList">
+				<image v-if="item.avatar" class="author-avatar"
 					:src="/http[s]?:\/\//.test(item.avatar) ? item.avatar.replace('{size}', '480') : HOST + item.avatar" />
-				<image v-else class="singer-avatar" src="../../../static/default_avater.png" />
-				<text class="singer-name">{{item.authorName}}</text>
+				<image v-else class="author-avatar" src="../../../static/default_avater.png" />
+				<text class="author-name">{{item.authorName}}</text>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import { ref, reactive, defineProps } from "vue";
-	import { getMusicAuthorListService } from '../service';
+	import { reactive, defineProps } from "vue";
+	import { getMusicAuthorListByCategoryIdService } from '../service';
 	import type { MusicAuthorType } from "../types";
 	import MusicTitleComponent from './MusicTitleComponent';
 	import { HOST } from '../../common/constant';
 
-	const singerList = reactive<Array<MusicAuthorType>>([]);
+	const authorList = reactive<Array<MusicAuthorType>>([]);
 	const { classifyItem } = defineProps({
 		classifyItem: {
 			type: Object,
@@ -33,9 +33,20 @@
 	 * @date: 2024-03-03 18:23
 	 * @author wuwenqiang
 	 */
-	getMusicAuthorListService(0, 1, 4).then((res) => {
-		singerList.push(...res.data);
-	})
+	getMusicAuthorListByCategoryIdService(0, 1, 4).then((res) => {
+		authorList.push(...res.data);
+	});
+
+	 /**
+	 * @description: 跳转到歌手分类页面
+	 * @date: 2024-08-26 22:02
+	 * @author wuwenqiang
+	 */
+	 const useMore = ()=>{
+        uni.navigateTo({
+			url: '../pages/MusicAuthorCategoryPage'
+		});
+    }
 </script>
 
 <style lang="less">
@@ -43,18 +54,18 @@
 	@import '../../theme/size.less';
 	@import '../../theme/style.less';
 
-	.singer-list {
+	.author-list {
 		display: flex;
 		margin-top: @page-padding;
 
-		.singer-item {
+		.author-item {
 			display: flex;
 			flex-direction: column;
 			flex: 1;
 			justify-content: center;
 			align-items: center;
 
-			.singer-avatar {
+			.author-avatar {
 				width: @big-avater;
 				height: @big-avater;
 				border-radius: 50%;

@@ -36,8 +36,8 @@ export const getMusicListByClassifyIdService = (classifyId:number,pageNum:number
  * @date: 2024-03-03 18:23
  * @author wuwenqiang
  */
-export const getMusicAuthorListService = (categoryId:number,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorType>>> => {
-    return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getMusicAuthorList}?categoryId=${categoryId}&pageNum=${pageNum}&pageSize=${pageSize}`);
+export const getMusicAuthorListByCategoryIdService = (categoryId:number,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicAuthorType>>> => {
+    return httpRequest.get<Array<types.MusicAuthorType>>(`${api.getMusicAuthorListByCategoryId}?categoryId=${categoryId}&pageNum=${pageNum}&pageSize=${pageSize}`);
 }
 
 /**
@@ -65,15 +65,6 @@ export const saveLikeService = (likeItem:types.LikeType):Promise<MyAwesomeData<t
  */
 export const deleteLikeService = (relationId:number,type:string):Promise<MyAwesomeData<number>> => {
     return httpRequest.delete<number>(`${api.deleteLike}?relationId=${relationId}&type=${type}`);
-}
-
-/**
- * @description: 获取用户歌单
- * @date: 2024-03-16 23:25
- * @author wuwenqiang
- */
-export const getMusicPlayMenuService = ():Promise<MyAwesomeData<Array<types.MuiscPlayMenuType>>> => {
-    return httpRequest.get<Array<types.MuiscPlayMenuType>>(api.getMusicPlayMenu);
 }
 
 /**
@@ -209,4 +200,13 @@ export const saveCircleService = (circle:types.CircleType):Promise<MyAwesomeData
  */
 export const getMusicListByFavoriteIdService = (favoriteId:number,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicType>>> => {
     return httpRequest.get<Array<types.MusicType>>(`${api.getMusicListByFavoriteId}?favoriteId=${favoriteId}&pageNum=${pageNum}&pageSize=${pageSize}`);
-  }
+}
+
+/**
+ * @description: 获取歌手分类
+ * @date: 2024-08-26 21:43
+ * @author wuwenqiang
+ */
+export const getMusicAuthorCategoryService = ():Promise<MyAwesomeData<Array<types.MusicAuthorCategoryType>>> => {
+    return httpRequest.get<Array<types.MusicAuthorCategoryType>>(api.getMusicAuthorCategory);
+}

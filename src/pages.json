@@ -112,7 +112,16 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
 			}
+		},
+		{
+			"path" : "music/pages/MusicAuthorCategoryPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
 		}
+		
 	],
 	"globalStyle": {
 		"navigationStyle": "custom",

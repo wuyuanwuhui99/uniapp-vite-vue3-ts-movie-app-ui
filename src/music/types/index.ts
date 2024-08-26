@@ -64,6 +64,7 @@ export type MusicAuthorType = {
   createTime: string,// 创建时间
   updateTime: string,// 更新时间
   total: string// 歌曲总数
+  isLike:number,// 是否喜欢
 }
 
 // 点赞字段
@@ -153,4 +154,14 @@ export type FavoriteMusicType = {
 	musicId?:number,// 用户名称
 	createTime?:string;// 创建时间
 	updateTime?:string;// 更新时间
-  }
+}
+
+// 音乐收藏夹音乐类型,只在提交时用到
+export type MusicAuthorCategoryType = {
+	id:number,// 分类id
+	categoryName:string,// 歌手分类名称
+	rank:number,// 排名
+	disabled?:number,// 是否禁用
+	createTime:string,// 创建时间
+	updateTime:string,// 更新时间
+}

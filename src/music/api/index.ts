@@ -2,7 +2,7 @@ export default {
   getKeywordMusic: '/service/myMusic/getKeywordMusic',//获取搜索关键词
   getMusicClassify: '/service/myMusic/getMusicClassify',//获取分类歌曲
   getMusicListByClassifyId: '/service/myMusic/getMusicListByClassifyId',//获取推荐音乐列表
-  getMusicAuthorList: '/service/myMusic/getMusicAuthorList',// 获取歌手列表
+  getMusicAuthorListByCategoryId: '/service/myMusic/getMusicAuthorListByCategoryId',// 获取歌手列表
   getCircleListByType: '/service/circle/getCircleListByType',// 获取歌手列表
   getMusicPlayMenu: '/service/myMusic-getway/getMusicPlayMenu',// 获取我的歌单
   getMyLikeMusicAuthor: '/service/myMusic-getway/getMyLikeMusicAuthor',// 获取我关注的歌手
@@ -23,5 +23,6 @@ export default {
   insertMusicFavorite:'/service/myMusic-getway/insertMusicFavorite/',// 查询收藏夹
   insertFavoriteDirectory:'/service/myMusic-getway/insertFavoriteDirectory',// 创建收藏夹
   insertCircle: '/service/circle-getway/insertCircle',// 插入一条朋友圈说说
-  getMusicListByFavoriteId:'/service/myMusic-getway/getMusicListByFavoriteId'// 按照收藏夹的id查询音乐列表
+  getMusicListByFavoriteId:'/service/myMusic-getway/getMusicListByFavoriteId',// 按照收藏夹的id查询音乐列表
+  getMusicAuthorCategory: '/service/myMusic/getMusicAuthorCategory'// 获取歌手分类
 };

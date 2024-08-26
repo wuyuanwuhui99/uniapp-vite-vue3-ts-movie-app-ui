@@ -1,10 +1,6 @@
 <template>
 	<view class="page-wrapper" scroll-y show-scrollbar="false">
-		<view class="page-header">
-			<image class="icon-back" @click="useBack" src="../../../static/icon_back.png"/>
-			<text class="my-favorite">我的收藏夹</text>
-			<view class="icon-back"/>
-		</view>
+		<NavigatorTitleComponent title="我的收藏夹"/>
 		<scroll-view  scroll-y show-scrollbar="false" class="page-body">
 			<view class="module-block module-block-row">
 				<image class="favorite-cover" :src="getMusicCover(favoriteDirectory.cover||'')"/>
@@ -29,6 +25,7 @@
 	import { useStore } from "../../stores/useStore";
 	import {getMusicCover} from '../../utils/util';
 	import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
+	import NavigatorTitleComponent from '../components/NavigatorTitleComponent.vue';
 	const store = useStore();
 	const route = useRoute();
 	const pageSize:number = 20;
@@ -68,18 +65,6 @@
 	@import '../../theme/style.less';
 
 	.page-wrapper {
-		.page-header {
-			padding: @page-padding;
-			display: flex;
-			justify-content: space-between;
-			background: @module-background-color;
-
-			.icon-back{
-				width: @small-icon-size;
-				height: @small-icon-size;
-			}
-		}
-
 		.page-body {
 			flex: 1;
 			overflow: hidden;

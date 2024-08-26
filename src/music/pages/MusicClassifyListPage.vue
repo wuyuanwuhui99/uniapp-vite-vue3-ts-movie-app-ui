@@ -1,10 +1,6 @@
 <template>
 	<view class="page-wrapper" @scrolltolower="onScrolltolower" scroll-y show-scrollbar="false">
-		<view class="page-header">
-			<image class="icon-back" @click="useBack" src="../../../static/icon_back.png" />
-			<text class="my-favorite">我的收藏夹</text>
-			<view class="icon-back" />
-		</view>
+		<NavigatorTitleComponent :title="musicClassify?.classifyName"/>
 		<scroll-view scroll-y show-scrollbar="false" class="page-body">
 			<MusicClassifyListComponent @on-play-music="usePlayMusic" :music-list="musicList"
 				:classify-name="musicClassify.classifyName" />
@@ -15,17 +11,17 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, defineProps, reactive } from 'vue';
+	import { ref, reactive } from 'vue';
 	import { useRoute } from "vue-router";
 	import type { MusicType, MusicClassifyType } from '../types';
 	import { getMusicListByClassifyIdService } from '../service';
 	import { MAX_FAVORITE_NUMBER, PAGE_SIZE } from '../../common/constant';
 	import { useStore } from "../../stores/useStore";;
 	import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
+	import NavigatorTitleComponent from '../components/NavigatorTitleComponent.vue';
 
 	const store = useStore();
 	const route = useRoute();
-
 	let loadding : boolean = false;
 	const total = ref<number>(0);
 	const pageNum = ref<number>(1);
@@ -87,18 +83,6 @@
 	@import '../../theme/style.less';
 
 	.page-wrapper {
-		.page-header {
-			padding: @page-padding;
-			display: flex;
-			justify-content: space-between;
-			background: @module-background-color;
-
-			.icon-back {
-				width: @small-icon-size;
-				height: @small-icon-size;
-			}
-		}
-
 		.page-body {
 			flex: 1;
 			overflow: hidden;
