@@ -1,5 +1,5 @@
 <template>
-	<view class="module-block module-block-column">
+	<view class="module-block-column">
 		<view class="music-row" v-for="item,index in musicList" :key="item.id" @click="usePlayMusic(item,index)">
 			<image class="music-cover" :src="getMusicCover(item.cover)"/>
 			<text class="music-name">{{ item.authorName }} - {{ item.songName }}</text>
@@ -76,7 +76,9 @@
 	@import '../../theme/color.less';
 	@import '../../theme/size.less';
 	@import '../../theme/style.less';
-	.module-block{
+	.module-block-column{
+		display: flex;
+		flex-direction: column;
 		align-items: center;
 		gap:  @page-padding;
 		.favorite-cover{

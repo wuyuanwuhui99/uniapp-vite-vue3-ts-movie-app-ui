@@ -1,10 +1,9 @@
 <template>
-	<view class="page-wrapper" @scrolltolower="onScrolltolower" scroll-y show-scrollbar="false">
+	<view class="page-wrapper" >
 		<NavigatorTitleComponent :title="musicClassify?.classifyName"/>
-		<scroll-view scroll-y show-scrollbar="false" class="page-body">
+		<scroll-view scroll-y show-scrollbar="false" @scrolltolower="onScrolltolower" class="page-body">
 			<MusicClassifyListComponent @on-play-music="usePlayMusic" :music-list="musicList"
 				:classify-name="musicClassify.classifyName" />
-
 			<text class="footer">{{ total > pageNum * PAGE_SIZE ? '正在加载更多' : '已经到底了'}}</text>
 		</scroll-view>
 	</view>

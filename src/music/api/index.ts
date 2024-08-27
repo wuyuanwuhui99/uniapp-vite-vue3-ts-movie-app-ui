@@ -6,6 +6,8 @@ export default {
   getCircleListByType: '/service/circle/getCircleListByType',// 获取歌手列表
   getMusicPlayMenu: '/service/myMusic-getway/getMusicPlayMenu',// 获取我的歌单
   getMyLikeMusicAuthor: '/service/myMusic-getway/getMyLikeMusicAuthor',// 获取我关注的歌手
+  insertMyLikeMusicAuthor: '/service/myMusic-getway/insertMyLikeMusicAuthor/',// 添加我关注的歌手
+  deleteMyLikeMusicAuthor: '/service/myMusic-getway/deleteMyLikeMusicAuthor/',// 添加我关注的歌手
   getMusicRecord: '/service/myMusic-getway/getMusicRecord',// 获取播放记录
   insertMusicRecord: '/service/myMusic-getway/insertMusicRecord',// 记录播放日志
   insertMusicLike: '/service/myMusic-getway/insertMusicLike/',// 插入收藏
@@ -24,5 +26,6 @@ export default {
   insertFavoriteDirectory:'/service/myMusic-getway/insertFavoriteDirectory',// 创建收藏夹
   insertCircle: '/service/circle-getway/insertCircle',// 插入一条朋友圈说说
   getMusicListByFavoriteId:'/service/myMusic-getway/getMusicListByFavoriteId',// 按照收藏夹的id查询音乐列表
-  getMusicAuthorCategory: '/service/myMusic/getMusicAuthorCategory'// 获取歌手分类
+  getMusicAuthorCategory: '/service/myMusic/getMusicAuthorCategory',// 获取歌手分类
+  getMusicListByAuthorId: '/service/myMusic/getMusicListByAuthorId'// 根据歌手id获取音乐列表
 };

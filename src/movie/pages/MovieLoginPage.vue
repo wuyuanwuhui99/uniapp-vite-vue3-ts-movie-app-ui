@@ -26,7 +26,7 @@
 	import {httpRequest} from '../../utils/HttpUtils';
 
 	const userId = ref<string>('');
-	const password = ref<string>('');
+	const password = ref<string>('123456');
 
 	const store = useStore();
 	userId.value = store.userData.userId || '吴时吴刻';

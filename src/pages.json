@@ -121,6 +121,14 @@
 				"enablePullDownRefresh" : false
 			}
 		}
+		{
+			"path" : "music/pages/AuthorMusicListPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		}
 		
 	],
 	"globalStyle": {

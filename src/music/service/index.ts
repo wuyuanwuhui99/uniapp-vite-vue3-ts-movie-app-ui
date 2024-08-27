@@ -210,3 +210,30 @@ export const getMusicListByFavoriteIdService = (favoriteId:number,pageNum:number
 export const getMusicAuthorCategoryService = ():Promise<MyAwesomeData<Array<types.MusicAuthorCategoryType>>> => {
     return httpRequest.get<Array<types.MusicAuthorCategoryType>>(api.getMusicAuthorCategory);
 }
+
+/**
+ * @description: 新增我关注的歌手
+ * @date: 2024-08-27 21:43
+ * @author wuwenqiang
+ */
+export const insertMyLikeMusicAuthorService = (authorId:number):Promise<MyAwesomeData<number>> => {
+    return httpRequest.post<number>(`${api.insertMyLikeMusicAuthor}${authorId}`);
+}
+
+/**
+ * @description: 新增我关注的歌手
+ * @date: 2024-08-27 21:43
+ * @author wuwenqiang
+ */
+export const deleteMyLikeMusicAuthorService = (authorId:number):Promise<MyAwesomeData<number>> => {
+    return httpRequest.delete<number>(`${api.deleteMyLikeMusicAuthor}${authorId}`);
+}
+
+/**
+ * @description: 根据歌手id获取歌手
+ * @date: 2024-08-27 23:01
+ * @author wuwenqiang
+ */
+export const getMusicListByAuthorIdService = (authorId:number,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MusicType>>> => {
+    return httpRequest.get<Array<types.MusicType>>(`${api.getMusicListByAuthorId}?authorId=${authorId}&pageNum=${pageNum}&pageSize=${pageSize}`);
+}
