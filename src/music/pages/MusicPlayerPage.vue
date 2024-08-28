@@ -1,11 +1,11 @@
 <template>
 	<view class="play-wrapper" @click="showLoopMenu = false">
-		<view class="song-bg" :style="`background-image: url(${HOST + store.musicItem.cover})`"></view>
+		<view class="song-bg" :style="`background-image: url(${store.musicItem.cover ? HOST + store.musicItem.cover : defaultCover})`"></view>
 		<view class="play-controller-wrapper">
 			<text class="song-name">{{store.musicItem.songName}}</text>
 			<view class="circle-wrapper">
 				<view class="inner-circle" :style="{transform:`rotate(${angle}deg)`}">
-					<view class="song-cover" :style="{backgroundImage: `url(${HOST + store.musicItem.cover})`}" />
+					<view class="song-cover" :style="{backgroundImage: `url(${store.musicItem.cover ? HOST + store.musicItem.cover : defaultCover})`}" />
 				</view>
 			</view>
 			<scroll-view :scroll-into-view="'lyric' + currentLineNum" class="lyrice-scroll-wrapper" scroll-y
@@ -83,7 +83,7 @@
 <script setup lang="ts">
 	import { ref,onMounted, onUnmounted, reactive, onActivated, onDeactivated, watch } from 'vue';
 	import Lyric from 'lyric-parser';
-
+	import defaultCover from '../../../static/default_cover.jpg'; 
 	import { useStore } from "../../stores/useStore";
 	import { HOST } from '../../common/constant';
 	import { LoopModeEnum, CommentEnum, TabEnum } from '../../common/enum';
@@ -298,7 +298,7 @@
 				store.audio.play()
 				break;
 			case LoopModeEnum.RANDOM:
-				useRandomTabMusic();
+				useRandomTabMusic(TabEnum.NEXT);
 				break;
 			default:
 				useTabMusic(TabEnum.NEXT);
@@ -312,6 +312,7 @@
 	 */
 	const useIsMusicFavorite = () => {
 		isFavorite.value = false;
+		console.log(111,store.musicItem);
 		isMusicFavoriteService(store.musicItem.id).then(res => isFavorite.value = res.data > 0);
 	}
 
@@ -442,7 +443,7 @@
 				font-weight: bold;
 				height: 0;
 				flex: 1;
-
+				text-align: center;
 				.lyric-wrapper {
 					width: 80%;
 					margin: 0 auto;

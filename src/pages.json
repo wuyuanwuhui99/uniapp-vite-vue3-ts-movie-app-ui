@@ -120,7 +120,7 @@
 				"navigationBarTitleText" : "",
 				"enablePullDownRefresh" : false
 			}
-		}
+		},
 		{
 			"path" : "music/pages/AuthorMusicListPage",
 			"style" : 

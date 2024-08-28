@@ -11,18 +11,20 @@
 </template>
 
 <script setup lang="ts">
-	import { ref, reactive } from 'vue';
-	import { useRoute } from "vue-router";
+	import { ref, reactive,type Ref } from 'vue';
+	import { useRoute,type RouteLocationNormalized } from "vue-router";
 	import type { MusicType,MusicAuthorType } from '../types';
 	import { getMusicListByAuthorIdService } from '../service';
-    import {PAGE_SIZE} from '../../common/constant';
+    import {PAGE_SIZE,MAX_FAVORITE_NUMBER} from '../../common/constant';
 	import NavigatorTitleComponent from '../components/NavigatorTitleComponent.vue';
     import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
+	import { useStore } from "../../stores/useStore";
 
-	const route = useRoute();
-    const total = ref<number>(0);// 总数
-	const pageNum = ref<number>(1);
-	const musicList = reactive<Array<MusicType>>([]);
+	const store = useStore();
+	const route:RouteLocationNormalized = useRoute();
+    const total:Ref<number> = ref<number>(0);// 总数
+	const pageNum:Ref<number> = ref<number>(1);
+	const musicList:Array<MusicType> = reactive<Array<MusicType>>([]);
     let loading:boolean = false;
     const musicAuthor = JSON.parse(decodeURIComponent(route.query.data as string)) as MusicAuthorType;
 
@@ -57,8 +59,15 @@
 	 * @date: 2024-08-27 23:05
 	 * @author wuwenqiang
 	 */
-    const usePlayMusic = ()=>{
-
+    const usePlayMusic = (item : MusicType, index : number)=>{
+		if (store.classifyName != musicAuthor.authorName) {
+			getMusicListByAuthorIdService(musicAuthor.authorId,1,MAX_FAVORITE_NUMBER).then((res)=>{
+				store.setClassifyMusic(res.data, item, index, musicAuthor.authorName);
+        	});
+		}else{
+			store.setMusic(item, true);
+		}
+		uni.navigateTo({ url: `../pages/MusicPlayerPage` });
     }
 
     useMusicListByAuthorId()
