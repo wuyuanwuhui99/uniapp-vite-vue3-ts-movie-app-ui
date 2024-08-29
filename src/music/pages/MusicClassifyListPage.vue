@@ -2,30 +2,33 @@
 	<view class="page-wrapper" >
 		<NavigatorTitleComponent :title="musicClassify?.classifyName"/>
 		<scroll-view scroll-y show-scrollbar="false" @scrolltolower="onScrolltolower" class="page-body">
-			<MusicClassifyListComponent @on-play-music="usePlayMusic" :music-list="musicList"
+			<view class="module-block">
+				<MusicClassifyListComponent @on-play-music="usePlayMusic" :music-list="musicList"
 				:classify-name="musicClassify.classifyName" />
+			</view>
 			<text class="footer">{{ total > pageNum * PAGE_SIZE ? '正在加载更多' : '已经到底了'}}</text>
 		</scroll-view>
 	</view>
 </template>
 
 <script setup lang="ts">
-	import { ref, reactive } from 'vue';
-	import { useRoute } from "vue-router";
+	import { ref, reactive,type Ref } from 'vue';
+	import { useRoute,type RouteLocationNormalized } from "vue-router";
 	import type { MusicType, MusicClassifyType } from '../types';
 	import { getMusicListByClassifyIdService } from '../service';
 	import { MAX_FAVORITE_NUMBER, PAGE_SIZE } from '../../common/constant';
-	import { useStore } from "../../stores/useStore";;
+	import { useStore } from "../../stores/useStore";
 	import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
 	import NavigatorTitleComponent from '../components/NavigatorTitleComponent.vue';
+	import { Store } from 'pinia'
 
-	const store = useStore();
-	const route = useRoute();
+	const store:Store = useStore();
+	const route:RouteLocationNormalized = useRoute();
 	let loadding : boolean = false;
-	const total = ref<number>(0);
-	const pageNum = ref<number>(1);
+	const total:Ref<number> = ref<number>(0);
+	const pageNum:Ref<number> = ref<number>(1);
 	const musicClassify : MusicClassifyType = JSON.parse(decodeURIComponent(route.query.data as string)) as MusicClassifyType; // 获取URL上的查询参数并反序列化
-	const musicList = reactive<Array<MusicType>>([]);
+	const musicList:Array<MusicType> = reactive<Array<MusicType>>([]);
 
 	/**
 	 * @description: 加载音乐列表
