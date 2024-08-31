@@ -19,9 +19,7 @@
 	import NavigatorTitleComponent from '../components/NavigatorTitleComponent.vue';
     import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
 	import { useStore } from "../../stores/useStore";
-	import { Store } from 'pinia';
-	
-	const store:Store = useStore();
+	const store = useStore();
 	const route:RouteLocationNormalized = useRoute();
     const total:Ref<number> = ref<number>(0);// 总数
 	const pageNum:Ref<number> = ref<number>(1);

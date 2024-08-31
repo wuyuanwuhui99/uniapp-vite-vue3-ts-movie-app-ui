@@ -21,7 +21,7 @@
 				</view>
 			</view>
 			<template v-for="item,index in allClassifies.slice(0,pageNum)">
-				<MusicSingerComponent :key="'classifyId' + item.id" :classifyItem="item"
+				<MusicSingerComponent :key="'singerId' + item.id" :classifyItem="item"
 					v-if="item.classifyName === '推荐歌手'" />
 				<MusicClassifyComponent :class="index === allClassifies.length - 1 ? 'module-block-last': ''"
 					:key="'classifyId' + item.id" v-else :classifyItem="item" />

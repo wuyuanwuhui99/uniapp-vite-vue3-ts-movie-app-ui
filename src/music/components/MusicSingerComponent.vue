@@ -2,7 +2,7 @@
 	<view class="module-block">
 		<MusicTitleComponent :classifyItem="classifyItem" @useMore="useMore"/>
 		<view class="author-list">
-			<view class="author-item" :key="item.id" v-for="item in authorList">
+			<view class="author-item" :key="item.id" v-for="item in authorList" @click="useAuthorMusicList(item)">
 				<image v-if="item.avatar" class="author-avatar"
 					:src="/http[s]?:\/\//.test(item.avatar) ? item.avatar.replace('{size}', '480') : HOST + item.avatar" />
 				<image v-else class="author-avatar" src="../../../static/default_avater.png" />
@@ -47,6 +47,10 @@
 			url: '../pages/MusicAuthorCategoryPage'
 		});
     }
+
+	const useAuthorMusicList = (item:MusicAuthorType)=>{
+		uni.navigateTo({ url: `../pages/AuthorMusicListPage?data=${encodeURIComponent(JSON.stringify(item))}` });
+	}
 </script>
 
 <style lang="less">
