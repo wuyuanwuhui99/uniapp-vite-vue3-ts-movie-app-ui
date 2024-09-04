@@ -20,9 +20,8 @@
 	import { useStore } from "../../stores/useStore";
 	import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
 	import NavigatorTitleComponent from '../components/NavigatorTitleComponent.vue';
-	import { Store } from 'pinia'
 
-	const store:Store = useStore();
+	const store = useStore();
 	const route:RouteLocationNormalized = useRoute();
 	let loadding : boolean = false;
 	const total:Ref<number> = ref<number>(0);

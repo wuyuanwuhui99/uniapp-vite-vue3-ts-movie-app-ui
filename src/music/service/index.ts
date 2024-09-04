@@ -90,8 +90,8 @@ export const getMusicRecordService = (pageNum:number,pageSize:number):Promise<My
  * @date: 2024-03-17 22:12
  * @author wuwenqiang
  */
-export const insertMusicRecordService = (musicModel:types.MusicType):Promise<MyAwesomeData<number>> => {
-    return httpRequest.post<number>(api.insertMusicRecord,musicModel);
+export const insertMusicRecordService = (musicRecord:types.MusicRecordType):Promise<MyAwesomeData<number>> => {
+    return httpRequest.post<number>(api.insertMusicRecord,musicRecord);
 }
 
 /**

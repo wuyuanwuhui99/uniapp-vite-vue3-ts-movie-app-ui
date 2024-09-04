@@ -1,11 +1,11 @@
 <template>
 	<view class="play-wrapper" @click="showLoopMenu = false">
-		<view class="song-bg" :style="`background-image: url(${store.musicItem.cover ? HOST + store.musicItem.cover : defaultCover})`"></view>
+		<view class="song-bg" :style="`background-image: url(${store.musicItem.cover ? getMusicCover(store.musicItem.cover) : defaultCover})`"></view>
 		<view class="play-controller-wrapper">
 			<text class="song-name">{{store.musicItem.songName}}</text>
 			<view class="circle-wrapper">
 				<view class="inner-circle" :style="{transform:`rotate(${angle}deg)`}">
-					<view class="song-cover" :style="{backgroundImage: `url(${store.musicItem.cover ? HOST + store.musicItem.cover : defaultCover})`}" />
+					<view class="song-cover" :style="{backgroundImage: `url(${store.musicItem.cover ? getMusicCover(store.musicItem.cover) : defaultCover})`}" />
 				</view>
 			</view>
 			<scroll-view :scroll-into-view="'lyric' + currentLineNum" class="lyrice-scroll-wrapper" scroll-y
@@ -85,9 +85,8 @@
 	import Lyric from 'lyric-parser';
 	import defaultCover from '../../../static/default_cover.jpg'; 
 	import { useStore } from "../../stores/useStore";
-	import { HOST } from '../../common/constant';
 	import { LoopModeEnum, CommentEnum, TabEnum } from '../../common/enum';
-	import { formatSecond } from '../../utils/util';
+	import { formatSecond,getMusicCover } from '../../utils/util';
 	import playingIcon from '../../../static/icon_music_playing.png';
 	import pauseIcon from '../../../static/icon_music_play_white.png';
 	import likeIcon from '../../../static/icon_music_collect.png';

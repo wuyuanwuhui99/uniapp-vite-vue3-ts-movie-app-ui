@@ -28,8 +28,7 @@
 		<view class="module-block">
 			<MusicTitleComponent :classifyItem="{classifyName:'我关注的歌手',category:''}"/>
 			<view v-for="item in mySingerList" class="singer-list" :key="item.id">
-				<image v-if="item.avatar" class="music-cover" :src="getMusicCover(item.avatar)" />
-				<text class="music-cover" v-else>{{item.authorName.slice(0,1)}}</text>
+				<MusicAvaterCompont type="author" :name="item.authorName" :avater="item.avatar"/>
 				<view class="songname-wrapper">
 					<text>{{item.authorName}}</text>
 					<text class="total">{{item.total}}首</text>
@@ -43,7 +42,7 @@
 		<view class="module-block">
 			<MusicTitleComponent :classifyItem="{classifyName:'我发布的歌曲',category:''}"/>
 			<view v-for="item in myPublishList" :key="item.id" class="singer-list">
-				<image class="music-cover" :src="getMusicCover(item.cover)" />
+				<MusicAvaterCompont type="music" :name="item.songName" :avater="item.cover"/>
 				<view class="songname-wrapper">
 					<text>{{item.authorName}}</text>
 					<text class="total">听过{{item.times}}次</text>
@@ -57,7 +56,7 @@
 		<view class="module-block module-block-last">
 			<MusicTitleComponent :classifyItem="{classifyName:'我听过的歌曲',category:''}"/>
 			<view v-for="item in recordMusicList" class="singer-list" :key="item.id">
-				<image class="music-cover" :src="getMusicCover(item.cover)" />
+				<MusicAvaterCompont type="music" :name="item.songName" :avater="item.cover"/>
 				<view class="songname-wrapper">
 					<text>{{item.songName}}</text>
 					<text class="total">{{formatTime(item.createTime)}}</text>
@@ -72,17 +71,20 @@
 
 <script setup lang="ts">
 	import type { FavoriteDirectoryType,MusicAuthorType,MusicType} from "../types";
-	import AvaterComponent from "../../movie/components/AvaterComponent";
+	import AvaterComponent from "../../movie/components/AvaterComponent.vue";
 	import { useStore } from "../../stores/useStore";
-	import MusicTitleComponent from "./MusicTitleComponent";
+	import MusicTitleComponent from "./MusicTitleComponent.vue";
 	import {getMyLikeMusicAuthorService,getMusicRecordService,getFavoriteDirectoryService} from "../service";
 	import {reactive} from 'vue';
 	import {formatTime,getMusicCover} from '../../utils/util';
+	import MusicAvaterCompont from './MusicAvaterCompont.vue';
+
 	const store = useStore();
 	const musicPlayMenu = reactive<Array<FavoriteDirectoryType>>([]);
 	const mySingerList = reactive<Array<MusicAuthorType>>([]);
 	const recordMusicList = reactive<Array<MusicType>>([]);
 	const myPublishList = reactive<Array<MusicType>>([]);
+
 
 	/**
 	 * @description: 获取用户歌单

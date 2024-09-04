@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type {UserDataType} from '../movie/types/index';
-import type {MusicType} from '../music/types/index';
+import type {MusicType,MusicRecordType} from '../music/types/index';
 import { HOST, MUSIC_STORAGE_KEY, MUSIC_LIST_STORAGE_KEY, LOOP_STORAGE_KEY,MUSIC_CLASSIFY_NAME_STORAGE_KEY} from '../common/constant';
 import {LoopModeEnum} from '../common/enum';
 import {insertMusicRecordService} from '../music/service';
@@ -9,6 +9,7 @@ export const useStore = defineStore("myStore", {
         return {
 			userData:{} as UserDataType,
 			token: '',
+			platform:'',// 平台
 			musicItem: {} as MusicType,
 			audio: uni.createInnerAudioContext(),
 			isPlaying: false,
@@ -24,6 +25,10 @@ export const useStore = defineStore("myStore", {
     actions: {
 		setUserData(userData:UserDataType){
 			this.userData = userData;
+		},
+
+		setPlatform(platform:string){
+			this.platform = platform;
 		},
 
 		setToken(token:string){
@@ -44,7 +49,11 @@ export const useStore = defineStore("myStore", {
 			}
 			this.removePlayMusic();
 			uni.setStorage({key:MUSIC_STORAGE_KEY,data:JSON.stringify(musicItem)});
-			isPlaying && insertMusicRecordService(musicItem);
+			const musicRecord:MusicRecordType = {
+				musicId:musicItem.id,
+				platform:this.platform
+			}
+			isPlaying && insertMusicRecordService(musicRecord);
 		},
 
 		
@@ -64,8 +73,12 @@ export const useStore = defineStore("myStore", {
 			uni.setStorage({key:MUSIC_LIST_STORAGE_KEY,data:JSON.stringify(musicList)});
 			uni.setStorage({key:MUSIC_CLASSIFY_NAME_STORAGE_KEY,data:JSON.stringify(classifyName)});
 			this.audio.src = HOST + musicItem.localPlayUrl;
-			this.audio.play();			
-			insertMusicRecordService(musicItem);
+			this.audio.play();		
+			const musicRecord:MusicRecordType = {
+				musicId:musicItem.id,
+				platform:this.platform
+			}	
+			insertMusicRecordService(musicRecord);
 		},
 
 

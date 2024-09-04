@@ -8,7 +8,7 @@
 				<text class="user-name">{{item.username}}</text>
 				<text class="content">{{item.content}}</text>
 				<view class="music-wrapper">
-					<image class="music-cover" :src="getMusicCover(item.musicCover)" />
+					<MusicAvaterCompont type="music" :name="item.musicSongName" :avater="item.musicCover"/>
 					<view class="music-info">
 						<text class="music-name">{{item.musicSongName}} - {{item.musicAuthorName}}</text>
 					</view>
@@ -60,7 +60,6 @@
 	import { useStore } from '../../stores/useStore';
 	import CommentComponent from './CommentComponent.vue';
 	import { CommentEnum,CircleEnum } from '../../common/enum';
-	import {getMusicCover} from '../../utils/util';
 	const circleIndex = ref<number>(-1);// 朋友圈动态的id
 	const circleList = reactive<Array<CircleType>>([]);
 	const pageNum = ref<number>(1);

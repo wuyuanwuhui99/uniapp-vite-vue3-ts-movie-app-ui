@@ -3,9 +3,7 @@
 		<MusicTitleComponent :classifyItem="classifyItem" @useMore="useMore"/>
 		<view class="author-list">
 			<view class="author-item" :key="item.id" v-for="item in authorList" @click="useAuthorMusicList(item)">
-				<image v-if="item.avatar" class="author-avatar"
-					:src="/http[s]?:\/\//.test(item.avatar) ? item.avatar.replace('{size}', '480') : HOST + item.avatar" />
-				<image v-else class="author-avatar" src="../../../static/default_avater.png" />
+				<MusicAvaterCompont type="author" size="big" :name="item.authorName" :avater="item.avatar"/>
 				<text class="author-name">{{item.authorName}}</text>
 			</view>
 		</view>
@@ -16,8 +14,8 @@
 	import { reactive, defineProps } from "vue";
 	import { getMusicAuthorListByCategoryIdService } from '../service';
 	import type { MusicAuthorType } from "../types";
-	import MusicTitleComponent from './MusicTitleComponent';
-	import { HOST } from '../../common/constant';
+	import MusicTitleComponent from './MusicTitleComponent.vue';
+	import MusicAvaterCompont from './MusicAvaterCompont.vue';
 
 	const authorList = reactive<Array<MusicAuthorType>>([]);
 	const { classifyItem } = defineProps({

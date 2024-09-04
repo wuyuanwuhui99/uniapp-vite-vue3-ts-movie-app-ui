@@ -10,6 +10,11 @@ import {getUserDataService} from '../service';
 import {httpRequest} from '../../utils/HttpUtils';
 const store = useStore()
 const token:string = uni.getStorageSync('token');
+uni.getSystemInfo({
+  success:  (info)=> {
+    store.setPlatform(info.platform);
+  }
+});
 setTimeout(()=>{
     if(token){
         getUserDataService(token).then((res)=>{

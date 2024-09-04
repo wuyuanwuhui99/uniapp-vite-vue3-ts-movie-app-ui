@@ -165,3 +165,9 @@ export type MusicAuthorCategoryType = {
 	createTime:string,// 创建时间
 	updateTime:string,// 更新时间
 }
+
+// 音乐收藏夹音乐类型,只在提交时用到
+export type MusicRecordType = {
+	musicId:number,// 音乐id
+	platform:string,// 平台
+}

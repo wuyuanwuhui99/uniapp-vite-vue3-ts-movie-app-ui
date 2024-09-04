@@ -3,7 +3,8 @@
 		<NavigatorTitleComponent title="我的收藏夹"/>
 		<scroll-view  scroll-y show-scrollbar="false" class="page-body">
 			<view class="module-block module-block-row">
-				<image class="favorite-cover" :src="getMusicCover(favoriteDirectory.cover||'')"/>
+				<MusicAvaterCompont type="author" size="big" :name="favoriteDirectory.name" :avater="favoriteDirectory.cover"/>
+
 				<view class="favorite-name-wrapper">
 					<text>{{ favoriteDirectory.name }}</text>
 					<text class="favorite-total">{{ favoriteDirectory.total }}首</text>
@@ -23,9 +24,10 @@
 	import { getMusicListByFavoriteIdService } from '../service';
 	import {MUSIC_FAVORITE_NAME_STORAGE_KEY,MAX_FAVORITE_NUMBER } from '../../common/constant';
 	import { useStore } from "../../stores/useStore";
-	import {getMusicCover} from '../../utils/util';
 	import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
 	import NavigatorTitleComponent from '../components/NavigatorTitleComponent.vue';
+	import MusicAvaterCompont from './MusicAvaterCompont.vue';
+
 	const store = useStore();
 	const route = useRoute();
 	const pageSize:number = 20;
@@ -73,11 +75,6 @@
 			.module-block{
 				align-items: center;
 				gap:  @page-padding;
-				.favorite-cover{
-					width: @big-avater;
-					height: @big-avater;
-					border-radius: @module-border-radius;
-				}
 
 				.favorite-name-wrapper{
 					display: flex;

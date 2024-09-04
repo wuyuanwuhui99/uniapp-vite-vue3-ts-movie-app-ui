@@ -7,8 +7,7 @@
 		<view class="page-body">
 			<textarea class="textarea" v-model="content" placeholder="这一刻的想法"></textarea>
 			<view class="module-block module-block-row">
-				<image class="music-cover"
-					:src="/http[s]?:\/\//.test(musicItem.cover) ? musicItem.cover.replace('{size}','480') : HOST + musicItem.cover" />
+				<MusicAvaterCompont type="music" :name="musicItem.songName" :avater="musicItem.cover"/>
 				<text>{{ musicItem.authorName }} - {{ musicItem.songName }}</text>
 			</view>
 			<view class="module-block module-block-row" @click="usePermission">
@@ -33,6 +32,8 @@
 	import { PermissionMap } from '../../common/config';
 	import { useStore } from "../../stores/useStore";
 	import OptionsDialog from '../../movie/components/OptionsDialog.vue';
+	import MusicAvaterCompont from './MusicAvaterCompont.vue';
+
 	const content = ref<string>('');
 	const permission = ref<number>(1);
 	const permissionOptionsDialog = ref<null | InstanceType<typeof OptionsDialog>>(null);

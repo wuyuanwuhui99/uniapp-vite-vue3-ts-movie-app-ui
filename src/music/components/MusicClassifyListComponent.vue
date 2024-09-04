@@ -1,7 +1,7 @@
 <template>
 	<view class="module-block-column">
 		<view class="music-row" v-for="item,index in musicList" :key="item.id" @click="usePlayMusic(item,index)">
-			<image class="music-cover" :src="getMusicCover(item.cover)"/>
+			<MusicAvaterCompont type="music" :name="item.songName" :avater="item.cover"/>
 			<text class="music-name">{{ item.authorName }} - {{ item.songName }}</text>
 			<image class="icon-small" :src="store.musicItem?.id == item.id && store.isPlaying && store.classifyName === classifyName? playingIcon : pauseIcon"/>
 			<image class="icon-small" @click.stop="useLike(item)" :src="store.musicItem?.isLike ? likeActiveIcon : likeIcon"/>
@@ -19,7 +19,8 @@
 	import likeActiveIcon from '../../../static/icon_like_active.png';
 	import pauseIcon from '../../../static/icon_music_play.png';
 	import playingIcon from '../../../static/icon_music_playing_grey.png';
-	import {getMusicCover} from '../../utils/util';
+	import MusicAvaterCompont from './MusicAvaterCompont.vue';
+
 	let loading:boolean = false;
 	const {musicList,classifyName} = defineProps({
 		musicList:{
