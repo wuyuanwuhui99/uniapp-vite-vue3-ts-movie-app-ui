@@ -19,7 +19,7 @@
 	import likeActiveIcon from '../../../static/icon_like_active.png';
 	import pauseIcon from '../../../static/icon_music_play.png';
 	import playingIcon from '../../../static/icon_music_playing_grey.png';
-	import MusicAvaterComponent from './MusicAvaterComponent.vue';
+	import MusicAvaterComponent from '../components/MusicAvaterComponent.vue';
 
 	let loading:boolean = false;
 	const {musicList,classifyName} = defineProps({

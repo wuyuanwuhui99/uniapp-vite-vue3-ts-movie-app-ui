@@ -4,12 +4,15 @@ import type {MusicType,MusicRecordType} from '../music/types/index';
 import { HOST, MUSIC_STORAGE_KEY, MUSIC_LIST_STORAGE_KEY, LOOP_STORAGE_KEY,MUSIC_CLASSIFY_NAME_STORAGE_KEY} from '../common/constant';
 import {LoopModeEnum} from '../common/enum';
 import {insertMusicRecordService} from '../music/service';
+import { version } from 'vue';
 export const useStore = defineStore("myStore", {
     state:() => {
         return {
 			userData:{} as UserDataType,
 			token: '',
 			platform:'',// 平台
+			device:'',
+			version:'',
 			musicItem: {} as MusicType,
 			audio: uni.createInnerAudioContext(),
 			isPlaying: false,
@@ -27,8 +30,10 @@ export const useStore = defineStore("myStore", {
 			this.userData = userData;
 		},
 
-		setPlatform(platform:string){
-			this.platform = platform;
+		setDeviceInfo(deviceInfo:any){
+			this.platform = deviceInfo.platform;
+			this.device = deviceInfo.deviceModel;
+			this.version = deviceInfo.osVersion;
 		},
 
 		setToken(token:string){
@@ -51,7 +56,9 @@ export const useStore = defineStore("myStore", {
 			uni.setStorage({key:MUSIC_STORAGE_KEY,data:JSON.stringify(musicItem)});
 			const musicRecord:MusicRecordType = {
 				musicId:musicItem.id,
-				platform:this.platform
+				platform:this.platform,
+				version:this.version,
+				device:this.device
 			}
 			isPlaying && insertMusicRecordService(musicRecord);
 		},
@@ -76,7 +83,9 @@ export const useStore = defineStore("myStore", {
 			this.audio.play();		
 			const musicRecord:MusicRecordType = {
 				musicId:musicItem.id,
-				platform:this.platform
+				platform:this.platform,
+				version:this.version,
+				device:this.device
 			}	
 			insertMusicRecordService(musicRecord);
 		},

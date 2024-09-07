@@ -3,7 +3,7 @@
 		<MusicTitleComponent :classifyItem="classifyItem" @useMore="useMore"/>
 		<view class="author-list">
 			<view class="author-item" :key="item.id" v-for="item in authorList" @click="useAuthorMusicList(item)">
-				<MusicAvaterCompont type="author" size="big" :name="item.authorName" :avater="item.avatar"/>
+				<MusicAvaterComponent type="author" size="big" :name="item.authorName" :avater="item.avatar"/>
 				<text class="author-name">{{item.authorName}}</text>
 			</view>
 		</view>
@@ -15,7 +15,7 @@
 	import { getMusicAuthorListByCategoryIdService } from '../service';
 	import type { MusicAuthorType } from "../types";
 	import MusicTitleComponent from './MusicTitleComponent.vue';
-	import MusicAvaterCompont from './MusicAvaterCompont.vue';
+	import MusicAvaterComponent from './MusicAvaterComponent.vue';
 
 	const authorList = reactive<Array<MusicAuthorType>>([]);
 	const { classifyItem } = defineProps({

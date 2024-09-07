@@ -8,7 +8,7 @@
 
             <view class="module-block module-column">
                 <view class="author-item" @click="useAuthoMusicList(item)" :key="'author-item' + item.id" v-for="item in musicAuthorList">
-                    <MusicAvaterCompont type="author" :name="item.authorName" :avater="item.avatar"/>
+                    <MusicAvaterComponent type="author" :name="item.authorName" :avater="item.avatar"/>
                     <text>{{ item.authorName }}</text>
                     <text class="total">{{ item.total }}首</text>
                     <image class="icon-play" src="../../../static/icon_music_play.png"/>
@@ -31,7 +31,7 @@
 	import NavigatorTitleComponent from '../components/NavigatorTitleComponent.vue';
     import isLikeIcon from '../../../static/icon_like.png';
 	import isLikeActiveIcon from '../../../static/icon_like_active.png';
-    import MusicAvaterCompont from './MusicAvaterCompont.vue';
+    import MusicAvaterComponent from '../components/MusicAvaterComponent.vue';
 
 	const route = useRoute();
     const total = ref<number>(0);// 总数

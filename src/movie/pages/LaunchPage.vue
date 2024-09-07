@@ -12,9 +12,10 @@ const store = useStore()
 const token:string = uni.getStorageSync('token');
 uni.getSystemInfo({
   success:  (info)=> {
-    store.setPlatform(info.platform);
+    store.setDeviceInfo(info);
   }
 });
+
 setTimeout(()=>{
     if(token){
         getUserDataService(token).then((res)=>{

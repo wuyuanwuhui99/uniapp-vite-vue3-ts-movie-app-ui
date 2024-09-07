@@ -6,7 +6,7 @@
 				<image v-if="index === 1" src="../../../static/icon_no2.png" class="music-rank" />
 				<image v-if="index === 2" src="../../../static/icon_no3.png" class="music-rank" />
 				<text v-if="index > 2" class="music-rank">{{index + 1}}</text>
-				<MusicAvaterCompont type="music" :name="item.songName" :avater="item.cover"/>
+				<MusicAvaterComponent type="music" :name="item.songName" :avater="item.cover"/>
 				<view class="music-info">
 					<text>{{item.songName}}</text>
 					<text class="music-author">{{item.authorName}}</text>
@@ -30,7 +30,7 @@
 	import {MAX_FAVORITE_NUMBER} from '../../common/constant';
 	import playingIcon from '../../../static/icon_music_play.png';
 	import pauseIcon from '../../../static/icon_music_playing_grey.png';
-	import MusicAvaterCompont from './MusicAvaterCompont.vue';
+	import MusicAvaterComponent from './MusicAvaterComponent.vue';
 
 	const store = useStore()
 	const pageSize = ref<number>(20);

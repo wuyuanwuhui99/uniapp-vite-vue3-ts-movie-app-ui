@@ -13,7 +13,7 @@
 				show-scrollbar="false">
 				<view v-for="item in searchMusicList" :key="item.id" class="scroll-view-item">
 					<image class="song-cover" :src="getMusicCover(item.cover)" />
-					<MusicAvaterCompont type="music" class="song-cover" :name="item.songName" :avater="item.cover"/>
+					<MusicAvaterComponent type="music" class="song-cover" :name="item.songName" :avater="item.cover"/>
 					<view class="name-wrapper">
 						<text class="song-name">{{ item.songName }}</text>
 						<text class="author-name">{{ item.authorName }}</text>
@@ -52,7 +52,7 @@
 	import isLikeIcon from '../../../static/icon_like.png';
 	import isLikeActiveIcon from '../../../static/icon_like_active.png';
 	import { getMusicCover } from '../../utils/util';
-	import MusicAvaterCompont from './MusicAvaterCompont.vue';
+	import MusicAvaterComponent from '../components/MusicAvaterComponent.vue';
 
 	const store = useStore();
 	const route = useRoute();

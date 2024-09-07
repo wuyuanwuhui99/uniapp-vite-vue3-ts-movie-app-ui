@@ -28,7 +28,7 @@
 		<view class="module-block">
 			<MusicTitleComponent :classifyItem="{classifyName:'我关注的歌手',category:''}"/>
 			<view v-for="item in mySingerList" class="singer-list" :key="item.id">
-				<MusicAvaterCompont type="author" :name="item.authorName" :avater="item.avatar"/>
+				<MusicAvaterComponent type="author" :name="item.authorName" :avater="item.avatar"/>
 				<view class="songname-wrapper">
 					<text>{{item.authorName}}</text>
 					<text class="total">{{item.total}}首</text>
@@ -42,7 +42,7 @@
 		<view class="module-block">
 			<MusicTitleComponent :classifyItem="{classifyName:'我发布的歌曲',category:''}"/>
 			<view v-for="item in myPublishList" :key="item.id" class="singer-list">
-				<MusicAvaterCompont type="music" :name="item.songName" :avater="item.cover"/>
+				<MusicAvaterComponent type="music" :name="item.songName" :avater="item.cover"/>
 				<view class="songname-wrapper">
 					<text>{{item.authorName}}</text>
 					<text class="total">听过{{item.times}}次</text>
@@ -56,7 +56,7 @@
 		<view class="module-block module-block-last">
 			<MusicTitleComponent :classifyItem="{classifyName:'我听过的歌曲',category:''}"/>
 			<view v-for="item in recordMusicList" class="singer-list" :key="item.id">
-				<MusicAvaterCompont type="music" :name="item.songName" :avater="item.cover"/>
+				<MusicAvaterComponent type="music" :name="item.songName" :avater="item.cover"/>
 				<view class="songname-wrapper">
 					<text>{{item.songName}}</text>
 					<text class="total">{{formatTime(item.createTime)}}</text>
@@ -77,7 +77,7 @@
 	import {getMyLikeMusicAuthorService,getMusicRecordService,getFavoriteDirectoryService} from "../service";
 	import {reactive} from 'vue';
 	import {formatTime,getMusicCover} from '../../utils/util';
-	import MusicAvaterCompont from './MusicAvaterCompont.vue';
+	import MusicAvaterComponent from './MusicAvaterComponent.vue';
 
 	const store = useStore();
 	const musicPlayMenu = reactive<Array<FavoriteDirectoryType>>([]);

@@ -170,4 +170,6 @@ export type MusicAuthorCategoryType = {
 export type MusicRecordType = {
 	musicId:number,// 音乐id
 	platform:string,// 平台
+	device:string,// 设备型号
+	version:string// 版本
 }

@@ -7,7 +7,7 @@
 		<view class="page-body">
 			<textarea class="textarea" v-model="content" placeholder="这一刻的想法"></textarea>
 			<view class="module-block module-block-row">
-				<MusicAvaterCompont type="music" :name="musicItem.songName" :avater="musicItem.cover"/>
+				<MusicAvaterComponent type="music" :name="musicItem.songName" :avater="musicItem.cover"/>
 				<text>{{ musicItem.authorName }} - {{ musicItem.songName }}</text>
 			</view>
 			<view class="module-block module-block-row" @click="usePermission">
@@ -32,7 +32,7 @@
 	import { PermissionMap } from '../../common/config';
 	import { useStore } from "../../stores/useStore";
 	import OptionsDialog from '../../movie/components/OptionsDialog.vue';
-	import MusicAvaterCompont from './MusicAvaterCompont.vue';
+	import MusicAvaterComponent from '../components/MusicAvaterComponent.vue';
 
 	const content = ref<string>('');
 	const permission = ref<number>(1);

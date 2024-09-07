@@ -3,7 +3,7 @@
 		<NavigatorTitleComponent title="我的收藏夹"/>
 		<scroll-view  scroll-y show-scrollbar="false" class="page-body">
 			<view class="module-block module-block-row">
-				<MusicAvaterCompont type="author" size="big" :name="favoriteDirectory.name" :avater="favoriteDirectory.cover"/>
+				<MusicAvaterComponent type="author" size="big" :name="favoriteDirectory.name" :avater="favoriteDirectory.cover"/>
 
 				<view class="favorite-name-wrapper">
 					<text>{{ favoriteDirectory.name }}</text>
@@ -26,7 +26,7 @@
 	import { useStore } from "../../stores/useStore";
 	import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
 	import NavigatorTitleComponent from '../components/NavigatorTitleComponent.vue';
-	import MusicAvaterCompont from './MusicAvaterCompont.vue';
+	import MusicAvaterComponent from '../components/MusicAvaterComponent.vue';
 
 	const store = useStore();
 	const route = useRoute();
@@ -39,7 +39,7 @@
 	getMusicListByFavoriteIdService(favoriteDirectory.id,pageNum.value,pageSize).then((res)=>{
 		musicList.push(...res.data);
 	})
-	
+
 	/**
 	 * @description: 返回按钮
 	 * @date: 2024-05-10 22:10
@@ -48,7 +48,7 @@
 	const useBack = ()=>{
 		uni.navigateBack()
 	}
-	
+
 	const usePlayMusic = async(item:MusicType,index:number)=>{
 		if(store.classifyName != classifyName){
 			await getMusicListByFavoriteIdService(favoriteDirectory.id, 1, MAX_FAVORITE_NUMBER).then((value) =>{
@@ -86,7 +86,7 @@
 					}
 				}
 			}
-			
+
 			.music-row{
 				width: 100%;
 				display: flex;

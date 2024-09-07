@@ -8,7 +8,7 @@
 				<text class="user-name">{{item.username}}</text>
 				<text class="content">{{item.content}}</text>
 				<view class="music-wrapper">
-					<MusicAvaterCompont type="music" :name="item.musicSongName" :avater="item.musicCover"/>
+					<MusicAvaterComponent type="music" :name="item.musicSongName" :avater="item.musicCover"/>
 					<view class="music-info">
 						<text class="music-name">{{item.musicSongName}} - {{item.musicAuthorName}}</text>
 					</view>
