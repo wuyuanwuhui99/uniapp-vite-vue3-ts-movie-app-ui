@@ -3,11 +3,11 @@
 		<view>
 			<MusicSearchComponent />
 			<view class="category-wrapper module-block">
-				<view class="category-item">
+				<view class="category-item" @click="useAuthorListPage">
 					<image class="category-img" src="../../../static/icon_music_singer.png" />
 					<text class="category-name">歌手</text>
 				</view>
-				<view class="category-item">
+				<view class="category-item" @click="useMusicCategoryListPage">
 					<image class="category-img" src="../../../static/icon_music_classify.png" />
 					<text class="category-name">分类歌曲</text>
 				</view>
@@ -34,25 +34,23 @@
 
 <script setup lang="ts">
 	import { ref, reactive } from "vue";
-	import MusicSearchComponent from './MusicSearchComponent';
+	import MusicSearchComponent from './MusicSearchComponent.vue';
 	import { getMusicClassifyService } from '../service';
 	import type { MusicClassifyType } from "../types";
-	import MusicSingerComponent from './MusicSingerComponent';
-	import MusicClassifyComponent from './MusicClassifyComponent';
+	import MusicSingerComponent from './MusicSingerComponent.vue';
+	import MusicClassifyComponent from './MusicClassifyComponent.vue';
 
 	const pageNum = ref<number>(3);// 初始化加载3个模块，其他模块按需加载
 	const allClassifies = reactive<Array<MusicClassifyType>>([]);// 所有分类模块
 	
-	const onload = () => {
-
+	// 跳转到歌手列表
+	const useAuthorListPage = ()=>{
+		uni.navigateTo({url: `../pages/AuthorMusicListPage`});
 	}
 
-	const onclose = () => {
-		
-	}
-
-	const onerror = () => {
-		
+	// 跳转到歌手列表
+	const useMusicCategoryListPage = ()=>{
+		uni.navigateTo({url: `../pages/MusicCategoryListPage`});
 	}
 
 	/**

@@ -49,7 +49,7 @@
 	 * @date: 2024-07-11 23:00
 	 * @author wuwenqiang
 	 */
-	const usePermission = (value : number) => {
+	const usePermission = () => {
 		permissionOptionsDialog.value?.$refs.popup.open('top');
 	}
 

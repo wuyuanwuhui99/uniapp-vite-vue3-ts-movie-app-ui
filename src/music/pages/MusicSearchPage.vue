@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-	import { reactive, ref, onMounted } from 'vue';
+	import { reactive, ref } from 'vue';
 	import { useRoute } from "vue-router";
 	import type { MusicType } from '../types';
 	import { MUSIC_SEARCH_STORAGE_KEY } from '../../common/constant';
