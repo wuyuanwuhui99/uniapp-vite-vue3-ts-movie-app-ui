@@ -7,7 +7,7 @@
                     <text @click="onTabItem(item)" :class="{'category-btn-active':activeCategory?.id === item.id}" class="category-btn" :key="'category-btn'+item.id" v-for="item in currentClassify">{{ item.classifyName }}</text>
                 </view>
                 <view class="expand-more" @click="useExpand">
-                    <text>{{ expand ? '收起': '展开更多' }}</text>
+                    <text class="expand-text">{{ expand ? '收起': '展开更多' }}</text>
                     <image class="icon-small" :class="expand ? 'icon-expand' : ''"  src="../../../static/icon_arrow.png"></image>
                 </view>
 			</view>
@@ -156,6 +156,9 @@
                     }
                 }
                 .expand-more{
+                    .expand-text{
+                        color: @sub-title-color;
+                    }
                     display: flex;
                     justify-content: center;
                     align-items: center;
