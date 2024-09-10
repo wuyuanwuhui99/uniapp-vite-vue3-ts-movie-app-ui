@@ -2,8 +2,14 @@
 	<view class="page-wrapper" scroll-y show-scrollbar="false">
 		<NavigatorTitleComponent title="歌曲分类"/>
 		<scroll-view  scroll-y show-scrollbar="false" @scrolltolower="onScrolltolower" class="page-body">
-			<view class="module-block module-block-grid">
-				<text @click="onTabItem(item)" :class="{'category-btn-active':activeCategory?.id === item.id}" class="category-btn" :key="'category-btn'+item.id" v-for="item in allClassifies">{{ item.classifyName }}</text>
+			<view class="module-block">
+                <view class="category-grid">
+                    <text @click="onTabItem(item)" :class="{'category-btn-active':activeCategory?.id === item.id}" class="category-btn" :key="'category-btn'+item.id" v-for="item in currentClassify">{{ item.classifyName }}</text>
+                </view>
+                <view class="expand-more" @click="useExpand">
+                    <text>{{ expand ? '收起': '展开更多' }}</text>
+                    <image class="icon-small" :class="expand ? 'icon-expand' : ''"  src="../../../static/icon_arrow.png"></image>
+                </view>
 			</view>
             <view class="module-block">
                 <MusicClassifyListComponent class="component-gap" @onPlayMusic="usePlayMusic" :musicList = 'musicList' :classifyName = 'activeCategory.classifyName'/>
@@ -24,12 +30,13 @@
     import MusicClassifyListComponent from '../components/MusicClassifyListComponent.vue';
 
     const allClassifies = reactive<Array<MusicClassifyType>>([]);// 所有分类模块
-	const route = useRoute();
+    const currentClassify =  reactive<Array<MusicClassifyType>>([]);// 所有分类模块
     const total = ref<number>(0);// 总数
 	const pageNum = ref<number>(1);
 	const musicList = reactive<Array<MusicType>>([]);
     const activeCategory = ref<MusicClassifyType>({} as MusicClassifyType);
     const store = useStore();
+    const expand = ref<boolean>(false);
     let loading:boolean = false;
 
     
@@ -41,8 +48,20 @@
 	getMusicClassifyService().then((res) => {
 		allClassifies.push(...res.data);
         activeCategory.value = allClassifies[0] as MusicClassifyType;
+        currentClassify.push(...allClassifies.slice(0,9));
         useMusicListByClassifyId();
 	});
+
+    /**
+	 * @description: 展开折叠
+	 * @date: 2024-09-10 22:44
+	 * @author wuwenqiang
+	 */
+    const useExpand = ()=>{
+        expand.value = !expand.value;
+        currentClassify.length = 0;
+        currentClassify.push(...allClassifies.slice(0,expand.value ? allClassifies.length : 9))
+    }
 
      /**
 	 * @description: 根据分类获取音乐列表
@@ -112,7 +131,7 @@
 			padding:0 @page-padding;
 			box-sizing: border-box;
 			.module-block{
-                &.module-block-grid{
+                .category-grid{
                     display: grid;
                     grid-template-columns: repeat(3, 1fr);
                     gap: @page-padding;
@@ -136,6 +155,17 @@
                         }
                     }
                 }
+                .expand-more{
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    margin-top:@page-padding;
+                    gap: @small-margin;
+                    .icon-expand{
+                        transform: rotate(90deg);
+                    }
+                }
+                
 				&.module-column{
                     display: flex;
                     flex-direction: column;
