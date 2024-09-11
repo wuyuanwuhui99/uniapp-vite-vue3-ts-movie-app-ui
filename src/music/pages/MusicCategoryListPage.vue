@@ -21,9 +21,8 @@
 
 <script setup lang="ts">
 	import { ref, reactive } from 'vue';
-	import { useRoute } from "vue-router";
 	import type {MusicClassifyType, MusicType } from '../types';
-	import { getMusicClassifyService,getMusicListByClassifyIdService,getMusicAuthorListByCategoryIdService,insertMyLikeMusicAuthorService,deleteMyLikeMusicAuthorService } from '../service';
+	import { getMusicClassifyService,getMusicListByClassifyIdService } from '../service';
     import {PAGE_SIZE,MAX_FAVORITE_NUMBER} from '../../common/constant';
 	import NavigatorTitleComponent from '../components/NavigatorTitleComponent.vue';
     import { useStore } from "../../stores/useStore";
