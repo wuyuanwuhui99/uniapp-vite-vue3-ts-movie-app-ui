@@ -8,7 +8,7 @@
 	import { getMusicCover } from '../../utils/util';
 	import { defineProps } from 'vue';
 
-	const {type,avater,name} = defineProps({
+	const {type,avater,name,size} = defineProps({
 		type:{
 			type:String,
 			default:''
@@ -26,7 +26,6 @@
 			default:'middle',
 		}
 	})
-	
 </script>
 
 

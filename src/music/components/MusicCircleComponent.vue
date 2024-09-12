@@ -60,6 +60,7 @@
 	import { useStore } from '../../stores/useStore';
 	import CommentComponent from './CommentComponent.vue';
 	import { CommentEnum,CircleEnum } from '../../common/enum';
+	import MusicAvaterComponent from '../components/MusicAvaterComponent.vue';
 	const circleIndex = ref<number>(-1);// 朋友圈动态的id
 	const circleList = reactive<Array<CircleType>>([]);
 	const pageNum = ref<number>(1);
