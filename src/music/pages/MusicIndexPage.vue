@@ -1,10 +1,10 @@
 <template>
 	<view class="page-wrapper">
 		<view class="page-container">
-			<MusicHomeComponent :style="{display:activeIndex === 0 ? 'block': 'none'}" />
-			<MusicRecommentComponent v-if="isInitComponent[1]" :style="{display:activeIndex === 1 ? 'block': 'none'}" />
-			<MusicCircleComponent v-if="isInitComponent[2]" :style="{display:activeIndex === 2 ? 'block': 'none'}" />
-			<MusicMyComponent v-if="isInitComponent[3]" :style="{display:activeIndex === 3 ? 'block': 'none'}" />
+			<MusicHomeComponent v-show="activeIndex===0" />
+			<MusicRecommentComponent v-if="isInitComponent[1]" v-show="activeIndex===1"/>
+			<MusicCircleComponent v-if="isInitComponent[2]" v-show="activeIndex===2" />
+			<MusicMyComponent v-if="isInitComponent[3]" v-show="activeIndex===3"/>
 		</view>
 		<view class="tab-bar">
 			<view class="tab-item" @click="useTab(0)">
@@ -55,7 +55,7 @@
 	const isInitComponent = reactive<Array<boolean>>([true, false, false, false])
 	const useTab = (index : number) => {
 		activeIndex.value = index;
-		!isInitComponent[index] && isInitComponent.splice(index, 1, true)
+		isInitComponent[index] = true
 	}
 
 	/**
