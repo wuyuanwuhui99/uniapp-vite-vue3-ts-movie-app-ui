@@ -11,30 +11,17 @@
 ![app首页](电影预览6.png)
 ![app首页](电影预览7.png)
 ![app首页](电影预览8.png)
-![app首页](电影预览9.png)
 ![app首页](电影预览10.png)
 ![app首页](电影预览11.png)
-![app首页](电影预览12.png)
 ![app首页](电影预览13.jpg)
 ![app首页](电影预览14.jpg)
-![app首页](电影预览15.png)
 ![app首页](电影预览16.png)
-![app首页](音乐首页.jpg)
-![app首页](音乐推荐.jpg)
-![app首页](音乐朋友圈1.jpg)
-![app首页](音乐朋友圈2.png)
-![app首页](音乐我的1.jpg)
-![app首页](音乐我的2.png)
-![app首页](音乐播放页.jpg)
-![app首页](音乐歌词页.png)
-![app首页](音乐歌手页.jpg)
-![app首页](音乐搜索列表.png)
-![app首页](音乐点赞和评论.png)
-![app首页](音乐圈评论.png)
-![app首页](音乐收藏列表.png)
-![app首页](音乐歌手页.png)
-![app首页](音乐歌手专辑页.png)
-![app首页](分类歌曲.png)
+![app首页](登录.png)
+![app首页](用户信息.png)
+![app首页](更改用户信息1.png)
+![app首页](更改用户信息2.png)
+![app首页](更改用户信息3.png)
+![app首页](更改用户信息4.png)
 =============================界面预览（如果无法预览，请查看项目根目录png文件）==========================
 
 使用uni-vue3-vite-ts+pinia+router搭建的电影和音乐混合app
@@ -43,47 +30,54 @@
 
 
 
-flutter版本参见：   
-https://github.com/wuyuanwuhui99/flutter-movie-app-ui   
-https://gitee.com/wuyuanwuhui99/flutter-movie-app-ui
 
-react native版本参见：   
-https://github.com/wuyuanwuhui99/react-native-app-ui   
 
-在线音乐和电影后端接口项目和sql语句：   
-https://github.com/wuyuanwuhui99/springboot-app-service   
-https://gitee.com/wuyuanwuhui99/springboot-app-service
+flutter版本参见:   
+github地址：https://github.com/wuyuanwuhui99/flutter-movie-app-ui   
+gitee地址：https://hub.nuaa.cf/wuyuanwuhui99/flutter-movie-app-ui
 
-harmony鸿蒙java版本参见：   
-https://github.com/wuyuanwuhui99/Harmony_movie_app_ui   
-https://gitee.com/wuyuanwuhui99/Harmony_movie_app_ui
+flutter音乐项目参见:   
+github地址：https://github.com/wuyuanwuhui99/flutter-music-app-ui   
+gitee地址：https://hub.nuaa.cf/wuyuanwuhui99/flutter-music-app-ui
 
-harmony鸿蒙arkts版本参见：   
-https://github.com/wuyuanwuhui99/Harmony-arkts-movie-music-app-ui   
-https://gitee.com/wuyuanwuhui99/Harmony-arkts-movie-music-app-ui
+react native版本参见:   
+github地址：https://github.com/wuyuanwuhui99/react-native-app-ui   
 
-java安卓原生版本参见：   
-https://github.com/wuyuanwuhui99/android-java-movie-app-ui   
+java安卓原生版本参见：  
+通用地址：https://github.com/wuyuanwuhui99/android-java-movie-app-ui   
+gitee地址：https://hub.nuaa.cf/wuyuanwuhui99/android-java-movie-app-ui
 
-kotlin安卓原生版本参见：   
-https://github.com/wuyuanwuhui99/android-kotlin-jetpack-movie-app   
+uniapp版本参见：
+github地址：https://github.com/wuyuanwuhui99/uniapp-vite-vue3-ts-movie-app-ui   
+gitee地址：https://gitee/wuyuanwuhui99/uniapp-vite-vue3-ts-movie-app-ui  
 
-微信小程序版本参见：   
-https://github.com/wuyuanwuhui99/weixin-movie-app-ui   
-https://gitee.com/wuyuanwuhui99/weixin-movie-app-ui
+uniapp音乐项目参见：
+github地址：https://github.com/wuyuanwuhui99/uniapp-vite-vue3-ts-music-app-ui   
+gitee地址：https://gitee/wuyuanwuhui99/uniapp-vite-vue3-ts-music-app-ui  
 
-uniapp版本参见：   
-https://github.com/wuyuanwuhui99/uniapp-vite-vue3-ts-movie-app-ui   
-https://gitee.com/wuyuanwuhui99/uniapp-vite-vue3-ts-movie-app-ui
+微信小程序版本参见：  
+通用地址：https://github.com/wuyuanwuhui99/weixin-movie-app-ui、  
+国内镜像地址：https://hub.nuaa.cf/wuyuanwuhui99/weixin-movie-app-ui
 
-vue2在线音乐项目：   
-https://github.com/wuyuanwuhui99/vue-music-app-ui   
+harmony鸿蒙版本参见:   
+github地址：https://github.com/wuyuanwuhui99/Harmony_movie_app_ui   
+gitee地址：https://hub.nuaa.cf/wuyuanwuhui99/Harmony_movie_app_ui
 
-在线音乐后端项目：   
-https://github.com/wuyuanwuhui99/koa2-music-app-service
+harmony鸿蒙音乐项目参见:   
+github地址：https://github.com/wuyuanwuhui99/harmony_music_app_ui   
+gitee地址：https://hub.nuaa.cf/wuyuanwuhui99/harmony_music_app_ui
 
-vue3+ts明日头条项目：   
-https://github.com/wuyuanwuhui99/vue3-ts-toutiao-app-ui  
+vue在线音乐项目：  
+通用地址：https://github.com/wuyuanwuhui99/vue-music-app-ui   
+国内镜像地址：https://hub.nuaa.cf/wuyuanwuhui99/vue-music-app-ui
+
+在线音乐后端项目：  
+通用地址：https://github.com/wuyuanwuhui99/koa2-music-app-service   
+国内镜像地址：https://hub.nuaa.cf/wuyuanwuhui99/koa2-music-app-service
+
+vue3+ts明日头条项目：  
+通用地址：https://github.com/wuyuanwuhui99/vue3-ts-toutiao-app-ui  
+国内镜像地址：https://hub.nuaa.cf/wuyuanwuhui99/vue3-ts-toutiao-app-ui   
 
 音乐播放器正在开发中，音乐数据来自于python爬虫程序，爬取酷狗音乐数据，敬请关注
 

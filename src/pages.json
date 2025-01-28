@@ -1,7 +1,7 @@
 {
 	"pages": [
 		{
-			"path" : "movie/pages/LaunchPage",
+			"path" : "pages/LaunchPage",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
@@ -9,32 +9,64 @@
 			}
 		},
 		{
-			"path": "movie/pages/IndexPage",
+			"path" : "pages/LoginPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/ForgetPasswordPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/ResetPasswordPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/RegisterPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : "",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path": "pages/IndexPage",
 			"style": {
 				"navigationBarTitleText": "电影"
 			}
 		},
 		{
-			"path": "movie/pages/MovieDetailPage",
+			"path": "pages/MovieDetailPage",
 			"style": {
 				"navigationBarTitleText": "电影详情"
 			}
 		},
 		{
-			"path": "movie/pages/MoviePlayPage",
+			"path": "pages/MoviePlayPage",
 			"style": {
 				"navigationBarTitleText": "电影播放"
 			}
 		},
 		{
-			"path" : "movie/pages/MovieUserPage",
+			"path" : "pages/MovieUserPage",
 			"style" : 
 			{
 				"navigationBarTitleText" : ""
 			}
 		},
 		{
-			"path" : "movie/pages/MovieLoginPage",
+			"path" : "pages/MovieLoginPage",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
@@ -42,7 +74,7 @@
 			}
 		},
 		{
-			"path" : "movie/pages/MovieRegisterPage",
+			"path" : "pages/MovieRegisterPage",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
@@ -50,87 +82,7 @@
 			}
 		},
 		{
-			"path" : "movie/pages/MovieSearchPage",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "music/pages/MusicIndexPage",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "music/pages/MusicCirClePublishPage",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "music/pages/MusicSearchPage",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "music/pages/MusicPlayerPage",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "music/pages/MusicSharePage",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "music/pages/MusicFavoriteListPage",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "music/pages/MusicClassifyListPage",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "music/pages/MusicAuthorCategoryPage",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "music/pages/AuthorMusicListPage",
-			"style" : 
-			{
-				"navigationBarTitleText" : "",
-				"enablePullDownRefresh" : false
-			}
-		},
-		{
-			"path" : "music/pages/MusicCategoryListPage",
+			"path" : "pages/MovieSearchPage",
 			"style" : 
 			{
 				"navigationBarTitleText" : "",
