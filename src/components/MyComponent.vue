@@ -167,7 +167,7 @@
 	 */
 	const useNavigateTo = () => {
 		uni.navigateTo({
-			url: `../pages/MovieUserPage`
+			url: `../pages/UserPage`
 		})
 	}
 

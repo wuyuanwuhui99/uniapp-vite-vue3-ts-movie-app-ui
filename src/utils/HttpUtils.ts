@@ -75,13 +75,13 @@ class HttpRequest {
 	}
 
 	// 处理请求异常状态码
-	private handerErrorStatus(statusCode: number, requestConfig: RequestConfig) {
-		let msg = "服务找不到"
+	private handerErrorStatus(statusCode: number, requestConfig: RequestConfig,msg:string) {
+		msg = msg || "服务找不到"
 		if (statusCode === 502 || statusCode === 503) {
 			msg = "服务器开小差了~"
 		}
 		!requestConfig.noShowMsg && uni.showToast({
-			title: `${msg}，错误码：${statusCode}`,
+			title: `${msg}`,
 			icon: "none"
 		})
 		return msg
@@ -132,7 +132,7 @@ class HttpRequest {
 						reject({ code, msg: "未登录", data: res.data })
 					} else {
 						//非200及401状态码-数据处理
-						const errMsg = this.handerErrorStatus(code, requestConfig)
+						const errMsg = this.handerErrorStatus(code, requestConfig,respond.msg)
 						reject({ code, msg: errMsg || res.errMsg, data:res.data })
 					}
 				},

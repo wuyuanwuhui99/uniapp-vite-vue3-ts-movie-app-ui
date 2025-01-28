@@ -43,6 +43,7 @@
 			</view>
 		</view>
 		<button class="btn-logout" @click="useLogout">退出登录</button>
+		<view class="btn-update-password" @click="useUpdatePassword">修改密码</view>
 		<uni-popup ref="popup1" class="popup-wrapper"  type="dialog">
 			<view class="dialog-wrapper">
 				<view class="dialog-box">
@@ -129,7 +130,7 @@
 				if (res.confirm) {
 					uni.setStorageSync('token','');
 					uni.reLaunch({
-						url: `../pages/LoginPage`
+						url: `./LoginPage`
 					})
 				} else if (res.cancel) {
 					console.log('用户点击取消');
@@ -155,6 +156,17 @@
 
 	const useEditSex = () => {
 		sexOptionsDialog.value?.$refs.popup.open('top')
+	}
+
+	/**
+	 * @author: wuwenqiang
+	 * @description: 修改密码
+	 * @date: 2025-01-28 14:12
+	 */
+	const useUpdatePassword = ()=>{
+		uni.navigateTo({
+			url: `./UpdatePasswordPage`
+		})
 	}
 </script>
 
@@ -200,6 +212,18 @@
 			background-color: @warn-color;
 			color: @module-background-color;
 			border-radius: @big-border-radius;
+		}
+		.btn-update-password{
+			text-align: center;
+			width: 100%;
+			outline: none;
+			border: 1rpx solid @disable-text-color;
+			box-sizing: border-box;
+			border-radius: @big-border-radius;
+			margin-top:  @page-padding;
+			display: inline-block;
+			padding: @page-padding ;
+			background-color: transparent;
 		}
 		.popup-wrapper{
 			width: 100%;

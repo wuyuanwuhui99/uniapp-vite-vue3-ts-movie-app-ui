@@ -7,6 +7,7 @@ export default {
     getBackPasswordByEmail: '/service/user/getBackPasswordByEmail',// 找回密码
     resetPassword: '/service/user/resetPassword',// 重置密码
     updateAvater:'/service/user-getway/updateAvater',//更新头像
+    updatePassword: '/service/user-getway/updatePassword',//更新密码wq
     getCategoryList: '/service/movie/getCategoryList', //获取分类影片
     getKeyWord: '/service/movie/getKeyWord', //按照classify查询搜索栏的关键词
     getAllCategoryByClassify: '/service/movie/getAllCategoryByClassify', //按classify大类查询所有catory小类
@@ -25,7 +26,6 @@ export default {
     getYourLikes: '/service/movie/getYourLikes',//猜你想看
     getRecommend: '/service/movie/getRecommend',//获取推荐
     isFavorite: '/service/movie-getway/isFavorite',//查询是否已经收藏
-    updatePassword: '/service/user/updatePassword',//更新密码wq
     getCommentCount:'/service/social/getCommentCount',//获取评论总数
     getTopCommentList:'/service/social/getTopCommentList',//获取一级评论
     getReplyCommentList:'/service/social/getReplyCommentList',//获取一级评论

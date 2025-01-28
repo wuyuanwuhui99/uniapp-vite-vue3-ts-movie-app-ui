@@ -41,6 +41,20 @@
 			}
 		},
 		{
+			"path" : "pages/UserPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/UpdatePasswordPage",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
 			"path": "pages/IndexPage",
 			"style": {
 				"navigationBarTitleText": "电影"
@@ -56,13 +70,6 @@
 			"path": "pages/MoviePlayPage",
 			"style": {
 				"navigationBarTitleText": "电影播放"
-			}
-		},
-		{
-			"path" : "pages/MovieUserPage",
-			"style" : 
-			{
-				"navigationBarTitleText" : ""
 			}
 		},
 		{
