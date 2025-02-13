@@ -5,15 +5,6 @@ import type * as types from '../types/index';
 import md5 from 'md5';
 
 /**
- * @description: 获取搜索词
- * @date: 2023-12-2 23:57
- * @author wuwenqiang
- */
-export const getKeyWordService = (classify:string):Promise<MyAwesomeData<types.MovieType>> => {
-    return httpRequest.get<types.MovieType>(api.getKeyWord,{classify});
-}
-
-/**
  * @description: 根据token获取用户信息
  * @date: 2023-12-1 23:39
  * @author wuwenqiang
@@ -21,6 +12,88 @@ export const getKeyWordService = (classify:string):Promise<MyAwesomeData<types.M
 export const getUserDataService = (token:string):Promise<MyAwesomeData<types.UserDataType>>=> {
 	httpRequest.setToken(token);
 	return httpRequest.get<types.UserDataType>(api.getUserData);
+}
+
+/**
+ * @author: wuwenqiang
+ * @description: 更新用户信息
+ * @date: 2023-12-28 23:18
+ */
+export const updateUserDataService = (userData:types.UserDataType):Promise<MyAwesomeData<number>>=>{
+    return httpRequest.put<number>(api.updateUser,userData)
+};
+
+/**
+ * @description: 登录
+ * @date: 2024-01-15 21:32
+ * @author wuwenqiang
+ */
+export const loginService = (userId:string,password:string):Promise<MyAwesomeData<types.UserDataType>>=>{
+	password = md5(password);
+	return httpRequest.post<types.UserDataType>(api.login,{userId,password})
+};
+
+
+/**
+ * @description: 注册
+ * @date: 2024-01-19 23:51
+ * @author wuwenqiang
+ */
+export const registerService = (userData:types.UserDataType):Promise<MyAwesomeData<types.UserDataType>>=>{
+	userData.password = md5(userData.password);
+	return httpRequest.put<types.UserDataType>(api.register,userData)
+};
+
+/**
+ * @description: 校验账号和密码是否存在
+ * @date: 2024-01-19 23:51
+ * @author wuwenqiang
+ */
+export const vertifyUserService = (userData:types.UserDataType):Promise<MyAwesomeData<number>>=>{
+	return httpRequest.post<number>(api.vertifyUser,userData)
+};
+
+/**
+ * @description: 找回密码
+ * @date: 2025-01-19 22:59
+ * @author wuwenqiang
+ */
+export const sendEmailVertifyCodeService = (email:string):Promise<MyAwesomeData<number>>=>{
+    return httpRequest.post<number>(api.sendEmailVertifyCode,{email})
+}; 
+
+export const resetPasswordService = (email:string,password:string,code:number):Promise<MyAwesomeData<types.UserDataType>>=>{
+    password = md5(password);
+    return httpRequest.post<types.UserDataType>(api.resetPassword,{email,password,code})
+}; 
+
+/**
+ * @description: 更新密码
+ * @date: 2025-01-28 14:22
+ * @author wuwenqiang
+ */
+export const updatePasswordService = (oldPassword:string,newPassword:string):Promise<MyAwesomeData<number>>=>{
+    oldPassword = md5(oldPassword);
+    newPassword = md5(newPassword);
+    return httpRequest.put<number>(api.updatePassword,{oldPassword,newPassword})
+}; 
+
+/**
+ * @description: 邮箱验证码登录
+ * @date: 2025-01-28 14:22
+ * @author wuwenqiang
+ */
+export const loginByEmailService = (email:string,code:string):Promise<MyAwesomeData<types.UserDataType>>=>{
+    return httpRequest.post<types.UserDataType>(api.loginByEmail,{email,code})
+}; 
+
+/**
+ * @description: 获取搜索词
+ * @date: 2023-12-2 23:57
+ * @author wuwenqiang
+ */
+export const getKeyWordService = (classify:string):Promise<MyAwesomeData<types.MovieType>> => {
+    return httpRequest.get<types.MovieType>(api.getKeyWord,{classify});
 }
 
   /**
@@ -205,45 +278,3 @@ export const getRecommendService = (classify:string):Promise<MyAwesomeData<Array
 export const getSearchService = (keyword:string,pageNum:number,pageSize:number):Promise<MyAwesomeData<Array<types.MovieType>>>=>{
     return httpRequest.get<Array<types.MovieType>>(`${api.getSearch}?keyword=${keyword}&pageNum=${pageNum}&pageSize=${pageSize}`)
 };
-
-
-/**
- * @description: 校验账号和密码是否存在
- * @date: 2024-01-19 23:51
- * @author wuwenqiang
- */
-export const vertifyUserService = (userData:types.UserDataType):Promise<MyAwesomeData<number>>=>{
-	return httpRequest.post<number>(api.vertifyUser,userData)
-};
-
-/**
- * @description: 找回密码
- * @date: 2025-01-19 22:59
- * @author wuwenqiang
- */
-export const getBackPasswordService = (email:string):Promise<MyAwesomeData<String>>=>{
-    return httpRequest.post<string>(api.getBackPasswordByEmail,{email})
-}; 
-
-/**
- * @description: 重置密码
- * @date: 2025-01-19 22:59
- * @author wuwenqiang
- */
-export const resetPasswordService = (email:string,password:string,code:number):Promise<MyAwesomeData<types.UserDataType>>=>{
-    password = md5(password);
-    return httpRequest.post<types.UserDataType>(api.resetPassword,{email,password,code})
-}; 
-
-/**
- * @description: 更新密码
- * @date: 2025-01-28 14:22
- * @author wuwenqiang
- */
-export const updatePasswordService = (oldPassword:string,newPassword:string):Promise<MyAwesomeData<number>>=>{
-  console.log(oldPassword,newPassword)
-  oldPassword = md5(oldPassword);
-  newPassword = md5(newPassword);
-  
-  return httpRequest.put<number>(api.updatePassword,{oldPassword,newPassword})
-}; 

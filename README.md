@@ -24,7 +24,7 @@
 ![app首页](更改用户信息4.png)
 =============================界面预览（如果无法预览，请查看项目根目录png文件）==========================
 
-使用uni-vue3-vite-ts+pinia+router搭建的电影和音乐混合app
+使用uni-vue3-vite-ts+pinia+router搭建的电影混合app
 
 后端接口使用springboot开发，所有电影数据来自于python爬虫程序，爬取第三方电影网站数据
 
@@ -79,7 +79,6 @@ vue3+ts明日头条项目：
 通用地址：https://github.com/wuyuanwuhui99/vue3-ts-toutiao-app-ui  
 国内镜像地址：https://hub.nuaa.cf/wuyuanwuhui99/vue3-ts-toutiao-app-ui   
 
-音乐播放器正在开发中，音乐数据来自于python爬虫程序，爬取酷狗音乐数据，敬请关注
 
 接口和数据请在本地电脑中，暂时没有购买和部署服务器，仅限本地调试，如有需要调试请联系本人启动外网映射
 

@@ -16,3 +16,5 @@ export const MUSIC_FAVORITE_NAME_STORAGE_KEY = 'MUSIC_FAVORITE_NAME_STORAGE_KEY'
 export const MAX_FAVORITE_NUMBER:number = 500; // 收藏夹最大歌曲数量
 
 export const PAGE_SIZE:number = 20;// 每页的数量
+
+export const EMAIL_REG:RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;// 邮箱正则表达式

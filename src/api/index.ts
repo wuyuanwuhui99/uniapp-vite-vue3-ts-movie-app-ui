@@ -3,11 +3,12 @@ export default {
     getUserData: '/service/user-getway/getUserData', // 获取用户信息
     updateUser: '/service/user-getway/updateUser',//更新用户信息
     register: '/service/user/register',//注册
-	vertifyUser: '/service/user/vertifyUser',// 校验账号是否存在
-    getBackPasswordByEmail: '/service/user/getBackPasswordByEmail',// 找回密码
+    vertifyUser: '/service/user/vertifyUser',// 校验账号是否存在
+    sendEmailVertifyCode: '/service/user/sendEmailVertifyCode',// 找回密码
     resetPassword: '/service/user/resetPassword',// 重置密码
     updateAvater:'/service/user-getway/updateAvater',//更新头像
-    updatePassword: '/service/user-getway/updatePassword',//更新密码wq
+    updatePassword: '/service/user-getway/updatePassword',//更新密码
+    loginByEmail: '/service/user/loginByEmail',//邮箱登录
     getCategoryList: '/service/movie/getCategoryList', //获取分类影片
     getKeyWord: '/service/movie/getKeyWord', //按照classify查询搜索栏的关键词
     getAllCategoryByClassify: '/service/movie/getAllCategoryByClassify', //按classify大类查询所有catory小类
